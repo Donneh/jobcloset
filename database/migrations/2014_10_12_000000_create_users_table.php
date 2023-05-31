@@ -19,6 +19,9 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->string('role')->nullable();
+            $table->foreignId('tenant_id')->nullable();
         });
     }
 
