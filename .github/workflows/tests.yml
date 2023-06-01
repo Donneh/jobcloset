@@ -10,9 +10,9 @@ jobs:
       postgres:
         image: postgres
         env:
-          POSTGRES_USER: your_username
-          POSTGRES_PASSWORD: your_password
-          POSTGRES_DB: your_database
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: secret
+          POSTGRES_DB: jobcloset
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL to start..."
           sleep 5
-          psql -h localhost -U your_username -d your_database -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+          psql -h localhost -U postgres -d secret -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
       - name: Tests
         run: ./vendor/bin/pest
