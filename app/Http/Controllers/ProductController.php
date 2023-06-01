@@ -23,7 +23,7 @@ class ProductController extends Controller
             'price' => ['numeric'],
             'stock' => ['numeric'],
             'description' => ['string'],
-            'image' => ['numeric'],
+            'image' => ['image'],
         ]);
 
         $product = Product::create([

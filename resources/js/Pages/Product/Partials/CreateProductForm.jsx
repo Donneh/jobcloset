@@ -6,6 +6,7 @@ import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import {Transition} from "@headlessui/react";
 import TextareaInput from "@/Components/TextareaInput.jsx";
+import FileInput from "@/Components/FileInput.jsx";
 
 export default function CreateProductForm({ className = '' }) {
     const nameInput = useRef();
@@ -134,12 +135,11 @@ export default function CreateProductForm({ className = '' }) {
                 <div>
                     <InputLabel htmlFor="image" value="Image" />
 
-                    <TextInput
+                    <FileInput
                         id="image"
                         ref={imageInput}
                         value={data.image}
                         onChange={(e) => setData('image', e.target.value)}
-                        type="text"
                         className="mt-1 block w-full"
                     />
 
