@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL to start..."
           sleep 5
-          psql -h localhost -U postgres -d secret -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+          psql -h localhost -U postgres -d jobcloset -p password -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
       - name: Tests
         run: ./vendor/bin/pest
