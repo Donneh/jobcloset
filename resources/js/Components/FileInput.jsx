@@ -1,6 +1,9 @@
 import { forwardRef, useEffect, useRef } from "react";
 
-export default forwardRef(function FileInput({ className = "", isFocused = false, ...props }, ref) {
+export default forwardRef(function FileInput(
+    { className = "", isFocused = false, ...props },
+    ref
+) {
     const input = ref ? ref : useRef();
 
     useEffect(() => {
