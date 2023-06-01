@@ -6,6 +6,17 @@ jobs:
   ci:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: your_username
+          POSTGRES_PASSWORD: your_password
+          POSTGRES_DB: your_database
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -19,6 +30,12 @@ jobs:
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Setup PostgreSQL
+        run: |
+          echo "Waiting for PostgreSQL to start..."
+          sleep 5
+          psql -h localhost -U your_username -d your_database -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 
       - name: Tests
         run: ./vendor/bin/pest
