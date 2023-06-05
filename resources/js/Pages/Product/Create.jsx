@@ -10,9 +10,9 @@ export default function Create({ auth, mustVerifyEmail, status }) {
         >
             <Head title="Create Product" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+            <div className="w-full">
+                <div className="space-y-6 w-full">
+                    <div className="p-4 sm:p-8 bg-white w-full shadow sm:rounded-lg">
                         <CreateProductForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
