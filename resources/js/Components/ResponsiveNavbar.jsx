@@ -1,5 +1,9 @@
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
-import { Bars3Icon, GiftIcon, HomeIcon } from "@heroicons/react/24/solid/index.js";
+import {
+    Bars3Icon,
+    GiftIcon,
+    HomeIcon,
+} from "@heroicons/react/24/solid/index.js";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
@@ -48,7 +52,7 @@ export default function ResponsiveNavbar() {
                         exit="closed"
                         variants={submenuVariants}
                     >
-                        <nav className="h-full px-4 py-8 mt-8">
+                        <nav className="h-full px-4 py-8 mt-8 space-y-2">
                             <ResponsiveNavLink
                                 href={route("dashboard")}
                                 className=""
