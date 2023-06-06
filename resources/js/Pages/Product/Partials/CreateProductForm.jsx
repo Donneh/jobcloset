@@ -1,73 +1,73 @@
-import {useRef} from "react";
-import {useForm} from "@inertiajs/react";
+import { useRef } from "react";
+import { useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import {Transition} from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 
-export default function CreateProductForm({ className = '' }) {
+export default function CreateProductForm({ className = "" }) {
     const nameInput = useRef();
     const priceInput = useRef();
     const descriptionInput = useRef();
     const stockInput = useRef();
     const imageInput = useRef();
 
-    const { data, setData, errors, post, reset, processing, recentlySuccessful } = useForm({
-        name: '',
-        price: '',
-        description: '',
-        stock: '',
-        image: '',
+    const {
+        data,
+        setData,
+        errors,
+        post,
+        reset,
+        processing,
+        recentlySuccessful,
+    } = useForm({
+        name: "",
+        price: "",
+        description: "",
+        stock: "",
+        image: "",
     });
 
     const createProduct = (e) => {
         e.preventDefault();
 
-        post(route('product.store'), {
+        post(route("product.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
                 if (errors.name) {
-                    reset('name');
+                    reset("name");
                     nameInput.current.focus();
                 }
 
                 if (errors.price) {
-                    reset('price');
+                    reset("price");
                     priceInput.current.focus();
                 }
 
                 if (errors.description) {
-                    reset('description');
+                    reset("description");
                     descriptionInput.current.focus();
                 }
 
                 if (errors.stock) {
-                    reset('stock');
+                    reset("stock");
                     stockInput.current.focus();
                 }
 
                 if (errors.image) {
-                    reset('image');
+                    reset("image");
                     imageInput.current.focus();
                 }
             },
         });
-    }
+    };
 
     return (
         <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">Create Product</h2>
-
-                <p className="mt-1 text-sm text-gray-600">
-                    Create a new product.
-                </p>
-            </header>
-
             <form onSubmit={createProduct} className="mt-6 space-y-6">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
@@ -76,7 +76,7 @@ export default function CreateProductForm({ className = '' }) {
                         id="name"
                         ref={nameInput}
                         value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
+                        onChange={(e) => setData("name", e.target.value)}
                         type="text"
                         className="mt-1 block w-full"
                     />
@@ -91,7 +91,7 @@ export default function CreateProductForm({ className = '' }) {
                         id="price"
                         ref={priceInput}
                         value={data.price}
-                        onChange={(e) => setData('price', e.target.value)}
+                        onChange={(e) => setData("price", e.target.value)}
                         type="number"
                         min="1"
                         step="any"
@@ -108,7 +108,7 @@ export default function CreateProductForm({ className = '' }) {
                         id="description"
                         ref={descriptionInput}
                         value={data.description}
-                        onChange={(e) => setData('description', e.target.value)}
+                        onChange={(e) => setData("description", e.target.value)}
                         className="mt-1 block w-full"
                     />
 
@@ -122,7 +122,7 @@ export default function CreateProductForm({ className = '' }) {
                         id="stock"
                         ref={stockInput}
                         value={data.stock}
-                        onChange={(e) => setData('stock', e.target.value)}
+                        onChange={(e) => setData("stock", e.target.value)}
                         type="number"
                         min="0"
                         step="1"
@@ -139,7 +139,7 @@ export default function CreateProductForm({ className = '' }) {
                         id="image"
                         ref={imageInput}
                         value={data.image}
-                        onChange={(e) => setData('image', e.target.value)}
+                        onChange={(e) => setData("image", e.target.value)}
                         className="mt-1 block w-full"
                     />
 
@@ -147,7 +147,9 @@ export default function CreateProductForm({ className = '' }) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing} type="submit">Save</PrimaryButton>
+                    <PrimaryButton disabled={processing} type="submit">
+                        Save
+                    </PrimaryButton>
 
                     <Transition
                         show={recentlySuccessful}
@@ -163,5 +165,5 @@ export default function CreateProductForm({ className = '' }) {
                 </div>
             </form>
         </section>
-    )
+    );
 }

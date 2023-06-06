@@ -36,4 +36,13 @@ class ProductController extends Controller
 
         return Redirect::route('product.create')->with('status', 'Product created.');
     }
+
+    public function index()
+    {
+        $products = Product::all();
+
+        return Inertia::render('Product/Index', [
+            'products' => $products,
+        ]);
+    }
 }
