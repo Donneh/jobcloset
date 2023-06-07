@@ -16,6 +16,34 @@ class ProductController extends Controller
         ]);
     }
 
+    public function edit(Product $product)
+    {
+        return Inertia::render('Product/Edit', [
+            'product' => $product,
+        ]);
+    }
+
+    public function update($request, $product)
+    {
+        $request->validate([
+            'name' => ['required', 'string'],
+            'price' => ['numeric'],
+            'stock' => ['numeric'],
+            'description' => ['string'],
+            'image' => ['image'],
+        ]);
+
+        $product->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'description' => $request->description,
+            'image' => $request->image_path,
+        ]);
+
+        return Redirect::route('product.edit', $product)->with('status', 'Product updated.');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -39,7 +67,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(10);
 
         return Inertia::render('Product/Index', [
             'products' => $products,
