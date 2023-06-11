@@ -9,17 +9,12 @@ import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 
 export default function CreateProductForm({ className = "" }) {
-    const nameInput = useRef();
-    const priceInput = useRef();
-    const descriptionInput = useRef();
-    const stockInput = useRef();
-    const imageInput = useRef();
-
     const {
         data,
         setData,
         errors,
         post,
+        progress,
         reset,
         processing,
         recentlySuccessful,
@@ -34,47 +29,27 @@ export default function CreateProductForm({ className = "" }) {
     const createProduct = (e) => {
         e.preventDefault();
 
+        console.log(data.image);
+
         post(route("product.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
-            onError: (errors) => {
-                if (errors.name) {
-                    reset("name");
-                    nameInput.current.focus();
-                }
-
-                if (errors.price) {
-                    reset("price");
-                    priceInput.current.focus();
-                }
-
-                if (errors.description) {
-                    reset("description");
-                    descriptionInput.current.focus();
-                }
-
-                if (errors.stock) {
-                    reset("stock");
-                    stockInput.current.focus();
-                }
-
-                if (errors.image) {
-                    reset("image");
-                    imageInput.current.focus();
-                }
-            },
+            forceFormData: true,
         });
     };
 
     return (
         <section className={className}>
-            <form onSubmit={createProduct} className="mt-6 space-y-6">
+            <form
+                onSubmit={createProduct}
+                className="mt-6 space-y-6"
+                encType={"multipart/form-data"}
+            >
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput
                         id="name"
-                        ref={nameInput}
                         value={data.name}
                         onChange={(e) => setData("name", e.target.value)}
                         type="text"
@@ -83,13 +58,11 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.name} className="mt-2" />
                 </div>
-
                 <div>
                     <InputLabel htmlFor="price" value="Price" />
 
                     <TextInput
                         id="price"
-                        ref={priceInput}
                         value={data.price}
                         onChange={(e) => setData("price", e.target.value)}
                         type="number"
@@ -100,13 +73,11 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.price} className="mt-2" />
                 </div>
-
                 <div>
                     <InputLabel htmlFor="description" value="Description" />
 
                     <TextareaInput
                         id="description"
-                        ref={descriptionInput}
                         value={data.description}
                         onChange={(e) => setData("description", e.target.value)}
                         className="mt-1 block w-full"
@@ -114,13 +85,11 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.description} className="mt-2" />
                 </div>
-
                 <div>
                     <InputLabel htmlFor="stock" value="Stock" />
 
                     <TextInput
                         id="stock"
-                        ref={stockInput}
                         value={data.stock}
                         onChange={(e) => setData("stock", e.target.value)}
                         type="number"
@@ -131,21 +100,28 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.stock} className="mt-2" />
                 </div>
-
                 <div>
                     <InputLabel htmlFor="image" value="Image" />
 
-                    <FileInput
-                        id="image"
-                        ref={imageInput}
-                        value={data.image}
-                        onChange={(e) => setData("image", e.target.value)}
-                        className="mt-1 block w-full"
+                    <input
+                        type={"file"}
+                        onChange={(e) => setData("image", e.target.files[0])}
+                        name={"image"}
                     />
+                    {progress > 0 && (
+                        <progress value={progress.percentage}>
+                            {progress.percentage}%
+                        </progress>
+                    )}
 
                     <InputError message={errors.image} className="mt-2" />
                 </div>
-
+                {data.image && (
+                    <img
+                        src={URL.createObjectURL(data.image)}
+                        alt={data.name}
+                    />
+                )}
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save

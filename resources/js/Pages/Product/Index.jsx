@@ -4,6 +4,7 @@ import CreateProductForm from "@/Pages/Product/Partials/CreateProductForm.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { useRef, useState } from "react";
 import InputLabel from "@/Components/InputLabel.jsx";
+import DeleteProductForm from "@/Pages/Product/Partials/DeleteProductForm.jsx";
 
 export default function Index({ auth, products }) {
     return (
@@ -61,6 +62,12 @@ export default function Index({ auth, products }) {
                                     >
                                         <span className="sr-only">Edit</span>
                                     </th>
+                                    <th
+                                        scope="col"
+                                        className="relative py-3.5 pl-3 pr-4 sm:pr-0"
+                                    >
+                                        <span className="sr-only">Delete</span>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
@@ -90,6 +97,11 @@ export default function Index({ auth, products }) {
                                             >
                                                 Edit
                                             </Link>
+                                        </td>
+                                        <td className="px-3 py-4 text-sm">
+                                            <DeleteProductForm
+                                                product={product}
+                                            />
                                         </td>
                                     </tr>
                                 ))}

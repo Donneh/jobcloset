@@ -13,7 +13,7 @@ export default function EditProductForm({ className = "", product }) {
         data,
         setData,
         errors,
-        patch,
+        post,
         reset,
         processing,
         recentlySuccessful,
@@ -22,13 +22,17 @@ export default function EditProductForm({ className = "", product }) {
         price: product.price,
         description: product.description,
         stock: product.stock,
-        image: product.image,
+        image_path: "",
+        _method: "PATCH",
     });
 
+    console.log(errors);
     const saveProduct = (e) => {
         e.preventDefault();
 
-        patch(route("product.update", product), {
+        console.log(data);
+
+        post(route("product.update", product), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -104,15 +108,20 @@ export default function EditProductForm({ className = "", product }) {
                 <div>
                     <InputLabel htmlFor="image" value="Image" />
 
-                    <FileInput
-                        id="image"
-                        value={data.image}
-                        onChange={(e) => setData("image", e.target.value)}
-                        className="mt-1 block w-full"
+                    <input
+                        type={"file"}
+                        onChange={(e) =>
+                            setData("image_path", e.target.files[0])
+                        }
+                        name={"image"}
                     />
 
-                    <InputError message={errors.image} className="mt-2" />
+                    <InputError message={errors.image_path} className="mt-2" />
                 </div>
+
+                {product.image_path && (
+                    <img src={product.image_path} alt={data.name} />
+                )}
 
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
