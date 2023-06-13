@@ -38,7 +38,7 @@ class ProductController extends Controller
 
         $product->update([
             'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
+            'price' => Money::of($validatedData['price'], 'EUR'),
             'stock' => $validatedData['stock'],
             'description' => $validatedData['description'],
             'image_path' => $validatedData['image_path'],
@@ -53,13 +53,13 @@ class ProductController extends Controller
 
         $path = $request->file('image')->store('/products', 'public');
 
-        Product::create([
-            'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
-            'stock' => $validatedData['stock'],
-            'description' => $validatedData['description'],
-            'image_path' => $path,
-        ]);
+        $product = new Product();
+        $product->name = $validatedData['name'];
+        $product->price = Money::of($validatedData['price'], 'EUR');
+        $product->stock = $validatedData['stock'];
+        $product->description = $validatedData['description'];
+        $product->image_path = $path;
+        $product->save();
 
         return Redirect::route('product.create')->with('status', 'Product created.');
     }
