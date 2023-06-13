@@ -80,7 +80,8 @@ export default function Index({ auth, products }) {
                                             {product.name}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                            € {product.price}
+                                            {product.price.currency}{" "}
+                                            {product.price.amount}
                                         </td>
                                         <td className="px-3 py-4 text-sm">
                                             {product.description}
