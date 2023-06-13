@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->decimal('price', 10, 2);
+            $table->string('currency', 3)->default('EUR');
             $table->integer('stock');
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
