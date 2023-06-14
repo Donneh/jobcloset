@@ -8,6 +8,8 @@ export default function FlashMessage() {
 
     useEffect(() => {
         if (flash.message) {
+            setShowFlash(true);
+
             const timeout = setTimeout(() => {
                 setShowFlash(false);
             }, 3000);

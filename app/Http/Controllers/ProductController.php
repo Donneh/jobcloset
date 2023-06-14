@@ -47,23 +47,25 @@ class ProductController extends Controller
         return Redirect::route('product.edit', $product)->with('status', 'Product updated.');
     }
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-//        $validatedData = $request->validated();
-//
-//        $path = $request->file('image')->store('/products', 'public');
-//
-//        $product = new Product();
-//        $product->name = $validatedData['name'];
-//        $product->price = Money::of($validatedData['price'], 'EUR');
-//        $product->stock = $validatedData['stock'];
-//        $product->description = $validatedData['description'];
-//        $product->image_path = $path;
-//        $product->save();
+        $validatedData = $request->validated();
 
-        session()->flash('message', 'Product created.');
+        $path = $request->file('image')->store('/products', 'public');
 
-        return Redirect::route('product.create')->with('status', 'Product created.');
+        $product = new Product();
+        $product->name = $validatedData['name'];
+        $product->price = Money::of($validatedData['price'], 'EUR');
+        $product->stock = $validatedData['stock'];
+        $product->description = $validatedData['description'];
+        $product->image_path = $path;
+        $product->save();
+
+
+        return Redirect::route('product.create')->with([
+            'status' => 'Product created.',
+            'message' => 'Product created.',
+        ]);
     }
 
     public function index()
