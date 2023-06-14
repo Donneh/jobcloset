@@ -35,7 +35,7 @@ export default function Index({ auth, products }) {
                             </div>
                         </header>
 
-                        <table className="min-w-full divide-y divide-gray-300">
+                        <table className="table-auto max-w-full divide-y divide-gray-300 overflow-x-auto">
                             <thead>
                                 <tr>
                                     <th
