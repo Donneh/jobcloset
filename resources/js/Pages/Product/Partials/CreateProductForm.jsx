@@ -29,8 +29,6 @@ export default function CreateProductForm({ className = "" }) {
     const createProduct = (e) => {
         e.preventDefault();
 
-        console.log(data.image);
-
         post(route("product.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),

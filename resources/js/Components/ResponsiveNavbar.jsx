@@ -4,7 +4,7 @@ import {
     GiftIcon,
     HomeIcon,
 } from "@heroicons/react/24/solid/index.js";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.jsx";
 
@@ -23,8 +23,8 @@ export default function ResponsiveNavbar() {
         },
         closed: {
             opacity: 0,
-            height: "0px",
-            transition: { duration: 6.3 }, // Adjust the duration to match the open duration
+            height: "10px",
+            transition: { duration: 2.3 }, // Adjust the duration to match the open duration
         },
     };
 
@@ -44,35 +44,37 @@ export default function ResponsiveNavbar() {
                     </div>
                 </div>
 
-                {isOpen && (
-                    <motion.div
-                        className="overflow-hidden"
-                        initial="closed"
-                        animate="open"
-                        exit="closed"
-                        variants={submenuVariants}
-                    >
-                        <nav className="h-full px-4 py-8 mt-8 space-y-2">
-                            <ResponsiveNavLink
-                                href={route("dashboard")}
-                                className=""
-                                active={route().current("dashboard")}
-                            >
-                                <HomeIcon className="w-6 h-6 mr-2" />
-                                <span>Dashboard</span>
-                            </ResponsiveNavLink>
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            className="overflow-hidden"
+                            initial="closed"
+                            animate="open"
+                            exit="closed"
+                            variants={submenuVariants}
+                        >
+                            <nav className="h-full px-4 py-8 mt-8 space-y-2">
+                                <ResponsiveNavLink
+                                    href={route("dashboard")}
+                                    className=""
+                                    active={route().current("dashboard")}
+                                >
+                                    <HomeIcon className="w-6 h-6 mr-2" />
+                                    <span>Dashboard</span>
+                                </ResponsiveNavLink>
 
-                            <ResponsiveNavLink
-                                href={route("product.index")}
-                                className=""
-                                active={route().current("product.index")}
-                            >
-                                <GiftIcon className="w-6 h-6 mr-2" />
-                                <span>Product</span>
-                            </ResponsiveNavLink>
-                        </nav>
-                    </motion.div>
-                )}
+                                <ResponsiveNavLink
+                                    href={route("product.index")}
+                                    className=""
+                                    active={route().current("product.index")}
+                                >
+                                    <GiftIcon className="w-6 h-6 mr-2" />
+                                    <span>Product</span>
+                                </ResponsiveNavLink>
+                            </nav>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </nav>
         </div>
     );
