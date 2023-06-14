@@ -1,12 +1,19 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useForm } from "@inertiajs/react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 export default function UserDropdown({ user }) {
+    const { post } = useForm();
+    const signOut = (e) => {
+        e.preventDefault();
+        post(route("logout"));
+    };
+
     return (
         <Menu as="div" className="relative inline-block text-left w-full">
             <div>
@@ -68,7 +75,7 @@ export default function UserDropdown({ user }) {
                         </Menu.Item>
                     </div>
                     <div className="py-1">
-                        <form method="POST" action={route("logout")}>
+                        <form method="POST" onSubmit={signOut}>
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
