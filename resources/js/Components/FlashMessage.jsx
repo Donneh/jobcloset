@@ -26,7 +26,7 @@ export default function FlashMessage() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 50 }}
                     transition={{ duration: 1 }}
-                    className="absolute bottom-8 right-8 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow space-x"
+                    className="fixed bottom-8 right-8 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow space-x"
                     role={"alert"}
                 >
                     <svg

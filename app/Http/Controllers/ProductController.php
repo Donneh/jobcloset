@@ -51,7 +51,10 @@ class ProductController extends Controller
     {
         $validatedData = $request->validated();
 
-        $path = $request->file('image')->store('/products', 'public');
+        $path = null;
+        if($request->hasFile('image')) {
+            $path = $request->file('image')->store('/products', 'public');
+        }
 
         $product = new Product();
         $product->name = $validatedData['name'];
@@ -64,7 +67,7 @@ class ProductController extends Controller
 
         return Redirect::route('product.create')->with([
             'status' => 'Product created.',
-            'message' => 'Product created.',
+            'message' => 'Product ' . $product->name . ' created.',
         ]);
     }
 
