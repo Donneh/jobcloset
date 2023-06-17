@@ -20,6 +20,15 @@ export default function Sidebar({ user }) {
                     </NavLink>
 
                     <NavLink
+                        href={route("shop.index")}
+                        className=""
+                        active={route().current("shop.*")}
+                    >
+                        <GiftIcon className="w-6 h-6 mr-2" />
+                        <span>Shop</span>
+                    </NavLink>
+
+                    <NavLink
                         href={route("product.index")}
                         className=""
                         active={route().current("product.*")}
