@@ -19,7 +19,7 @@ export default function EditProductForm({ className = "", product }) {
         recentlySuccessful,
     } = useForm({
         name: product.name,
-        price: product.price,
+        price: product.price.amount,
         description: product.description,
         stock: product.stock,
         image_path: "",
@@ -29,8 +29,6 @@ export default function EditProductForm({ className = "", product }) {
     console.log(errors);
     const saveProduct = (e) => {
         e.preventDefault();
-
-        console.log(data);
 
         post(route("product.update", product), {
             preserveScroll: true,

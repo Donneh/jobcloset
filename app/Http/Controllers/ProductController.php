@@ -36,6 +36,8 @@ class ProductController extends Controller
             $validatedData['image_path'] = $path;
         }
 
+//        dd($validatedData);
+
         $product->update([
             'name' => $validatedData['name'],
             'price' => Money::of($validatedData['price'], 'EUR'),
@@ -44,7 +46,10 @@ class ProductController extends Controller
             'image_path' => $validatedData['image_path'],
         ]);
 
-        return Redirect::route('product.edit', $product)->with('status', 'Product updated.');
+        return Redirect::route('product.edit', $product)->with([
+            'status' => 'Product updated.',
+            'message' => 'Product ' . $product->name . ' updated.',
+        ]);
     }
 
     public function store(ProductRequest $request)
@@ -73,7 +78,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::paginate(10);
+        $products = Product::orderBy('created_at', 'desc')->paginate(10);
+
+        $products->each(function ($product) {
+            $product->image_path = Storage::url($product->image_path);
+        });
+
 
         return Inertia::render('Product/Index', [
             'products' => $products,

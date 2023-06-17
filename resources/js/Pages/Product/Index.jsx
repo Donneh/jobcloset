@@ -42,6 +42,12 @@ export default function Index({ auth, products }) {
                                         scope="col"
                                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
                                     >
+                                        Photo
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                    >
                                         Name
                                     </th>
                                     <th
@@ -73,10 +79,14 @@ export default function Index({ auth, products }) {
                             <tbody className="divide-y divide-gray-200">
                                 {products.data.map((product) => (
                                     <tr key={product.id}>
-                                        <td
-                                            key={product}
-                                            className="whitespace-nowrap px-3 py-4 text-sm"
-                                        >
+                                        <td className="px-3 py-4 text-sm">
+                                            <img
+                                                className="h-16 w-16 rounded-md"
+                                                src={product.image_path}
+                                                alt={product.name}
+                                            />
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm">
                                             {product.name}
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm">
