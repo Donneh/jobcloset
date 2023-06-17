@@ -2,11 +2,11 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function ProductGrid({ products }) {
     return (
-        <div className="-mx-px grid grid-cols-2 border-l border-gray-200 mt-8 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
+        <div className="-mx-px grid grid-cols-2 border-l border-gray-200 border-t  mt-8 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
             {products.map((product) => (
                 <div
                     key={product.id}
-                    className="relative border-b border-t border-r border-gray-200 p-4 sm:p-6"
+                    className="relative border-b border-r border-gray-200 p-4 sm:p-6"
                 >
                     <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-200">
                         <img
