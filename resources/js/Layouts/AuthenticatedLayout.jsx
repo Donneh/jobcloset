@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/Components/Sidebar.jsx";
 import ResponsiveNavbar from "@/Components/ResponsiveNavbar.jsx";
-import { usePage } from "@inertiajs/react";
-import { AnimatePresence, motion } from "framer-motion";
 import FlashMessage from "@/Components/FlashMessage.jsx";
+import { ShoppingBagIcon } from "@heroicons/react/20/solid/index.js";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
