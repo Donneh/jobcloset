@@ -1,6 +1,17 @@
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import { useForm } from "@inertiajs/react";
 
 export default function ProductGrid({ products }) {
+    const { post } = useForm();
+    const addToCart = (e, product) => {
+        e.preventDefault();
+        console.log("Add to cart");
+        console.log(product);
+        post(route("cart.store", product), {
+            preserveScroll: true,
+        });
+    };
+
     return (
         <div className="-mx-px grid grid-cols-2 border-l border-gray-200 border-t  mt-8 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
             {products.map((product) => (
@@ -23,7 +34,10 @@ export default function ProductGrid({ products }) {
                         </p>
                     </div>
                     <div>
-                        <form className="pb-4 pt-10 text-center">
+                        <form
+                            className="pb-4 pt-10 text-center"
+                            onSubmit={(e) => addToCart(e, product)}
+                        >
                             <PrimaryButton type="submit">
                                 Add to bag
                             </PrimaryButton>

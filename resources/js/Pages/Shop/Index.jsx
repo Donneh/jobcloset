@@ -1,9 +1,10 @@
 import { StarIcon } from "@heroicons/react/20/solid";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import ProductGrid from "@/Pages/Shop/Partials/ProductGrid.jsx";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline/index.js";
+import CartButton from "@/Components/CartButton.jsx";
 
 export default function Index({ auth, products }) {
     return (
@@ -25,20 +26,7 @@ export default function Index({ auth, products }) {
                                     </h1>
 
                                     <div>
-                                        <button
-                                            className={
-                                                "relative hover:opacity-70"
-                                            }
-                                        >
-                                            <div
-                                                className={
-                                                    "absolute bg-violet-700 text-white rounded-full h-5 w-5 flex justify-center items-center text-xs -right-1 top-0"
-                                                }
-                                            >
-                                                1
-                                            </div>
-                                            <ShoppingBagIcon className="w-8 h-8" />
-                                        </button>
+                                        <CartButton />
                                     </div>
                                 </div>
                             </header>

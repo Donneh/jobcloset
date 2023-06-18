@@ -1,10 +1,6 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import CreateProductForm from "@/Pages/Product/Partials/CreateProductForm.jsx";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
-import { useRef, useState } from "react";
-import InputLabel from "@/Components/InputLabel.jsx";
 import DeleteProductForm from "@/Pages/Product/Partials/DeleteProductForm.jsx";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 
 export default function Index({ auth, products }) {
     return (

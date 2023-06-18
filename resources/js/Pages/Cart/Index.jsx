@@ -1,15 +1,30 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage } from "@inertiajs/react";
-import {
-    CheckIcon,
-    ClockIcon,
-    QuestionMarkCircleIcon,
-    XMarkIcon,
-} from "@heroicons/react/20/solid";
+import { Head, useForm, usePage } from "@inertiajs/react";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
-export default function Index({ products }) {
+export default function Index({ items, total }) {
     const { auth } = usePage().props;
+    const { post, delete: destroy } = useForm();
+
+    const addOneToCart = (e, item) => {
+        e.preventDefault();
+        post(route("cart.store", item));
+    };
+
+    const removeOneFromCart = (e, item) => {
+        e.preventDefault();
+        destroy(route("cart.remove", item.id), {
+            _method: "delete",
+        });
+    };
+
+    const deleteFromCart = (e, item) => {
+        e.preventDefault();
+        destroy(route("cart.destroy", item.id), {
+            _method: "delete",
+        });
+    };
 
     return (
         <AuthenticatedLayout user={auth.user}>
@@ -28,7 +43,7 @@ export default function Index({ products }) {
                     </div>
 
                     <div>
-                        <form className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
+                        <div className="mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16">
                             <section
                                 aria-labelledby="cart-heading"
                                 className="lg:col-span-7"
@@ -37,18 +52,19 @@ export default function Index({ products }) {
                                     Items in your shopping bag
                                 </h2>
 
-                                <ul
+                                <div
                                     role="list"
                                     className="divide-y divide-gray-200 border-b border-t border-gray-200"
+                                    key="5"
                                 >
-                                    {products.map((product, productIdx) => (
-                                        <li
-                                            key={product.id}
+                                    {items.map((item) => (
+                                        <div
+                                            key={item.id}
                                             className="flex py-6 sm:py-10"
                                         >
                                             <div className="flex-shrink-0">
                                                 <img
-                                                    src={product.image_path}
+                                                    src={item.image_path}
                                                     className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
                                                 />
                                             </div>
@@ -58,76 +74,99 @@ export default function Index({ products }) {
                                                     <div>
                                                         <div className="flex justify-between">
                                                             <h3 className="text-sm">
-                                                                {product.name}
+                                                                {item.name}
                                                             </h3>
                                                         </div>
                                                         <p className="mt-1 text-sm font-medium text-gray-900">
                                                             {
-                                                                product.price
-                                                                    .amount
-                                                            }
+                                                                item.price
+                                                                    .currency
+                                                            }{" "}
+                                                            {item.price.amount}
                                                         </p>
                                                     </div>
 
                                                     <div className="mt-4 sm:mt-0 sm:pr-9">
                                                         <label
-                                                            htmlFor={`quantity-${productIdx}`}
+                                                            htmlFor={`quantity-${item.id}`}
                                                             className="sr-only"
                                                         >
-                                                            Quantity,{" "}
-                                                            {product.name}
+                                                            Quantity,
+                                                            {item.name}
                                                         </label>
-                                                        <select
-                                                            id={`quantity-${productIdx}`}
-                                                            name={`quantity-${productIdx}`}
-                                                            className="max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-                                                        >
-                                                            <option value={1}>
-                                                                1
-                                                            </option>
-                                                            <option value={2}>
-                                                                2
-                                                            </option>
-                                                            <option value={3}>
-                                                                3
-                                                            </option>
-                                                            <option value={4}>
-                                                                4
-                                                            </option>
-                                                            <option value={5}>
-                                                                5
-                                                            </option>
-                                                            <option value={6}>
-                                                                6
-                                                            </option>
-                                                            <option value={7}>
-                                                                7
-                                                            </option>
-                                                            <option value={8}>
-                                                                8
-                                                            </option>
-                                                        </select>
+                                                        <div className="flex items-center border-gray-100">
+                                                            <form
+                                                                onSubmit={(e) =>
+                                                                    removeOneFromCart(
+                                                                        e,
+                                                                        item
+                                                                    )
+                                                                }
+                                                            >
+                                                                <button
+                                                                    type={
+                                                                        "submit"
+                                                                    }
+                                                                    className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                                                                >
+                                                                    -
+                                                                </button>
+                                                            </form>
+                                                            <input
+                                                                className="h-8 w-8 border bg-gray-100 text-center text-xs outline-none border-1 border-gray-200"
+                                                                type="text"
+                                                                disabled
+                                                                value={
+                                                                    item.quantity
+                                                                }
+                                                                min="1"
+                                                            />
+                                                            <form
+                                                                onSubmit={(e) =>
+                                                                    addOneToCart(
+                                                                        e,
+                                                                        item
+                                                                    )
+                                                                }
+                                                            >
+                                                                <button
+                                                                    type="submit"
+                                                                    className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                                                                >
+                                                                    +
+                                                                </button>
+                                                            </form>
+                                                        </div>
 
                                                         <div className="absolute right-0 top-0">
-                                                            <button
-                                                                type="button"
-                                                                className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+                                                            <form
+                                                                onSubmit={(e) =>
+                                                                    deleteFromCart(
+                                                                        e,
+                                                                        item
+                                                                    )
+                                                                }
                                                             >
-                                                                <span className="sr-only">
-                                                                    Remove
-                                                                </span>
-                                                                <XMarkIcon
-                                                                    className="h-5 w-5"
-                                                                    aria-hidden="true"
-                                                                />
-                                                            </button>
+                                                                <button
+                                                                    type="submit"
+                                                                    className="-m-2 inline-flex p-2 text-gray-400 hover:text-gray-500"
+                                                                >
+                                                                    <span className="sr-only">
+                                                                        Remove
+                                                                    </span>
+                                                                    <XMarkIcon
+                                                                        className="h-5 w-5"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                </button>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </li>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </section>
 
                             {/* Order summary */}
@@ -143,62 +182,12 @@ export default function Index({ products }) {
                                 </h2>
 
                                 <dl className="mt-6 space-y-4">
-                                    <div className="flex items-center justify-between">
-                                        <dt className="text-sm text-gray-600">
-                                            Subtotal
-                                        </dt>
-                                        <dd className="text-sm font-medium text-gray-900">
-                                            $99.00
-                                        </dd>
-                                    </div>
-                                    <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <dt className="flex items-center text-sm text-gray-600">
-                                            <span>Shipping estimate</span>
-                                            <a
-                                                href="#"
-                                                className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
-                                            >
-                                                <span className="sr-only">
-                                                    Learn more about how
-                                                    shipping is calculated
-                                                </span>
-                                                <QuestionMarkCircleIcon
-                                                    className="h-5 w-5"
-                                                    aria-hidden="true"
-                                                />
-                                            </a>
-                                        </dt>
-                                        <dd className="text-sm font-medium text-gray-900">
-                                            $5.00
-                                        </dd>
-                                    </div>
-                                    <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                                        <dt className="flex text-sm text-gray-600">
-                                            <span>Tax estimate</span>
-                                            <a
-                                                href="#"
-                                                className="ml-2 flex-shrink-0 text-gray-400 hover:text-gray-500"
-                                            >
-                                                <span className="sr-only">
-                                                    Learn more about how tax is
-                                                    calculated
-                                                </span>
-                                                <QuestionMarkCircleIcon
-                                                    className="h-5 w-5"
-                                                    aria-hidden="true"
-                                                />
-                                            </a>
-                                        </dt>
-                                        <dd className="text-sm font-medium text-gray-900">
-                                            $8.32
-                                        </dd>
-                                    </div>
                                     <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                                         <dt className="text-base font-medium text-gray-900">
                                             Order total
                                         </dt>
                                         <dd className="text-base font-medium text-gray-900">
-                                            $112.32
+                                            {total.currency} {total.amount}
                                         </dd>
                                     </div>
                                 </dl>
@@ -207,14 +196,14 @@ export default function Index({ products }) {
                                     <PrimaryButton
                                         type="submit"
                                         className={
-                                            "w-full py-4 text-center mx-auto"
+                                            "w-full flex text-center justify-center py-4"
                                         }
                                     >
                                         Checkout
                                     </PrimaryButton>
                                 </div>
                             </section>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
