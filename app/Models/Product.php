@@ -23,4 +23,9 @@ class Product extends Model
     protected $casts = [
         'price' => Money::class,
     ];
+
+    public function getImagePathAttribute($value): string
+    {
+        return \Storage::url($value);
+    }
 }

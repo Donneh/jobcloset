@@ -2,8 +2,9 @@ import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import NavLink from "@/Components/NavLink.jsx";
 import { GiftIcon, HomeIcon } from "@heroicons/react/24/solid/index.js";
 import UserDropdown from "@/Components/UserDropdown.jsx";
+import { usePage } from "@inertiajs/react";
 
-export default function Sidebar({ user }) {
+export default function Sidebar() {
     return (
         <aside className="w-64 h-screen p-2 hidden md:block sticky top-0">
             <div className="bg-gray-950 h-full w-full rounded-xl px-4 py-8 flex flex-col">
@@ -40,7 +41,7 @@ export default function Sidebar({ user }) {
 
                 <nav className={"text-white mt-auto opacity-100"}>
                     {/*<NavLink>*/}
-                    <UserDropdown user={user}></UserDropdown>
+                    <UserDropdown></UserDropdown>
                     {/*</NavLink>*/}
                 </nav>
             </div>

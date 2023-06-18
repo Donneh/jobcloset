@@ -12,10 +12,6 @@ class ShopController extends Controller
     {
         $products = Product::all();
 
-        $products->each(function ($product) {
-            $product->image_path = \Storage::url($product->image_path);
-        });
-
         return Inertia::render('Shop/Index', [
             'products' => $products
         ]);
