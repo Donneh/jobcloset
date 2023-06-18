@@ -80,11 +80,6 @@ class ProductController extends Controller
     {
         $products = Product::orderBy('created_at', 'desc')->paginate(10);
 
-        $products->each(function ($product) {
-            $product->image_path = Storage::url($product->image_path);
-        });
-
-
         return Inertia::render('Product/Index', [
             'products' => $products,
         ]);

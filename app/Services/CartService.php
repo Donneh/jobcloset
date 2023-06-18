@@ -14,8 +14,9 @@ class CartService
     public static function addToCart($product)
     {
         $cart = session()->get('cart');
+
         if ($cart) {
-            if (array_key_exists($product->id, $cart['items'])) {
+            if (array_key_exists($product->id, $cart)) {
                 $cart[$product->id]['quantity']++;
             } else {
                 $cart[$product->id] = [
@@ -24,7 +25,7 @@ class CartService
                 ];
             }
         } else {
-            $cart = (object)[
+            $cart = [
                 $product->id => [
                     'quantity' => 1,
                     'product' => $product
@@ -67,9 +68,10 @@ class CartService
     public static function getCartTotal()
     {
         $cart = session()->get('cart');
+//        dd($cart);
         $total = Money::of(0, 'EUR');
         if ($cart) {
-            foreach ($cart->items as $id => $item) {
+            foreach ($cart as $id => $item) {
                 $itemTotal = $item['product']->price->multipliedBy($item['quantity']);
                 $total = $total->plus($itemTotal);
             }

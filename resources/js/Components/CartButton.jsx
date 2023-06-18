@@ -5,8 +5,11 @@ export default function CartButton({ className }) {
     const cart = usePage().props.cart;
     let totalQuantity = 0;
 
-    for (let i = 0; i < cart.length; i++) {
-        totalQuantity += cart[i].quantity;
+    console.log(cart);
+    if (cart) {
+        Object.values(cart).forEach((item) => {
+            totalQuantity += item.quantity;
+        });
     }
 
     return (

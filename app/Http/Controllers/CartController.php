@@ -14,19 +14,8 @@ class CartController extends Controller
     {
         $items = [];
 
-        $cart = CartService::getCart()->items;
-        foreach ($cart as $id => $item) {
-            $items[] = [
-                'id' => $id,
-                'name' => $item['product']->name,
-                'price' => $item['product']->price,
-                'quantity' => $item['product']->quantity,
-                'image_path' => \Storage::url($item['product']->image_path),
-            ];
-        }
-
+        $items = CartService::getCart();
         $total = CartService::getCartTotal();
-
 
         return Inertia::render('Cart/Index', compact('items', 'total'));
     }
@@ -35,7 +24,7 @@ class CartController extends Controller
     {
         CartService::addToCart($product);
 
-        return Redirect::route('shop.index')->with('message', 'Product added to cart successfully!');
+//        return Redirect::route('shop.index')->with('message', 'Product added to cart successfully!');
     }
 
     public function destroy(Product $product)

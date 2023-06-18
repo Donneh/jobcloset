@@ -1,9 +1,6 @@
-import { StarIcon } from "@heroicons/react/20/solid";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import ProductGrid from "@/Pages/Shop/Partials/ProductGrid.jsx";
-import { ShoppingBagIcon } from "@heroicons/react/24/outline/index.js";
 import CartButton from "@/Components/CartButton.jsx";
 
 export default function Index({ auth, products }) {
