@@ -59,7 +59,8 @@ export default function Index({ items, total }) {
                                     className="divide-y divide-gray-200 border-b border-t border-gray-200"
                                     key="5"
                                 >
-                                    {Object.keys(items).length > 0 ? (
+                                    {items !== null &&
+                                    Object.keys(items).length > 0 ? (
                                         Object.entries(items).map(
                                             ([key, item]) => (
                                                 <div
