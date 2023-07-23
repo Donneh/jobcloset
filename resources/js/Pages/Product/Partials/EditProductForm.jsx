@@ -8,41 +8,42 @@ import { Transition } from "@headlessui/react";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 
-export default function CreateProductForm({ className = "" }) {
+export default function EditProductForm({ className = "", product }) {
     const {
         data,
         setData,
         errors,
         post,
-        progress,
         reset,
         processing,
         recentlySuccessful,
     } = useForm({
-        name: "",
-        price: "",
-        description: "",
-        stock: "",
-        image: "",
+        name: product.name,
+        price: product.price.amount,
+        description: product.description,
+        stock: product.stock,
+        image_path: "",
+        _method: "PATCH",
     });
 
-    const createProduct = (e) => {
+    console.log(errors);
+    const saveProduct = (e) => {
         e.preventDefault();
 
-        post(route("product.store"), {
+        post(route("product.update", product), {
             preserveScroll: true,
             onSuccess: () => reset(),
-            forceFormData: true,
+            onError: (errors) => {
+                Object.keys(errors).forEach((key) => {
+                    reset(key);
+                });
+            },
         });
     };
 
     return (
         <section className={className}>
-            <form
-                onSubmit={createProduct}
-                className="mt-6 space-y-6"
-                encType={"multipart/form-data"}
-            >
+            <form onSubmit={saveProduct} className="mt-6 space-y-6">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -56,6 +57,7 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.name} className="mt-2" />
                 </div>
+
                 <div>
                     <InputLabel htmlFor="price" value="Price" />
 
@@ -71,6 +73,7 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.price} className="mt-2" />
                 </div>
+
                 <div>
                     <InputLabel htmlFor="description" value="Description" />
 
@@ -83,6 +86,7 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.description} className="mt-2" />
                 </div>
+
                 <div>
                     <InputLabel htmlFor="stock" value="Stock" />
 
@@ -98,28 +102,25 @@ export default function CreateProductForm({ className = "" }) {
 
                     <InputError message={errors.stock} className="mt-2" />
                 </div>
+
                 <div>
                     <InputLabel htmlFor="image" value="Image" />
 
                     <input
                         type={"file"}
-                        onChange={(e) => setData("image", e.target.files[0])}
+                        onChange={(e) =>
+                            setData("image_path", e.target.files[0])
+                        }
                         name={"image"}
                     />
-                    {progress > 0 && (
-                        <progress value={progress.percentage}>
-                            {progress.percentage}%
-                        </progress>
-                    )}
 
-                    <InputError message={errors.image} className="mt-2" />
+                    <InputError message={errors.image_path} className="mt-2" />
                 </div>
-                {data.image && (
-                    <img
-                        src={URL.createObjectURL(data.image)}
-                        alt={data.name}
-                    />
+
+                {product.image_path && (
+                    <img src={product.image_path} alt={data.name} />
                 )}
+
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save
