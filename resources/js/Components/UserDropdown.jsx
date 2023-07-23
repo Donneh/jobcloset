@@ -1,17 +1,25 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useForm, usePage } from "@inertiajs/react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function UserDropdown({ user }) {
+export default function UserDropdown() {
+    const { auth } = usePage().props;
+    const { post } = useForm();
+    const signOut = (e) => {
+        e.preventDefault();
+        post(route("logout"));
+    };
+
     return (
         <Menu as="div" className="relative inline-block text-left w-full">
             <div>
                 <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md py-2 text-sm font-semibold text-neutral-50 hover:bg-gray-800">
-                    {user.name}
+                    {auth.user.name}
                     <ChevronDownIcon
                         className="-mr-1 h-5 w-5 text-gray-400"
                         aria-hidden="true"
@@ -32,7 +40,7 @@ export default function UserDropdown({ user }) {
                     <div className="px-4 py-3">
                         <p className="text-sm">Signed in as</p>
                         <p className="truncate text-sm font-medium text-gray-900">
-                            {user.name}
+                            {auth.user.name}
                         </p>
                     </div>
                     <div className="py-1">
@@ -68,7 +76,7 @@ export default function UserDropdown({ user }) {
                         </Menu.Item>
                     </div>
                     <div className="py-1">
-                        <form method="POST" action={route("logout")}>
+                        <form method="POST" onSubmit={signOut}>
                             <Menu.Item>
                                 {({ active }) => (
                                     <button
