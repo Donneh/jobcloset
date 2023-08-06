@@ -37,6 +37,15 @@ export default function Sidebar() {
                         <GiftIcon className="w-6 h-6 mr-2" />
                         <span>Product</span>
                     </NavLink>
+
+                    <NavLink
+                        href={route("user.index")}
+                        className=""
+                        active={route().current("user.*")}
+                    >
+                        <GiftIcon className="w-6 h-6 mr-2" />
+                        <span>User</span>
+                    </NavLink>
                 </nav>
 
                 <nav className={"text-white mt-auto opacity-100"}>
