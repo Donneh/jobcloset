@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +35,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
+
+    Route::get('/users', [UserController::class, 'index'])->name('user.index');
+    Route::get('/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/users', [UserController::class, 'store'])->name('user.store');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::patch('/users/{user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
 
     Route::get('/products', [ProductController::class, 'index'])->name('product.index');
     Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
