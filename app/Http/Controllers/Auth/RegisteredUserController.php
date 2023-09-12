@@ -50,6 +50,7 @@ class RegisteredUserController extends Controller
             'tenant_id' => $tenant->id,
         ]);
 
+
         event(new Registered($user));
 
         Auth::login($user);

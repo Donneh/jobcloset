@@ -36,8 +36,6 @@ class ProductController extends Controller
             $validatedData['image_path'] = $path;
         }
 
-//        dd($validatedData);
-
         $product->update([
             'name' => $validatedData['name'],
             'price' => Money::of($validatedData['price'], 'EUR'),
