@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateDepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
@@ -12,12 +13,8 @@ class DepartmentController extends Controller
         return Department::all();
     }
 
-    public function store(Request $request)
+    public function store(CreateDepartmentRequest $request)
     {
-        $request->validate([
-            'name' => ['required'],
-        ]);
-
         return Department::create($request->validated());
     }
 

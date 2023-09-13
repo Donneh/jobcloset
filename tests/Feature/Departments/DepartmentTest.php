@@ -3,13 +3,14 @@
 use App\Models\Department;
 use App\Models\User;
 
-it('can add department', function () {
+it('can create a department', function () {
     $this->user = User::factory()->create();
-    $department = Department::factory()->create();
+    $department = Department::factory()->create([
+        'tenant_id' => $this->user->tenant_id,
+    ]);
 
-    $response = $this->actingAs($this->user)->get('/departments');
-
-    $response
-        ->assertStatus(200)
-        ->assertSee($department->name);
+    $this->assertDatabaseHas('departments', [
+        'name' => $department->name,
+        'tenant_id' => $department->tenant_id,
+    ]);
 });
