@@ -30,8 +30,6 @@ Route::get('/', function () {
     ]);
 });
 
-
-
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
@@ -63,6 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/departments', [DepartmentController::class, 'index'])->name('department.index');
+    Route::get('/departments/{department}', [DepartmentController::class, 'show'])->name('department.show');
     Route::get('/departments/create', [DepartmentController::class, 'create'])->name('department.create');
     Route::post('/departments', [DepartmentController::class, 'store'])->name('department.store');
     Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('department.edit');

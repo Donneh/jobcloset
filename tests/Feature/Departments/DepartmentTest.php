@@ -22,27 +22,44 @@ it('shows all departments', function() {
 });
 
 it('can show a department', function() {
-
+    $department = Department::factory()->create(['name' => 'Sales']);
+    $user = User::factory()->create();
+    $this->actingAs($user)->get(route('department.show', $department))
+        ->assertSee('Sales');
 });
 
 it('can update a department', function() {
+    $department = Department::factory()->create(['name' => 'Sales']);
+    $user = User::factory()->create();
+    $this->actingAs($user)->patch(route('department.update', $department), [
+        'name' => 'Marketing',
+    ]);
 
+    $this->assertDatabaseHas('departments', [
+        'name' => 'Marketing',
+    ]);
 });
 
 it('can delete a department', function() {
+    $department = Department::factory()->create(['name' => 'Sales']);
+    $user = User::factory()->create();
+    $this->actingAs($user)->delete(route('department.destroy', $department));
 
+    $this->assertDatabaseMissing('departments', [
+        'name' => 'Sales',
+    ]);
 });
 
 it('only shows departments for the current tenant', function() {
-    $otherTenantsDepartments = Department::factory(5)->create();
+    $otherTenantsDepartment = Department::factory()->create();
     $user = User::factory()->create();
-    $tenantDepartments = Department::factory(5)->create(['tenant_id' => $user->tenant_id]);
 
-    $foo = Department::all();
+    $tenantDepartment = Department::factory()->create(['tenant_id' => $user->tenant_id]);
 
+    session()->put('tenant_id', $user->tenant_id);
     $this->actingAs($user)->get(route('department.index'))
-        ->assertSee($tenantDepartments->first()->name)
-        ->assertDontSee($otherTenantsDepartments->first()->name);
+        ->assertSee($tenantDepartment->name)
+        ->assertDontSee($otherTenantsDepartment->name);
 });
 
 it('can create a department', function () {
