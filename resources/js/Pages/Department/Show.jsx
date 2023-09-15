@@ -1,10 +1,35 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, useForm } from "@inertiajs/react";
 import CreateDepartmentForm from "@/Pages/Department/Partials/CreateDepartmentForm.jsx";
 import DeleteDepartmentForm from "@/Pages/Department/Partials/DeleteDepartmentForm.jsx";
 import AddUserToDepartmentForm from "@/Pages/Department/Partials/AddUserToDepartmentForm.jsx";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
 export default function Show({ auth, department, users }) {
+    const {
+        data,
+        setData,
+        errors,
+        reset,
+        processing,
+        progress,
+        delete: destroy,
+    } = useForm({
+        user_id: "",
+    });
+    const removeUserFromDepartment = (e) => {
+        e.preventDefault();
+        data.user_id = e.target.user_id.value;
+        destroy(route("department.removeUser", department), {
+            preserveScroll: true,
+            onSuccess: () => reset(),
+            onError: (errors) => {
+                Object.keys(errors).forEach((key) => {
+                    reset(key);
+                });
+            },
+        });
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -56,27 +81,56 @@ export default function Show({ auth, department, users }) {
                         <div className="mt-6">
                             <h3 className={"font-bold"}>Current users</h3>
                         </div>
-                        <table className="table-auto max-w-full divide-y divide-gray-300 overflow-x-auto">
-                            <thead>
-                                <tr>
-                                    <th
-                                        scope="col"
-                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
-                                    >
-                                        Name
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody className="divide-y divide-gray-200">
-                                {department.users.map((user) => (
-                                    <tr key={user.id}>
-                                        <td className="px-3 py-4 text-sm">
-                                            {user.name}
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                        <ul>
+                            {department.users.map((user) => (
+                                <li
+                                    key={user.email}
+                                    className="flex justify-between gap-x-6 py-5"
+                                >
+                                    <div className="flex min-w-0 gap-x-4">
+                                        <div className="h-12 w-12 flex-none rounded-full bg-emerald-200 flex items-center justify-center">
+                                            {user.name[0]}
+                                        </div>
+                                        <div className="min-w-0 flex-auto">
+                                            <p className="text-sm font-semibold leading-6 text-gray-900">
+                                                <a
+                                                    href={user.href}
+                                                    className="hover:underline"
+                                                >
+                                                    {user.name}
+                                                </a>
+                                            </p>
+                                            <p className="mt-1 flex text-xs leading-5 text-gray-500">
+                                                <a
+                                                    href={`mailto:${user.email}`}
+                                                    className="truncate hover:underline"
+                                                >
+                                                    {user.email}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex shrink-0 items-center gap-x-6">
+                                        <div className="hidden sm:flex sm:flex-col sm:items-end">
+                                            <form
+                                                onSubmit={
+                                                    removeUserFromDepartment
+                                                }
+                                            >
+                                                <input
+                                                    type={"hidden"}
+                                                    name={"user_id"}
+                                                    value={user.id}
+                                                />
+                                                <PrimaryButton type={"submit"}>
+                                                    Remove from department
+                                                </PrimaryButton>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </div>
             </div>

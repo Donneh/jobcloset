@@ -68,9 +68,22 @@ class DepartmentController extends Controller
     {
         $request->validated();
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('id', $request->user_id)->first();
 
         $department->users()->attach($user);
+
+        return redirect()->route('department.show', $department);
+    }
+
+    public function removeUser(Request $request, Department $department)
+    {
+        $request->validate([
+            'user_id' => ['required', 'exists:department_user,user_id'],
+        ]);
+
+        $user = User::find($request->user_id);
+
+        $department->users()->detach($user);
 
         return redirect()->route('department.show', $department);
     }

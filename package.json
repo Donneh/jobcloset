@@ -24,6 +24,7 @@
     "dependencies": {
         "@heroicons/react": "^2.0.18",
         "@tailwindcss/aspect-ratio": "^0.4.2",
-        "framer-motion": "^10.12.16"
+        "framer-motion": "^10.12.16",
+        "react-select": "^5.7.4"
     }
 }

@@ -9,8 +9,7 @@ class AddUserToDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|max:255',
-//            'department_id' => 'required|exists:departments,id',
+            'user_id' => ['required', 'exists:users,id'],
         ];
     }
 

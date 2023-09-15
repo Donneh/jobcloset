@@ -2,19 +2,25 @@ import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import Select from "react-select";
 
 export default function AddUserToDepartmentForm({
     className = "",
     department,
+    users,
 }) {
+    const userData = users.map((user) => {
+        return {
+            value: user.id,
+            label: user.email,
+        };
+    });
     const { data, setData, errors, post, reset } = useForm({
-        email: "",
-        // department_id: department.id,
+        user_id: "",
     });
 
     const addUserToDepartment = (e) => {
         e.preventDefault();
-        console.log(data);
         post(route("department.addUser", department), {
             preserveScroll: true,
             onSuccess: () => reset(),
@@ -29,14 +35,13 @@ export default function AddUserToDepartmentForm({
                 onSubmit={addUserToDepartment}
             >
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
-                    <TextInput
-                        className={"mt-1 block w-full"}
-                        name={"email"}
-                        id={"email"}
-                        type={"email"}
-                        value={data.email}
-                        onChange={(e) => setData("email", e.target.value)}
+                    <InputLabel htmlFor="user_id" value="Email" />
+                    <Select
+                        options={userData}
+                        name={"user_id"}
+                        onChange={(e) => {
+                            setData("user_id", e.value);
+                        }}
                     />
                 </div>
 
