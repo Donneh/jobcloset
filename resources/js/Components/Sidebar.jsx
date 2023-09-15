@@ -1,6 +1,10 @@
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import NavLink from "@/Components/NavLink.jsx";
-import { GiftIcon, HomeIcon } from "@heroicons/react/24/solid/index.js";
+import {
+    BuildingOfficeIcon,
+    GiftIcon,
+    HomeIcon,
+} from "@heroicons/react/24/solid/index.js";
 import UserDropdown from "@/Components/UserDropdown.jsx";
 import { usePage } from "@inertiajs/react";
 
@@ -35,7 +39,7 @@ export default function Sidebar() {
                         active={route().current("product.*")}
                     >
                         <GiftIcon className="w-6 h-6 mr-2" />
-                        <span>Product</span>
+                        <span>Products</span>
                     </NavLink>
 
                     <NavLink
@@ -44,7 +48,16 @@ export default function Sidebar() {
                         active={route().current("user.*")}
                     >
                         <GiftIcon className="w-6 h-6 mr-2" />
-                        <span>User</span>
+                        <span>Users</span>
+                    </NavLink>
+
+                    <NavLink
+                        href={route("department.index")}
+                        className=""
+                        active={route().current("department.*")}
+                    >
+                        <BuildingOfficeIcon className="w-6 h-6 mr-2" />
+                        <span>Departments</span>
                     </NavLink>
                 </nav>
 

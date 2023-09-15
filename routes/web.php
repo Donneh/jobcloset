@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -28,8 +30,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
@@ -60,6 +60,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/departments', [DepartmentController::class, 'index'])->name('department.index');
+    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('department.create');
+    Route::get('/departments/{department}', [DepartmentController::class, 'show'])->name('department.show');
+    Route::post('/departments', [DepartmentController::class, 'store'])->name('department.store');
+    Route::post('/departments/{department}/users', [DepartmentController::class, 'addUser'])->name('department.addUser');
+    Route::delete('/departments/{department}/users', [DepartmentController::class, 'removeUser'])->name('department.removeUser');
+    Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('department.edit');
+    Route::patch('/departments/{department}', [DepartmentController::class, 'update'])->name('department.update');
+    Route::delete('/departments/{department}', [DepartmentController::class, 'destroy'])->name('department.destroy');
+
 });
 
 require __DIR__.'/auth.php';

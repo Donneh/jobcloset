@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d0e76fc3c86ff9a9b02a251cff93b610",
+    "content-hash": "64fc952c8acf89955c17ecf9ee3f9e4d",
     "packages": [
         {
             "name": "brick/math",
@@ -6988,6 +6988,76 @@
                 }
             ],
             "time": "2023-08-21T16:06:30+00:00"
+        },
+        {
+            "name": "pestphp/pest-plugin-drift",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pestphp/pest-plugin-drift.git",
+                "reference": "f1ddeabdc153024e626222be3f6bd250aba3d9ad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pestphp/pest-plugin-drift/zipball/f1ddeabdc153024e626222be3f6bd250aba3d9ad",
+                "reference": "f1ddeabdc153024e626222be3f6bd250aba3d9ad",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.17.1",
+                "pestphp/pest": "^2.16.1",
+                "php": "^8.1.0",
+                "symfony/finder": "^6.3.0"
+            },
+            "require-dev": {
+                "pestphp/pest-dev-tools": "^2.16.0"
+            },
+            "type": "library",
+            "extra": {
+                "pest": {
+                    "plugins": [
+                        "Pest\\Drift\\Plugin"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pest\\Drift\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The Pest Drift Plugin",
+            "keywords": [
+                "framework",
+                "laravel",
+                "pest",
+                "php",
+                "test",
+                "testing",
+                "unit"
+            ],
+            "support": {
+                "issues": "https://github.com/pestphp/pest-plugin-drift/issues",
+                "source": "https://github.com/pestphp/pest-plugin-drift/tree/v2.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/paypalme/enunomaduro",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/mandisma",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nunomaduro",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-09-03T09:29:00+00:00"
         },
         {
             "name": "pestphp/pest-plugin-laravel",
