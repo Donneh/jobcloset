@@ -15,10 +15,7 @@ return new class extends Migration
             $table->primary(['department_id', 'user_id']);
             $table->foreignId('department_id');
             $table->foreignId('user_id');
-            $table->foreignId('tenant_id');
             $table->timestamps();
-
-
         });
     }
 
