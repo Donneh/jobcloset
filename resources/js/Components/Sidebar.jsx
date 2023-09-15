@@ -1,6 +1,7 @@
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import NavLink from "@/Components/NavLink.jsx";
 import {
+    BriefcaseIcon,
     BuildingOfficeIcon,
     GiftIcon,
     HomeIcon,
@@ -58,6 +59,15 @@ export default function Sidebar() {
                     >
                         <BuildingOfficeIcon className="w-6 h-6 mr-2" />
                         <span>Departments</span>
+                    </NavLink>
+
+                    <NavLink
+                        href={route("job-titles.index")}
+                        className=""
+                        active={route().current("job-titles.*")}
+                    >
+                        <BriefcaseIcon className="w-6 h-6 mr-2" />
+                        <span>Job Titles</span>
                     </NavLink>
                 </nav>
 
