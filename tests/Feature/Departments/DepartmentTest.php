@@ -15,7 +15,7 @@ it('shows all departments', function() {
     Department::factory()->create(['name' => 'Marketing']);
     Department::factory()->create(['name' => 'Engineering']);
 
-    get(route('department.index'))
+    get(route('departments.index'))
         ->assertSee('Sales')
         ->assertSee('Marketing')
         ->assertSee('Engineering');
@@ -24,14 +24,14 @@ it('shows all departments', function() {
 it('can show a department', function() {
     $department = Department::factory()->create(['name' => 'Sales']);
     $user = User::factory()->create();
-    $this->actingAs($user)->get(route('department.show', $department))
+    $this->actingAs($user)->get(route('departments.show', $department))
         ->assertSee('Sales');
 });
 
 it('can update a department', function() {
     $department = Department::factory()->create(['name' => 'Sales']);
     $user = User::factory()->create();
-    $this->actingAs($user)->patch(route('department.update', $department), [
+    $this->actingAs($user)->patch(route('departments.update', $department), [
         'name' => 'Marketing',
     ]);
 
@@ -43,7 +43,7 @@ it('can update a department', function() {
 it('can delete a department', function() {
     $department = Department::factory()->create(['name' => 'Sales']);
     $user = User::factory()->create();
-    $this->actingAs($user)->delete(route('department.destroy', $department));
+    $this->actingAs($user)->delete(route('departments.destroy', $department));
 
     $this->assertDatabaseMissing('departments', [
         'name' => 'Sales',
@@ -57,7 +57,7 @@ it('only shows departments for the current tenant', function() {
     $tenantDepartment = Department::factory()->create(['tenant_id' => $user->tenant_id]);
 
     session()->put('tenant_id', $user->tenant_id);
-    $this->actingAs($user)->get(route('department.index'))
+    $this->actingAs($user)->get(route('departments.index'))
         ->assertSee($tenantDepartment->name)
         ->assertDontSee($otherTenantsDepartment->name);
 });

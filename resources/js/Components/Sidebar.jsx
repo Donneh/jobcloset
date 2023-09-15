@@ -52,9 +52,9 @@ export default function Sidebar() {
                     </NavLink>
 
                     <NavLink
-                        href={route("department.index")}
+                        href={route("departments.index")}
                         className=""
-                        active={route().current("department.*")}
+                        active={route().current("departments.*")}
                     >
                         <BuildingOfficeIcon className="w-6 h-6 mr-2" />
                         <span>Departments</span>

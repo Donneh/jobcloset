@@ -20,7 +20,7 @@ export default function Show({ auth, department, users }) {
     const removeUserFromDepartment = (e) => {
         e.preventDefault();
         data.user_id = e.target.user_id.value;
-        destroy(route("department.removeUser", department), {
+        destroy(route("departments.removeUser", department), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -56,7 +56,7 @@ export default function Show({ auth, department, users }) {
 
                         <div className="mt-6">
                             <Link
-                                href={route("department.edit", department.id)}
+                                href={route("departments.edit", department.id)}
                                 className={
                                     "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                 }

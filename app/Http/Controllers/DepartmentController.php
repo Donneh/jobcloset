@@ -37,7 +37,7 @@ class DepartmentController extends Controller
     {
         Department::create($request->validated());
 
-        return redirect()->route('department.index');
+        return redirect()->route('departments.index');
     }
 
     public function show(Department $department)
@@ -54,14 +54,14 @@ class DepartmentController extends Controller
     {
         $department->update($request->validated());
 
-        return redirect()->route('department.index');
+        return redirect()->route('departments.index');
     }
 
     public function destroy(Department $department)
     {
         $department->delete();
 
-        return redirect()->route('department.index');
+        return redirect()->route('departments.index');
     }
 
     public function addUser(AddUserToDepartmentRequest $request, Department $department)
@@ -72,7 +72,7 @@ class DepartmentController extends Controller
 
         $department->users()->attach($user);
 
-        return redirect()->route('department.show', $department);
+        return redirect()->route('departments.shows', $department);
     }
 
     public function removeUser(Request $request, Department $department)
@@ -85,6 +85,6 @@ class DepartmentController extends Controller
 
         $department->users()->detach($user);
 
-        return redirect()->route('department.show', $department);
+        return redirect()->route('departments.show', $department);
     }
 }

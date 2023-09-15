@@ -9,7 +9,7 @@ export default function DeleteDepartmentForm({ className = "", department }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("department.destroy", department), {
+        post(route("departments.destroy", department), {
             preserveScroll: true,
         });
     };
