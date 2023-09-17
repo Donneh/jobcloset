@@ -38,19 +38,9 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('Dashboard');
     })->middleware(['auth', 'verified'])->name('dashboard');
 
-    Route::get('/users', [UserController::class, 'index'])->name('user.index');
-    Route::get('/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('/users', [UserController::class, 'store'])->name('user.store');
-    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
-    Route::patch('/users/{user}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::resource('/users', UserController::class);
 
-    Route::get('/products', [ProductController::class, 'index'])->name('product.index');
-    Route::get('/products/create', [ProductController::class, 'create'])->name('product.create');
-    Route::post('/products', [ProductController::class, 'store'])->name('product.store');
-    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('product.edit');
-    Route::patch('/products/{product}', [ProductController::class, 'update'])->name('product.update');
-    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+    Route::resource('/products', ProductController::class);
 
     Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
