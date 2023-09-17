@@ -59,4 +59,17 @@ class UserController extends Controller
 
         return redirect()->route('users.index', $user)->with('status', 'User updated.');
     }
+
+    public function show(User $user)
+    {
+        $user->load('locations', 'jobTitles', 'departments');
+        $userData = [];
+        $userData = $user->only(['id', 'name', 'email']);
+        $userData['locations'] = $user->locations;
+        $userData['jobTitles'] = $user->jobTitles;
+        $userData['departments'] = $user->departments;
+        return Inertia::render('User/Show', [
+            'user' => $userData,
+        ]);
+    }
 }

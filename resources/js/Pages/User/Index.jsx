@@ -65,7 +65,15 @@ export default function Index({ auth, users }) {
                                 {users.data.map((user) => (
                                     <tr key={user.id}>
                                         <td className="px-3 py-4 text-sm">
-                                            {user.name}
+                                            <Link
+                                                href={route(
+                                                    "users.show",
+                                                    user.id
+                                                )}
+                                                className={"underline"}
+                                            >
+                                                {user.name}
+                                            </Link>
                                         </td>
                                         <td className="whitespace-nowrap px-3 py-4 text-sm">
                                             {user.email}
