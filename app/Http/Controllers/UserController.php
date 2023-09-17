@@ -38,4 +38,12 @@ class UserController extends Controller
 
         return redirect()->route('user.index')->with('status', 'User deleted.');
     }
+
+    public function edit(User $user)
+    {
+        return Inertia::render('User/Edit', [
+            'user' => $user,
+            'status' => session('status')
+        ]);
+    }
 }
