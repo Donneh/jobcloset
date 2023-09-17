@@ -23,7 +23,7 @@ export default function CreateDepartmentForm({ className = "" }) {
     const createDepartment = (e) => {
         e.preventDefault();
 
-        post(route("department.store"), {
+        post(route("departments.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
             forceFormData: true,

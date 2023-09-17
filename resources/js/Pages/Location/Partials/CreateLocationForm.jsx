@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import { useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
@@ -6,13 +5,12 @@ import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { Transition } from "@headlessui/react";
 
-export default function CreateDepartmentForm({ className = "" }) {
+export default function CreateLocationForm({ className = "" }) {
     const {
         data,
         setData,
         errors,
         post,
-        progress,
         reset,
         processing,
         recentlySuccessful,
@@ -20,10 +18,10 @@ export default function CreateDepartmentForm({ className = "" }) {
         name: "",
     });
 
-    const createDepartment = (e) => {
+    const createLocation = (e) => {
         e.preventDefault();
 
-        post(route("department.store"), {
+        post(route("locations.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
             forceFormData: true,
@@ -33,7 +31,7 @@ export default function CreateDepartmentForm({ className = "" }) {
     return (
         <section className={className}>
             <form
-                onSubmit={createDepartment}
+                onSubmit={createLocation}
                 className="mt-6 space-y-6"
                 encType={"multipart/form-data"}
             >

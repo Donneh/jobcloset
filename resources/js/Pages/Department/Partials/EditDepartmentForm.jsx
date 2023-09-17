@@ -22,10 +22,10 @@ export default function EditDepartmentForm({ className = "", department }) {
         _method: "PATCH",
     });
 
-    const saveProduct = (e) => {
+    const saveDepartment = (e) => {
         e.preventDefault();
 
-        post(route("department.update", department), {
+        post(route("departments.update", department), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -38,7 +38,7 @@ export default function EditDepartmentForm({ className = "", department }) {
 
     return (
         <section className={className}>
-            <form onSubmit={saveProduct} className="mt-6 space-y-6">
+            <form onSubmit={saveDepartment} className="mt-6 space-y-6">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 

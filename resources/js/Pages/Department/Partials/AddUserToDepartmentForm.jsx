@@ -21,7 +21,7 @@ export default function AddUserToDepartmentForm({
 
     const addUserToDepartment = (e) => {
         e.preventDefault();
-        post(route("department.addUser", department), {
+        post(route("departments.addUser", department), {
             preserveScroll: true,
             onSuccess: () => reset(),
             forceFormData: true,

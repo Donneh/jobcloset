@@ -1,7 +1,5 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import CreateDepartmentForm from "@/Pages/Department/Partials/CreateDepartmentForm.jsx";
-import DeleteDepartmentForm from "@/Pages/Department/Partials/DeleteDepartmentForm.jsx";
 import AddUserToDepartmentForm from "@/Pages/Department/Partials/AddUserToDepartmentForm.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 

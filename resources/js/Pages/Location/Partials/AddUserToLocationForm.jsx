@@ -4,9 +4,9 @@ import { useForm } from "@inertiajs/react";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import Select from "react-select";
 
-export default function AddUserToDepartmentForm({
+export default function AddUserToLocationForm({
     className = "",
-    department,
+    location,
     users,
 }) {
     const userData = users.map((user) => {
@@ -19,9 +19,9 @@ export default function AddUserToDepartmentForm({
         user_id: "",
     });
 
-    const addUserToDepartment = (e) => {
+    const addUserToLocation = (e) => {
         e.preventDefault();
-        post(route("department.addUser", department), {
+        post(route("locations.addUser", location), {
             preserveScroll: true,
             onSuccess: () => reset(),
             forceFormData: true,
@@ -32,7 +32,7 @@ export default function AddUserToDepartmentForm({
             <form
                 className="mt-6 space-y-6"
                 method={"POST"}
-                onSubmit={addUserToDepartment}
+                onSubmit={addUserToLocation}
             >
                 <div>
                     <InputLabel htmlFor="user_id" value="Email" />

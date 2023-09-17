@@ -8,7 +8,7 @@ import { Transition } from "@headlessui/react";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
 
-export default function EditDepartmentForm({ className = "", department }) {
+export default function EditLocationForm({ className = "", location }) {
     const {
         data,
         setData,
@@ -18,14 +18,14 @@ export default function EditDepartmentForm({ className = "", department }) {
         processing,
         recentlySuccessful,
     } = useForm({
-        name: department.name,
+        name: location.name,
         _method: "PATCH",
     });
 
-    const saveProduct = (e) => {
+    const saveLocation = (e) => {
         e.preventDefault();
 
-        post(route("department.update", department), {
+        post(route("locations.update", location), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -38,7 +38,7 @@ export default function EditDepartmentForm({ className = "", department }) {
 
     return (
         <section className={className}>
-            <form onSubmit={saveProduct} className="mt-6 space-y-6">
+            <form onSubmit={saveLocation} className="mt-6 space-y-6">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 

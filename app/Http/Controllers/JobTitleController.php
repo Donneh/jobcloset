@@ -28,7 +28,7 @@ class JobTitleController extends Controller
 
         JobTitle::create($request->all());
 
-        return redirect()->route('jobTitles.index');
+        return redirect()->route('job-titles.index');
     }
 
     public function show($id)
@@ -61,5 +61,21 @@ class JobTitleController extends Controller
         JobTitle::find($id)->delete();
 
         return redirect()->route('job-titles.index');
+    }
+
+    public function addUser(Request $request, $id)
+    {
+        $jobTitle = JobTitle::find($id);
+        $jobTitle->users()->attach($request->user_id);
+
+        return redirect()->route('job-titles.show', $id);
+    }
+
+    public function removeUser(Request $request, $id)
+    {
+        $jobTitle = JobTitle::find($id);
+        $jobTitle->users()->detach($request->user_id);
+
+        return redirect()->route('job-titles.show', $id);
     }
 }

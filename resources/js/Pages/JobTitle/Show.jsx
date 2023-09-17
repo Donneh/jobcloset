@@ -1,11 +1,9 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
-import CreateDepartmentForm from "@/Pages/Department/Partials/CreateDepartmentForm.jsx";
-import DeleteDepartmentForm from "@/Pages/Department/Partials/DeleteDepartmentForm.jsx";
-import AddUserToDepartmentForm from "@/Pages/Department/Partials/AddUserToDepartmentForm.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
+import AddUserToJobTitleForm from "@/Pages/JobTitle/Partials/AddUserToJobTitleForm.jsx";
 
-export default function Show({ auth, department, users }) {
+export default function Show({ auth, jobTitle, users }) {
     const {
         data,
         setData,
@@ -17,10 +15,10 @@ export default function Show({ auth, department, users }) {
     } = useForm({
         user_id: "",
     });
-    const removeUserFromDepartment = (e) => {
+    const removeUserFromJobTitle = (e) => {
         e.preventDefault();
         data.user_id = e.target.user_id.value;
-        destroy(route("departments.removeUser", department), {
+        destroy(route("job-titles.removeUser", jobTitle), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -35,33 +33,33 @@ export default function Show({ auth, department, users }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Create Department
+                    Create Job Title
                 </h2>
             }
         >
-            <Head title="Create Department" />
+            <Head title="Create Job Title" />
 
             <div className="w-full">
                 <div className="space-y-6 w-full">
                     <div className="p-4 sm:p-8 bg-white w-full shadow sm:rounded-lg">
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">
-                                {department.name}
+                                {jobTitle.name}
                             </h2>
 
                             <p className="mt-1 text-sm text-gray-600">
-                                Department details.
+                                Job title details.
                             </p>
                         </header>
 
                         <div className="mt-6">
                             <Link
-                                href={route("departments.edit", department.id)}
+                                href={route("job-titles.edit", jobTitle.id)}
                                 className={
                                     "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                 }
                             >
-                                Edit Department
+                                Edit Job title
                             </Link>
                         </div>
 
@@ -70,9 +68,9 @@ export default function Show({ auth, department, users }) {
 
                             <div className="my-3">
                                 <hr />
-                                <AddUserToDepartmentForm
+                                <AddUserToJobTitleForm
                                     users={users}
-                                    department={department}
+                                    jobTitle={jobTitle}
                                 />
                                 <hr className={"mt-3"} />
                             </div>
@@ -82,7 +80,7 @@ export default function Show({ auth, department, users }) {
                             <h3 className={"font-bold"}>Current users</h3>
                         </div>
                         <ul>
-                            {department.users.map((user) => (
+                            {jobTitle.users.map((user) => (
                                 <li
                                     key={user.email}
                                     className="flex justify-between gap-x-6 py-5"
@@ -114,7 +112,7 @@ export default function Show({ auth, department, users }) {
                                         <div className="hidden sm:flex sm:flex-col sm:items-end">
                                             <form
                                                 onSubmit={
-                                                    removeUserFromDepartment
+                                                    removeUserFromJobTitle
                                                 }
                                             >
                                                 <input
@@ -123,7 +121,7 @@ export default function Show({ auth, department, users }) {
                                                     value={user.id}
                                                 />
                                                 <PrimaryButton type={"submit"}>
-                                                    Remove from department
+                                                    Remove from job title
                                                 </PrimaryButton>
                                             </form>
                                         </div>

@@ -62,7 +62,7 @@ export default function Index({ auth, jobTitles }) {
                                             <Link
                                                 href={route(
                                                     "job-titles.show",
-                                                    title
+                                                    title.id
                                                 )}
                                                 className={"underline"}
                                             >

@@ -1,32 +1,32 @@
 import { Head, Link, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
-import DeleteDepartmentForm from "@/Pages/Department/Partials/DeleteDepartmentForm.jsx";
+import DeleteLocationForm from "@/Pages/Location/Partials/DeleteLocationForm.jsx";
 
-export default function Index({ auth, departments }) {
+export default function Index({ auth, locations }) {
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Departments" />
+            <Head title="Locations" />
 
             <div className="w-full">
                 <div className="space-y-6 w-full">
                     <div className="p-4 sm:p-8 bg-white w-full shadow sm:rounded-lg">
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">
-                                Departments
+                                Locations
                             </h2>
 
                             <p className="mt-1 text-sm text-gray-600">
-                                List of departments.
+                                List of locations.
                             </p>
 
                             <div className="mt-6">
                                 <Link
-                                    href={route("departments.create")}
+                                    href={route("locations.create")}
                                     className={
                                         "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                     }
                                 >
-                                    Create Department
+                                    Create Location
                                 </Link>
                             </div>
                         </header>
@@ -55,24 +55,24 @@ export default function Index({ auth, departments }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {departments.data.map((department) => (
-                                    <tr key={department.id}>
+                                {locations.data.map((location) => (
+                                    <tr key={location.id}>
                                         <td className="px-3 py-4 text-sm">
                                             <Link
                                                 href={route(
-                                                    "departments.show",
-                                                    department
+                                                    "locations.show",
+                                                    location
                                                 )}
                                                 className={"underline"}
                                             >
-                                                {department.name}
+                                                {location.name}
                                             </Link>
                                         </td>
                                         <td className="px-3 py-4 text-sm">
                                             <Link
                                                 href={route(
-                                                    "departments.edit",
-                                                    department.id
+                                                    "locations.edit",
+                                                    location.id
                                                 )}
                                                 className={
                                                     "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
@@ -82,8 +82,8 @@ export default function Index({ auth, departments }) {
                                             </Link>
                                         </td>
                                         <td className="px-3 py-4 text-sm">
-                                            <DeleteDepartmentForm
-                                                department={department}
+                                            <DeleteLocationForm
+                                                location={location}
                                             />
                                         </td>
                                     </tr>
@@ -92,7 +92,7 @@ export default function Index({ auth, departments }) {
                         </table>
 
                         <div className={"mt-6"}>
-                            {departments.links.map((link) => (
+                            {locations.links.map((link) => (
                                 <Link
                                     href={link.url}
                                     key={link.label}

@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
+import CreateLocationForm from "@/Pages/Location/Partials/CreateLocationForm.jsx";
 import CreateDepartmentForm from "@/Pages/Department/Partials/CreateDepartmentForm.jsx";
 
 export default function Create({ auth, mustVerifyEmail, status }) {

@@ -1,7 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import SecondaryButton from "@/Components/SecondaryButton.jsx";
 
-export default function DeleteDepartmentForm({ className = "", department }) {
+export default function DeleteLocationForm({ className = "", location }) {
     const { post } = useForm({
         _method: "DELETE",
     });
@@ -9,7 +9,7 @@ export default function DeleteDepartmentForm({ className = "", department }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("departments.destroy", department), {
+        post(route("locations.destroy", location), {
             preserveScroll: true,
         });
     };
