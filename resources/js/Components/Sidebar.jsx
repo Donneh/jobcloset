@@ -1,8 +1,15 @@
 import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import NavLink from "@/Components/NavLink.jsx";
-import { GiftIcon, HomeIcon } from "@heroicons/react/24/solid/index.js";
+import {
+    BriefcaseIcon,
+    CubeIcon,
+    GiftIcon,
+    GlobeAltIcon,
+    HomeIcon,
+    UserGroupIcon,
+    UsersIcon,
+} from "@heroicons/react/24/solid/index.js";
 import UserDropdown from "@/Components/UserDropdown.jsx";
-import { usePage } from "@inertiajs/react";
 
 export default function Sidebar() {
     return (
@@ -34,8 +41,8 @@ export default function Sidebar() {
                         className=""
                         active={route().current("product.*")}
                     >
-                        <GiftIcon className="w-6 h-6 mr-2" />
-                        <span>Product</span>
+                        <CubeIcon className="w-6 h-6 mr-2" />
+                        <span>Products</span>
                     </NavLink>
 
                     <NavLink
@@ -43,8 +50,35 @@ export default function Sidebar() {
                         className=""
                         active={route().current("user.*")}
                     >
-                        <GiftIcon className="w-6 h-6 mr-2" />
-                        <span>User</span>
+                        <UsersIcon className="w-6 h-6 mr-2" />
+                        <span>Users</span>
+                    </NavLink>
+
+                    <NavLink
+                        href={route("departments.index")}
+                        className=""
+                        active={route().current("departments.*")}
+                    >
+                        <UserGroupIcon className="w-6 h-6 mr-2" />
+                        <span>Departments</span>
+                    </NavLink>
+
+                    <NavLink
+                        href={route("job-titles.index")}
+                        className=""
+                        active={route().current("job-titles.*")}
+                    >
+                        <BriefcaseIcon className="w-6 h-6 mr-2" />
+                        <span>Job Titles</span>
+                    </NavLink>
+
+                    <NavLink
+                        href={route("locations.index")}
+                        className=""
+                        active={route().current("locations.*")}
+                    >
+                        <GlobeAltIcon className="w-6 h-6 mr-2" />
+                        <span>Locations</span>
                     </NavLink>
                 </nav>
 

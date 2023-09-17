@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\JobTitleController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -28,8 +32,6 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
@@ -60,6 +62,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('departments', DepartmentController::class);
+    Route::post('/departments/{department}/users', [DepartmentController::class, 'addUser'])->name('departments.addUser');
+    Route::delete('/departments/{department}/users', [DepartmentController::class, 'removeUser'])->name('departments.removeUser');
+
+    Route::resource('job-titles', JobTitleController::class);
+    Route::post('/job-titles/{jobTitle}/users', [JobTitleController::class, 'addUser'])->name('job-titles.addUser');
+    Route::delete('/job-titles/{jobTitle}/users', [JobTitleController::class, 'removeUser'])->name('job-titles.removeUser');
+
+    Route::resource('locations', LocationController::class);
+    Route::post('/locations/{location}/users', [LocationController::class, 'addUser'])->name('locations.addUser');
+    Route::delete('/locations/{location}/users', [LocationController::class, 'removeUser'])->name('locations.removeUser');
+
 });
 
 require __DIR__.'/auth.php';
