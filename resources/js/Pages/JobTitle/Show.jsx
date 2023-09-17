@@ -1,16 +1,11 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import { Head, Link, useForm } from "@inertiajs/react";
-import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import AddUserToJobTitleForm from "@/Pages/JobTitle/Partials/AddUserToJobTitleForm.jsx";
-
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
 export default function Show({ auth, jobTitle, users }) {
     const {
         data,
-        setData,
-        errors,
         reset,
-        processing,
-        progress,
         delete: destroy,
     } = useForm({
         user_id: "",
@@ -33,13 +28,13 @@ export default function Show({ auth, jobTitle, users }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Create Job Title
+                    Job Title
                 </h2>
             }
         >
-            <Head title="Create Job Title" />
+            <Head title={jobTitle.name} />
 
-            <div className="w-full">
+            <div className={"w-full"}>
                 <div className="space-y-6 w-full">
                     <div className="p-4 sm:p-8 bg-white w-full shadow sm:rounded-lg">
                         <header>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\JobTitle;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -31,10 +32,12 @@ class JobTitleController extends Controller
         return redirect()->route('job-titles.index');
     }
 
-    public function show($id)
+    public function show(JobTitle $jobTitle)
     {
-        Inertia::render('JobTitle/Show', [
-            'jobTitle' => JobTitle::find($id),
+        $jobTitle->load('users');
+        return Inertia::render('JobTitle/Show', [
+            'jobTitle' => $jobTitle,
+            'users' => User::all(),
         ]);
     }
 
