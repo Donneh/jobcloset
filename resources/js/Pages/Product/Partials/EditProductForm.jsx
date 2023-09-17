@@ -30,7 +30,7 @@ export default function EditProductForm({ className = "", product }) {
     const saveProduct = (e) => {
         e.preventDefault();
 
-        post(route("product.update", product), {
+        post(route("products.update", product), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {

@@ -71,9 +71,17 @@ export default function ResponsiveNavbar() {
                                     <span>Shop</span>
                                 </ResponsiveNavLink>
                                 <ResponsiveNavLink
-                                    href={route("product.index")}
+                                    href={route("users.index")}
                                     className=""
-                                    active={route().current("product.index")}
+                                    active={route().current("users.*")}
+                                >
+                                    <GiftIcon className="w-6 h-6 mr-2" />
+                                    <span>Users</span>
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route("products.index")}
+                                    className=""
+                                    active={route().current("products.index")}
                                 >
                                     <GiftIcon className="w-6 h-6 mr-2" />
                                     <span>Product</span>

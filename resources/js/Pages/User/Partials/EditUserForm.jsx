@@ -5,10 +5,8 @@ import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { Transition } from "@headlessui/react";
-import TextareaInput from "@/Components/TextareaInput.jsx";
-import FileInput from "@/Components/FileInput.jsx";
 
-export default function EditProductForm({ className = "", product }) {
+export default function EditUserForm({ className = "", user }) {
     const {
         data,
         setData,
@@ -18,19 +16,15 @@ export default function EditProductForm({ className = "", product }) {
         processing,
         recentlySuccessful,
     } = useForm({
-        name: product.name,
-        price: product.price.amount,
-        description: product.description,
-        stock: product.stock,
-        image_path: "",
+        name: user.name,
+        email: user.email,
         _method: "PATCH",
     });
 
-    console.log(errors);
-    const saveProduct = (e) => {
+    const saveUser = (e) => {
         e.preventDefault();
 
-        post(route("product.update", product), {
+        post(route("users.update", user), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -43,7 +37,7 @@ export default function EditProductForm({ className = "", product }) {
 
     return (
         <section className={className}>
-            <form onSubmit={saveProduct} className="mt-6 space-y-6">
+            <form onSubmit={saveUser} className="mt-6 space-y-6">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -59,68 +53,18 @@ export default function EditProductForm({ className = "", product }) {
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="price" value="Price" />
+                    <InputLabel htmlFor="email" value="Email" />
 
                     <TextInput
-                        id="price"
-                        value={data.price}
-                        onChange={(e) => setData("price", e.target.value)}
-                        type="number"
-                        min="1"
-                        step="any"
+                        id="email"
+                        value={data.email}
+                        onChange={(e) => setData("email", e.target.value)}
+                        type="email"
                         className="mt-1 block w-full"
                     />
 
-                    <InputError message={errors.price} className="mt-2" />
+                    <InputError message={errors.email} className="mt-2" />
                 </div>
-
-                <div>
-                    <InputLabel htmlFor="description" value="Description" />
-
-                    <TextareaInput
-                        id="description"
-                        value={data.description}
-                        onChange={(e) => setData("description", e.target.value)}
-                        className="mt-1 block w-full"
-                    />
-
-                    <InputError message={errors.description} className="mt-2" />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="stock" value="Stock" />
-
-                    <TextInput
-                        id="stock"
-                        value={data.stock}
-                        onChange={(e) => setData("stock", e.target.value)}
-                        type="number"
-                        min="0"
-                        step="1"
-                        className="mt-1 block w-full"
-                    />
-
-                    <InputError message={errors.stock} className="mt-2" />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="image" value="Image" />
-
-                    <input
-                        type={"file"}
-                        onChange={(e) =>
-                            setData("image_path", e.target.files[0])
-                        }
-                        name={"image"}
-                    />
-
-                    <InputError message={errors.image_path} className="mt-2" />
-                </div>
-
-                {product.image_path && (
-                    <img src={product.image_path} alt={data.name} />
-                )}
-
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save

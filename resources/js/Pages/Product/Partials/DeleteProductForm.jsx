@@ -9,7 +9,7 @@ export default function DeleteProductForm({ className = "", product }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("product.destroy", product), {
+        post(route("products.destroy", product), {
             preserveScroll: true,
         });
     };
