@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -62,15 +63,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('departments', DepartmentController::class);
-//    Route::get('/departments', [DepartmentController::class, 'index'])->name('department.index');
-//    Route::get('/departments/create', [DepartmentController::class, 'create'])->name('department.create');
-//    Route::get('/departments/{department}', [DepartmentController::class, 'show'])->name('department.show');
-//    Route::post('/departments', [DepartmentController::class, 'store'])->name('department.store');
     Route::post('/departments/{department}/users', [DepartmentController::class, 'addUser'])->name('departments.addUser');
     Route::delete('/departments/{department}/users', [DepartmentController::class, 'removeUser'])->name('departments.removeUser');
-//    Route::get('/departments/{department}/edit', [DepartmentController::class, 'edit'])->name('department.edit');
-//    Route::patch('/departments/{department}', [DepartmentController::class, 'update'])->name('department.update');
-//    Route::delete('/departments/{department}', [DepartmentController::class, 'destroy'])->name('department.destroy');
+
+    Route::resource('job-titles', JobTitleController::class);
 
 });
 
