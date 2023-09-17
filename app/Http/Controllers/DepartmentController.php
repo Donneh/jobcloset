@@ -72,7 +72,7 @@ class DepartmentController extends Controller
 
         $department->users()->attach($user);
 
-        return redirect()->route('departments.shows', $department);
+        return redirect()->route('departments.show', $department);
     }
 
     public function removeUser(Request $request, Department $department)

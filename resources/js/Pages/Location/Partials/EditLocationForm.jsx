@@ -5,38 +5,40 @@ import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { Transition } from "@headlessui/react";
+import TextareaInput from "@/Components/TextareaInput.jsx";
+import FileInput from "@/Components/FileInput.jsx";
 
-export default function CreateDepartmentForm({ className = "" }) {
+export default function EditLocationForm({ className = "", location }) {
     const {
         data,
         setData,
         errors,
         post,
-        progress,
         reset,
         processing,
         recentlySuccessful,
     } = useForm({
-        name: "",
+        name: location.name,
+        _method: "PATCH",
     });
 
-    const createDepartment = (e) => {
+    const saveLocation = (e) => {
         e.preventDefault();
 
-        post(route("departments.store"), {
+        post(route("locations.update", location), {
             preserveScroll: true,
             onSuccess: () => reset(),
-            forceFormData: true,
+            onError: (errors) => {
+                Object.keys(errors).forEach((key) => {
+                    reset(key);
+                });
+            },
         });
     };
 
     return (
         <section className={className}>
-            <form
-                onSubmit={createDepartment}
-                className="mt-6 space-y-6"
-                encType={"multipart/form-data"}
-            >
+            <form onSubmit={saveLocation} className="mt-6 space-y-6">
                 <div>
                     <InputLabel htmlFor="name" value="Name" />
 
@@ -50,6 +52,7 @@ export default function CreateDepartmentForm({ className = "" }) {
 
                     <InputError message={errors.name} className="mt-2" />
                 </div>
+
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save

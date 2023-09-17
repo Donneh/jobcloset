@@ -1,36 +1,37 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
-import CreateLocationForm from "@/Pages/Location/Partials/CreateLocationForm.jsx";
-import CreateDepartmentForm from "@/Pages/Department/Partials/CreateDepartmentForm.jsx";
+import EditDepartmentForm from "@/Pages/Department/Partials/EditDepartmentForm.jsx";
+import EditLocationForm from "@/Pages/Location/Partials/EditLocationForm.jsx";
 
-export default function Create({ auth, mustVerifyEmail, status }) {
+export default function Edit({ auth, mustVerifyEmail, status, location }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Create Department
+                    Edit Location
                 </h2>
             }
         >
-            <Head title="Create Department" />
+            <Head title="Edit location" />
 
             <div className="w-full">
                 <div className="space-y-6 w-full">
                     <div className="p-4 sm:p-8 bg-white w-full shadow sm:rounded-lg">
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">
-                                Create Department
+                                Edit Location
                             </h2>
 
                             <p className="mt-1 text-sm text-gray-600">
-                                Create a new department.
+                                Edit location details
                             </p>
                         </header>
 
-                        <CreateDepartmentForm
+                        <EditLocationForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
+                            location={location}
                             className="max-w-xl"
                         />
                     </div>
