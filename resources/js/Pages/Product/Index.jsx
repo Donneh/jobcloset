@@ -21,7 +21,7 @@ export default function Index({ auth, products }) {
 
                             <div className="mt-6">
                                 <Link
-                                    href={route("product.create")}
+                                    href={route("products.create")}
                                     className={
                                         "inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                     }
@@ -95,7 +95,7 @@ export default function Index({ auth, products }) {
                                         <td className="px-3 py-4 text-sm">
                                             <Link
                                                 href={route(
-                                                    "product.edit",
+                                                    "products.edit",
                                                     product.id
                                                 )}
                                                 className={

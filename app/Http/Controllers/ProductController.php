@@ -44,7 +44,7 @@ class ProductController extends Controller
             'image_path' => $validatedData['image_path'],
         ]);
 
-        return Redirect::route('product.edit', $product)->with([
+        return Redirect::route('products.edit', $product)->with([
             'status' => 'Product updated.',
             'message' => 'Product ' . $product->name . ' updated.',
         ]);
@@ -68,7 +68,7 @@ class ProductController extends Controller
         $product->save();
 
 
-        return Redirect::route('product.create')->with([
+        return Redirect::route('products.create')->with([
             'status' => 'Product created.',
             'message' => 'Product ' . $product->name . ' created.',
         ]);
@@ -88,6 +88,6 @@ class ProductController extends Controller
         Storage::delete('public/' . $product->image_path);
         $product->delete();
 
-        return Redirect::route('product.index')->with('status', 'Product deleted.');
+        return Redirect::route('products.index')->with('status', 'Product deleted.');
     }
 }

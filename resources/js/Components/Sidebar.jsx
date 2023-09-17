@@ -37,7 +37,7 @@ export default function Sidebar() {
                     </NavLink>
 
                     <NavLink
-                        href={route("product.index")}
+                        href={route("products.index")}
                         className=""
                         active={route().current("product.*")}
                     >
@@ -46,7 +46,7 @@ export default function Sidebar() {
                     </NavLink>
 
                     <NavLink
-                        href={route("user.index")}
+                        href={route("users.index")}
                         className=""
                         active={route().current("user.*")}
                     >
