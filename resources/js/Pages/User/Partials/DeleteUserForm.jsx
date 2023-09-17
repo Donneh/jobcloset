@@ -9,7 +9,7 @@ export default function DeleteUserForm({ className = "", user }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("user.destroy", user), {
+        post(route("users.destroy", user), {
             preserveScroll: true,
         });
     };

@@ -29,7 +29,7 @@ export default function CreateProductForm({ className = "" }) {
     const createProduct = (e) => {
         e.preventDefault();
 
-        post(route("product.store"), {
+        post(route("products.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
             forceFormData: true,

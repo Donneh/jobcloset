@@ -27,7 +27,7 @@ export default function CreateUserForm({ className = "" }) {
     const createUser = (e) => {
         e.preventDefault();
 
-        post(route("user.store"), {
+        post(route("users.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
             forceFormData: true,
