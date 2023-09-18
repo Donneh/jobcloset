@@ -1,8 +1,22 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router, useForm } from "@inertiajs/react";
+import SecondaryButton from "@/Components/SecondaryButton.jsx";
+import RemoveFromDepartmentForm from "@/Pages/User/Partials/RemoveFromDepartmentForm.jsx";
+import RemoveFromJobTitleForm from "@/Pages/User/Partials/RemoveFromJobTitleForm.jsx";
+import RemoveFromLocationForm from "@/Pages/User/Partials/RemoveFromLocationForm.jsx";
 
 export default function Show(user) {
-    console.log(user.user);
+    const { post } = useForm({
+        _method: "DELETE",
+        userId: user.id,
+        department: null,
+    });
+
+    const removeFromDepartment = (e) => {
+        e.preventDefault();
+
+        console.log(e);
+    };
     return (
         <AuthenticatedLayout>
             <Head title="User details" />
@@ -49,19 +63,10 @@ export default function Show(user) {
                                     >
                                         {location.name}
                                     </Link>
-                                    <Link
-                                        href={route(
-                                            "locations.removeUser",
-                                            location.id
-                                        )}
-                                        method="delete"
-                                        as="button"
-                                        className={
-                                            "inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                        }
-                                    >
-                                        Remove
-                                    </Link>
+                                    <RemoveFromLocationForm
+                                        location={location}
+                                        user={user}
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -86,19 +91,11 @@ export default function Show(user) {
                                     >
                                         {department.name}
                                     </Link>
-                                    <Link
-                                        href={route(
-                                            "departments.removeUser",
-                                            department.id
-                                        )}
-                                        method="delete"
-                                        as="button"
-                                        className={
-                                            "inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                        }
-                                    >
-                                        Remove
-                                    </Link>
+
+                                    <RemoveFromDepartmentForm
+                                        user={user}
+                                        department={department}
+                                    />
                                 </li>
                             ))}
                         </ul>
@@ -123,19 +120,10 @@ export default function Show(user) {
                                     >
                                         {jobTitle.name}
                                     </Link>
-                                    <Link
-                                        href={route(
-                                            "job-titles.removeUser",
-                                            jobTitle.id
-                                        )}
-                                        method="delete"
-                                        as="button"
-                                        className={
-                                            "inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:bg-red-700 active:bg-red-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
-                                        }
-                                    >
-                                        Remove
-                                    </Link>
+                                    <RemoveFromJobTitleForm
+                                        user={user}
+                                        jobTitle={jobTitle}
+                                    />
                                 </li>
                             ))}
                         </ul>
