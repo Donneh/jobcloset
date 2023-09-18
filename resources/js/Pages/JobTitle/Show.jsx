@@ -86,12 +86,15 @@ export default function Show({ auth, jobTitle, users }) {
                                         </div>
                                         <div className="min-w-0 flex-auto">
                                             <p className="text-sm font-semibold leading-6 text-gray-900">
-                                                <a
-                                                    href={user.href}
+                                                <Link
+                                                    href={route(
+                                                        "users.show",
+                                                        user
+                                                    )}
                                                     className="hover:underline"
                                                 >
                                                     {user.name}
-                                                </a>
+                                                </Link>
                                             </p>
                                             <p className="mt-1 flex text-xs leading-5 text-gray-500">
                                                 <a

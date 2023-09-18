@@ -39,7 +39,7 @@ export default function Sidebar() {
                     <NavLink
                         href={route("products.index")}
                         className=""
-                        active={route().current("product.*")}
+                        active={route().current("products.*")}
                     >
                         <CubeIcon className="w-6 h-6 mr-2" />
                         <span>Products</span>
@@ -48,7 +48,7 @@ export default function Sidebar() {
                     <NavLink
                         href={route("users.index")}
                         className=""
-                        active={route().current("user.*")}
+                        active={route().current("users.*")}
                     >
                         <UsersIcon className="w-6 h-6 mr-2" />
                         <span>Users</span>
