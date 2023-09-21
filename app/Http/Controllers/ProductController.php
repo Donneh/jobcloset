@@ -14,6 +14,7 @@ class ProductController extends Controller
 {
     public function create()
     {
+        $this->authorize('create', Product::class);
         return Inertia::render('Product/Create', [
             'status' => session('status'),
         ]);
@@ -21,6 +22,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
+        $this->authorize('update', $product);
         $product->image_path = Storage::url($product->image_path);
         return Inertia::render('Product/Edit', [
             'product' => $product,
@@ -29,6 +31,7 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, Product $product)
     {
+        $this->authorize('update', $product);
         $validatedData = $request->validated();
         if ($request->hasFile('image_path')) {
             Storage::delete('public/' . $product->image_path);
@@ -52,6 +55,7 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
+        $this->authorize('create', Product::class);
         $validatedData = $request->validated();
 
         $path = null;
@@ -76,6 +80,7 @@ class ProductController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Product::class);
         $products = Product::orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('Product/Index', [
@@ -85,6 +90,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        $this->authorize('delete', $product);
         Storage::delete('public/' . $product->image_path);
         $product->delete();
 

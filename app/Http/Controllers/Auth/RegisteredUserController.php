@@ -50,6 +50,7 @@ class RegisteredUserController extends Controller
             'tenant_id' => $tenant->id,
         ]);
 
+        $user->assignRole('manager');
 
         event(new Registered($user));
 

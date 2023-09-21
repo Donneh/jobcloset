@@ -12,6 +12,8 @@ class UserController extends Controller
 {
     public function index()
     {
+        dd($this->authorize('view users'));
+        \Auth::user()->can('view users');
         $users = User::orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('User/Index', [
@@ -28,7 +30,7 @@ class UserController extends Controller
 
     public function store(UserRequest $request)
     {
-        User::create($request->validated());
+        User::create($request->validated())->assignRole('employee');
 
         return redirect()->route('users.create')->with('status', 'User created.');
     }
@@ -62,6 +64,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        dd($user->getAllPermissions());
         $user->load('locations', 'jobTitles', 'departments');
         $userData = [];
         $userData = $user->only(['id', 'name', 'email']);
