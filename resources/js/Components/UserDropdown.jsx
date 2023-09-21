@@ -10,6 +10,8 @@ function classNames(...classes) {
 export default function UserDropdown() {
     const { auth } = usePage().props;
     const { post } = useForm();
+
+    console.log(auth);
     const signOut = (e) => {
         e.preventDefault();
         post(route("logout"));
@@ -19,7 +21,7 @@ export default function UserDropdown() {
         <Menu as="div" className="relative inline-block text-left w-full">
             <div>
                 <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md py-2 text-sm font-semibold text-neutral-50 hover:bg-gray-800">
-                    {auth.user.name}
+                    {auth.user.data.name}
                     <ChevronDownIcon
                         className="-mr-1 h-5 w-5 text-gray-400"
                         aria-hidden="true"
@@ -38,9 +40,9 @@ export default function UserDropdown() {
             >
                 <Menu.Items className="absolute left-0 bottom-10 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="px-4 py-3">
-                        <p className="text-sm">Signed in as</p>
+                        <p className="text-sm text-gray-400">Signed in as</p>
                         <p className="truncate text-sm font-medium text-gray-900">
-                            {auth.user.name}
+                            {auth.user.data.name}
                         </p>
                     </div>
                     <div className="py-1">
