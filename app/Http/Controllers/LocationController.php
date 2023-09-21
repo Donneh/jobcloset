@@ -9,6 +9,11 @@ use Inertia\Inertia;
 
 class LocationController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Location::class, 'location');
+    }
+
     public function index()
     {
         return Inertia::render('Location/Index', [
