@@ -9,6 +9,11 @@ use Inertia\Inertia;
 
 class JobTitleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(JobTitle::class, 'jobTitle');
+    }
+
     public function index()
     {
         return Inertia::render('JobTitle/Index', [
