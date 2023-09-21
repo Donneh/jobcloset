@@ -12,6 +12,11 @@ use Inertia\Inertia;
 
 class DepartmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Department::class, 'department');
+    }
+
     public function index()
     {
         $departments = Department::orderBy('created_at', 'desc')->paginate(10);
