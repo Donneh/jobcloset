@@ -11,7 +11,6 @@ export default function UserDropdown() {
     const { auth } = usePage().props;
     const { post } = useForm();
 
-    console.log(auth);
     const signOut = (e) => {
         e.preventDefault();
         post(route("logout"));

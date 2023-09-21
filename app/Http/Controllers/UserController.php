@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -27,14 +28,17 @@ class UserController extends Controller
 
     public function create()
     {
+        $roles = Role::all();
+
         return Inertia::render('User/Create', [
-            'status' => session('status')
+            'status' => session('status'),
+            'roles' => $roles->map->only(['id', 'name'])
         ]);
     }
 
     public function store(UserRequest $request)
     {
-        User::create($request->validated())->assignRole('employee');
+        User::create($request->validated())->assignRole($request->role ?? 'employee');
 
         return redirect()->route('users.create')->with('status', 'User created.');
     }
@@ -48,6 +52,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        $user->load('roles');
+        dd($user);
         return Inertia::render('User/Edit', [
             'user' => $user,
             'status' => session('status')
