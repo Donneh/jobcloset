@@ -10,10 +10,14 @@ use Inertia\Inertia;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+
     public function index()
     {
-        dd($this->authorize('view users'));
-        \Auth::user()->can('view users');
         $users = User::orderBy('created_at', 'desc')->paginate(10);
 
         return Inertia::render('User/Index', [

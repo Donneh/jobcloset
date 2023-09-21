@@ -21,48 +21,40 @@ class ProductPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Product $product): bool
+    public function view(User $user, Product $product): Response
     {
-        if ($user->hasPermissionTo('view products')) {
-            return true;
-        }
-
-        return false;
+        return $user->hasPermissionTo('view products')
+            ? Response::allow()
+            : Response::deny('You do not have permission to view products.');
     }
 
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user): Response
     {
-        if ($user->hasPermissionTo('create products')) {
-            return true;
-        }
-
-        return false;
+        return $user->hasPermissionTo('create products')
+            ? Response::allow()
+            : Response::deny('You do not have permission to create products.');
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Product $product): bool
+    public function update(User $user, Product $product): Response
     {
-        if ($user->hasPermissionTo('edit products')) {
-            return true;
-        }
-
-        return false;
+        return $user->hasPermissionTo('edit products')
+            ? Response::allow()
+            : Response::deny('You do not have permission to edit products.');
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Product $product): bool
+    public function delete(User $user, Product $product): Response
     {
-        if ($user->hasPermissionTo('delete products')) {
-            return true;
-        }
-
-        return false;
+        return $user->hasPermissionTo('delete products')
+            ? Response::allow()
+            : Response::deny('You do not have permission to delete products.');
     }
 }
