@@ -45,6 +45,8 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'delete locations']);
         Permission::create(['name' => 'view locations']);
 
+        Permission::create(['name' => 'view company settings']);
+
         // create roles and assign created permissions
         $role = Role::create(['name' => 'manager']);
         $role->givePermissionTo(Permission::all());

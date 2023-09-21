@@ -61,21 +61,23 @@ export default function UserDropdown() {
                                 </a>
                             )}
                         </Menu.Item>
-                        <Menu.Item>
-                            {({ active }) => (
-                                <a
-                                    href={route("profile.edit")}
-                                    className={classNames(
-                                        active
-                                            ? "bg-gray-100 text-gray-900"
-                                            : "text-gray-700",
-                                        "block px-4 py-2 text-sm"
-                                    )}
-                                >
-                                    Company settings
-                                </a>
-                            )}
-                        </Menu.Item>
+                        {auth.user.can.includes("view company settings") && (
+                            <Menu.Item>
+                                {({ active }) => (
+                                    <a
+                                        href={route("profile.edit")}
+                                        className={classNames(
+                                            active
+                                                ? "bg-gray-100 text-gray-900"
+                                                : "text-gray-700",
+                                            "block px-4 py-2 text-sm"
+                                        )}
+                                    >
+                                        Company settings
+                                    </a>
+                                )}
+                            </Menu.Item>
+                        )}
                     </div>
                     <div className="py-1">
                         <form method="POST" onSubmit={signOut}>
