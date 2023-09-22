@@ -52,11 +52,10 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        $user->load('roles');
-        dd($user);
         return Inertia::render('User/Edit', [
-            'user' => $user,
-            'status' => session('status')
+            'user' => ['data' => $user, 'role' => $user->getRoleNames()->first()],
+            'status' => session('status'),
+            'roles' => Role::all()->map->only(['id', 'name'])
         ]);
     }
 
@@ -65,16 +64,23 @@ class UserController extends Controller
         $request->validate([
             'name' => ['string', 'max:255'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($user)],
+            'role' => ['string', Rule::in(['manager', 'employee'])],
         ]);
 
-        $user->update($request->all());
+        $user->update($request->only(['name', 'email']));
 
-        return redirect()->route('users.index', $user)->with('status', 'User updated.');
+        $role = Role::where('name', $request->input('role'))->first();
+
+        if ($role) {
+            $user->syncRoles([$role->name]);
+        }
+
+        return redirect()->route('users.index')->with('status', 'User updated.');
     }
+
 
     public function show(User $user)
     {
-        dd($user->getAllPermissions());
         $user->load('locations', 'jobTitles', 'departments');
         $userData = [];
         $userData = $user->only(['id', 'name', 'email']);

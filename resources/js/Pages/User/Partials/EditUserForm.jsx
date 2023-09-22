@@ -6,7 +6,7 @@ import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { Transition } from "@headlessui/react";
 
-export default function EditUserForm({ className = "", user }) {
+export default function EditUserForm({ className = "", user, roles }) {
     const {
         data,
         setData,
@@ -16,15 +16,16 @@ export default function EditUserForm({ className = "", user }) {
         processing,
         recentlySuccessful,
     } = useForm({
-        name: user.name,
-        email: user.email,
+        name: user.data.name,
+        email: user.data.email,
+        role: user.role,
         _method: "PATCH",
     });
 
     const saveUser = (e) => {
         e.preventDefault();
 
-        post(route("users.update", user), {
+        post(route("users.update", user.data), {
             preserveScroll: true,
             onSuccess: () => reset(),
             onError: (errors) => {
@@ -65,6 +66,29 @@ export default function EditUserForm({ className = "", user }) {
 
                     <InputError message={errors.email} className="mt-2" />
                 </div>
+
+                <div>
+                    <InputLabel htmlFor="role" value="Role" />
+
+                    <select
+                        id="role"
+                        value={data.role}
+                        onChange={(e) => setData("role", e.target.value)}
+                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    >
+                        <option value="" disabled>
+                            Select a role
+                        </option>
+                        {roles.map((role) => (
+                            <option key={role.id} value={role.name}>
+                                {role.name}
+                            </option>
+                        ))}
+                    </select>
+
+                    <InputError message={errors.role} className="mt-2" />
+                </div>
+
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save
