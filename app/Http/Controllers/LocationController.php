@@ -16,8 +16,9 @@ class LocationController extends Controller
 
     public function index()
     {
+        $locations = Location::orderBy('created_at', 'desc')->get();
         return Inertia::render('Location/Index', [
-            'locations' => Location::paginate(10),
+            'locations' => $locations->map->only('id', 'name'),
         ]);
 
     }
