@@ -19,7 +19,11 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(10);
+        $users = User::orderBy('created_at', 'desc')->with(['departments', 'locations', 'jobTitles'])->get();
+        $users->map(function ($user) {
+            $user->role = $user->getRoleNames()->first();
+            return $user;
+        });
 
         return Inertia::render('User/Index', [
             'users' => $users,

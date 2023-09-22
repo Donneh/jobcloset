@@ -36,9 +36,9 @@ class LocationController extends Controller
         return redirect()->route('locations.index');
     }
 
-    public function show($id)
+    public function show(Location $location)
     {
-        $location = Location::find($id)->load('users');
+        $location->load('users');
         $users = User::all();
         return Inertia::render('Location/Show', [
             'location' => $location,

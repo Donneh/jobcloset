@@ -11,7 +11,7 @@ class JobTitleController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(JobTitle::class, 'jobTitle');
+        $this->authorizeResource(JobTitle::class, 'job_title');
     }
 
     public function index()
