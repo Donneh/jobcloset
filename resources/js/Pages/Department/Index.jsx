@@ -55,7 +55,7 @@ export default function Index({ auth, departments }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {departments.data.map((department) => (
+                                {departments.map((department) => (
                                     <tr key={department.id}>
                                         <td className="px-3 py-4 text-sm">
                                             <Link
@@ -90,20 +90,6 @@ export default function Index({ auth, departments }) {
                                 ))}
                             </tbody>
                         </table>
-
-                        <div className={"mt-6"}>
-                            {departments.links.map((link) => (
-                                <Link
-                                    href={link.url}
-                                    key={link.label}
-                                    className={
-                                        "px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                    }
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>

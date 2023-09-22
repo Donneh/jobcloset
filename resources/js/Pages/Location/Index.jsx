@@ -55,7 +55,7 @@ export default function Index({ auth, locations }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {locations.data.map((location) => (
+                                {locations.map((location) => (
                                     <tr key={location.id}>
                                         <td className="px-3 py-4 text-sm">
                                             <Link
@@ -90,20 +90,6 @@ export default function Index({ auth, locations }) {
                                 ))}
                             </tbody>
                         </table>
-
-                        <div className={"mt-6"}>
-                            {locations.links.map((link) => (
-                                <Link
-                                    href={link.url}
-                                    key={link.label}
-                                    className={
-                                        "px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                    }
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>
