@@ -6,7 +6,9 @@ import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 export default function Index({ items, total }) {
     const { auth } = usePage().props;
-    const { post, delete: destroy } = useForm();
+    const { post, delete: destroy } = useForm({
+        cartItems: items,
+    });
 
     console.log(items);
     const addOneToCart = (e, item) => {
@@ -26,6 +28,12 @@ export default function Index({ items, total }) {
         destroy(route("cart.destroy", item.id), {
             _method: "delete",
         });
+    };
+
+    const placeOrder = (e) => {
+        e.preventDefault();
+        // console.log(items);
+        post(route("cart.checkout"));
     };
 
     return (
@@ -228,12 +236,14 @@ export default function Index({ items, total }) {
                                 </dl>
 
                                 <div className="mt-6">
-                                    <PrimaryButton
-                                        type="submit"
-                                        className="w-full flex text-center justify-center py-4"
-                                    >
-                                        Checkout
-                                    </PrimaryButton>
+                                    <form onSubmit={placeOrder}>
+                                        <PrimaryButton
+                                            type="submit"
+                                            className="w-full flex text-center justify-center py-4"
+                                        >
+                                            Checkout
+                                        </PrimaryButton>
+                                    </form>
                                 </div>
                             </section>
                         </div>
