@@ -30,9 +30,12 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return array_merge(parent::share($request), [
+        $sharedData = [
             'auth' => [
-                'user' => $request->user(),
+                'user' => [
+                    'data' => $request->user(),
+                    'can' => null,
+                ],
             ],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
@@ -43,6 +46,13 @@ class HandleInertiaRequests extends Middleware
                 'message' => fn() => $request->session()->get('message')
             ],
             'cart' => fn() => $request->session()->get('cart'),
-        ]);
+        ];
+
+        if ($request->user()) {
+            $sharedData['auth']['user']['can'] = fn() => $request->user()->getAllPermissions()->pluck('name');
+        }
+
+        return array_merge(parent::share($request), $sharedData);
     }
+
 }

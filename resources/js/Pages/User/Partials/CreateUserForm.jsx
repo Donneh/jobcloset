@@ -1,14 +1,12 @@
-import { useRef } from "react";
 import { useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { Transition } from "@headlessui/react";
-import TextareaInput from "@/Components/TextareaInput.jsx";
-import FileInput from "@/Components/FileInput.jsx";
+import Select from "react-select";
 
-export default function CreateUserForm({ className = "" }) {
+export default function CreateUserForm({ className = "", roles }) {
     const {
         data,
         setData,
@@ -22,11 +20,13 @@ export default function CreateUserForm({ className = "" }) {
         name: "",
         email: "",
         password: "",
+        role: "",
     });
 
     const createUser = (e) => {
         e.preventDefault();
 
+        console.log(data);
         post(route("users.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
@@ -80,6 +80,29 @@ export default function CreateUserForm({ className = "" }) {
 
                     <InputError message={errors.password} className="mt-2" />
                 </div>
+
+                <div>
+                    <InputLabel htmlFor="role" value="Role" />
+
+                    <select
+                        id="role"
+                        value={data.role}
+                        onChange={(e) => setData("role", e.target.value)}
+                        className="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    >
+                        <option value="" disabled>
+                            Select a role
+                        </option>
+                        {roles.map((role) => (
+                            <option key={role.id} value={role.name}>
+                                {role.name}
+                            </option>
+                        ))}
+                    </select>
+
+                    <InputError message={errors.role} className="mt-2" />
+                </div>
+
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save

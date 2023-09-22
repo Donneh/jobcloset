@@ -3,7 +3,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import CreateUserForm from "@/Pages/User/Partials/CreateUserForm.jsx";
 
-export default function Create({ auth, mustVerifyEmail, status }) {
+export default function Create({ auth, mustVerifyEmail, status, roles }) {
+    console.log(roles);
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -31,6 +32,7 @@ export default function Create({ auth, mustVerifyEmail, status }) {
                         <CreateUserForm
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
+                            roles={roles}
                             className="max-w-xl"
                         />
                     </div>

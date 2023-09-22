@@ -1,7 +1,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import EditUserForm from "@/Pages/User/Partials/EditUserForm.jsx";
-export default function Edit({ auth, mustVerifyEmail, status, user }) {
+export default function Edit({ auth, mustVerifyEmail, status, user, roles }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -30,6 +30,7 @@ export default function Edit({ auth, mustVerifyEmail, status, user }) {
                             mustVerifyEmail={mustVerifyEmail}
                             status={status}
                             user={user}
+                            roles={roles}
                             className="max-w-xl"
                         />
                     </div>
