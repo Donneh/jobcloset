@@ -27,6 +27,7 @@ class UserRequest extends FormRequest
             'name' => ['string', 'max:255'],
             'email' => ['email', 'max:255', Rule::unique(User::class)],
             'password' => ['string', 'min:8'],
+            'role' => ['string', 'max:255', Rule::in(['manager', 'employee'])],
         ];
     }
 }

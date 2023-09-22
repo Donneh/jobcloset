@@ -49,6 +49,30 @@ export default function Index({ auth, users }) {
                                     </th>
                                     <th
                                         scope="col"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                    >
+                                        Role
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                    >
+                                        Departments
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                    >
+                                        Job Titles
+                                    </th>
+                                    <th
+                                        scope="col"
+                                        className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+                                    >
+                                        Locations
+                                    </th>
+                                    <th
+                                        scope="col"
                                         className="relative py-3.5 pl-3 pr-4 sm:pr-0"
                                     >
                                         <span className="sr-only">Edit</span>
@@ -62,7 +86,7 @@ export default function Index({ auth, users }) {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {users.data.map((user) => (
+                                {users.map((user) => (
                                     <tr key={user.id}>
                                         <td className="px-3 py-4 text-sm">
                                             <Link
@@ -78,6 +102,44 @@ export default function Index({ auth, users }) {
                                         <td className="whitespace-nowrap px-3 py-4 text-sm">
                                             {user.email}
                                         </td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                            {user.role}
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                            {user.departments.map(
+                                                (department) => (
+                                                    <span
+                                                        key={department.id}
+                                                        className="inline-flex items-center px-2 py-1 border-1 border rounded text-s font-medium bg-gray-100 text-gray-800 mr-1"
+                                                    >
+                                                        {department.name}
+                                                    </span>
+                                                )
+                                            )}
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                            {user.job_titles.map(
+                                                (job_title) => (
+                                                    <span
+                                                        key={job_title.id}
+                                                        className="inline-flex items-center px-2 py-1 border-1 border rounded text-s font-medium bg-gray-100 text-gray-800 mr-1"
+                                                    >
+                                                        {job_title.name}
+                                                    </span>
+                                                )
+                                            )}
+                                        </td>
+                                        <td className="whitespace-nowrap px-3 py-4 text-sm">
+                                            {user.locations.map((location) => (
+                                                <span
+                                                    key={location.id}
+                                                    className="inline-flex items-center px-2 py-1 border-1 border rounded text-s font-medium bg-gray-100 text-gray-800 mr-1"
+                                                >
+                                                    {location.name}
+                                                </span>
+                                            ))}
+                                        </td>
+
                                         <td className="px-3 py-4 text-sm">
                                             <Link
                                                 href={route(
@@ -98,20 +160,6 @@ export default function Index({ auth, users }) {
                                 ))}
                             </tbody>
                         </table>
-
-                        <div className={"mt-6"}>
-                            {users.links.map((link) => (
-                                <Link
-                                    href={link.url}
-                                    key={link.label}
-                                    className={
-                                        "px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                    }
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>
