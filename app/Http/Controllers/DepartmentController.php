@@ -19,10 +19,10 @@ class DepartmentController extends Controller
 
     public function index()
     {
-        $departments = Department::orderBy('created_at', 'desc')->paginate(10);
+        $departments = Department::orderBy('created_at', 'desc')->get();
 
         return Inertia::render('Department/Index', [
-            'departments' => $departments,
+            'departments' => $departments->map->only('id', 'name'),
         ]);
     }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
@@ -45,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
     Route::post('/cart/{product}', [CartController::class, 'store'])->name('cart.store');
     Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
@@ -66,5 +68,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/locations/{location}/users', [LocationController::class, 'removeUser'])->name('locations.removeUser');
 
 });
+
+
+Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');
+Route::get('/test', function () {
+    dd("test");
+})->name('test');
+Route::post("payments/{clientLey}", function () {
+    return "test";
+})->name("payments.redirect");
 
 require __DIR__.'/auth.php';

@@ -16,8 +16,9 @@ class JobTitleController extends Controller
 
     public function index()
     {
+        $jobTitles = JobTitle::orderBy('created_at', 'desc')->get();
         return Inertia::render('JobTitle/Index', [
-            'jobTitles' => JobTitle::paginate(10),
+            'jobTitles' => $jobTitles->map->only('id', 'name'),
         ]);
     }
 
