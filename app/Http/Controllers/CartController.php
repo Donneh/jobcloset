@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Adyen\AdyenException;
 use Adyen\Client;
 use Adyen\Model\Checkout\Amount;
 use Adyen\Model\Checkout\CheckoutPaymentMethod;
+use Adyen\Model\Checkout\CreateCheckoutSessionRequest;
+use Adyen\Model\Checkout\CreateCheckoutSessionResponse;
 use Adyen\Model\Checkout\PaymentRequest;
 use Adyen\Service\Checkout\PaymentsApi;
 use App\Models\Product;
 use App\Services\CartService;
+use Brick\Math\Exception\MathException;
 use Brick\Money\Money;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -45,38 +49,37 @@ class CartController extends Controller
         return Redirect::route('cart.index')->with('message', 'Product removed successfully!');
     }
 
+    /**
+     * @throws AdyenException
+     * @throws MathException
+     */
     public function checkout(Request $request)
     {
         $client = new Client();
-        $client->setXApiKey("AQEnhmfuXNWTK0Qc+iScu0sPouafTZhECp1BoQu5ME23whtIkNPjok3jEMFdWw2+5HzctViMSCJMYAc=-HQHoz+nKFCikwIKwnQOxsx3dJhrJLg+AAyYR5VzKZew=-2y#<T_n5QCG(m)Jn");
+        $client->setApplicationName(config("adyen.application_name"));
         $client->setEnvironment(\Adyen\Environment::TEST);
-        $client->setTimeout(30);
+        $client->setXApiKey(config("adyen.api_key"));
 
         $service = new PaymentsApi($client);
-        $requestOptions['idempotencyKey'] = uniqid();
 
-        $paymentMethod = new CheckoutPaymentMethod();
-        $paymentMethod->setType("scheme")
-            ->setEncryptedCardNumber("test_4111111111111111")
-            ->setEncryptedExpiryMonth("test_03")
-            ->setEncryptedExpiryYear("test_2030")
-            ->setEncryptedSecurityCode("test_737")
-            ->setHolderName("John Smith");
-
+        $checkoutRequest = new CreateCheckoutSessionRequest();
+        $cartTotal = CartService::getCartTotal()->getMinorAmount()->toInt();
         $amount = new Amount();
-        $amount->setCurrency("EUR")
-            ->setValue(CartService::getCartTotal()->getMinorAmount()->toInt());
+        $amount->setCurrency("EUR");
+        $amount->setValue($cartTotal);
+        $checkoutRequest->setAmount($amount);
+        $checkoutRequest->setMerchantAccount(config("adyen.merchant_account"));
+        $checkoutRequest->setReturnUrl("https://jobcloset.test/shop");
+        $checkoutRequest->setReference("123123");
+        $checkoutRequest->setCountryCode("NL");
 
-        $paymentRequest = new PaymentRequest();
-        $paymentRequest->setAmount($amount)
-            ->setReference("YOUR_ORDER_NUMBER")
-            ->setPaymentMethod($paymentMethod)
-            ->setReturnUrl("https://your-company.com/checkout?shopperOrder=12xy..")
-            ->setMerchantAccount("LIOWebdesignECOM");
+        $response = $service->sessions($checkoutRequest);
 
-        $result = $service->payments($paymentRequest, $requestOptions);
-
-        dd($result);
-        return true;
+        return Inertia::render('Checkout/Index', [
+            'items' => CartService::getCart(),
+            'sessionId' => $response->getId(),
+            'sessionData' => $response->getSessionData(),
+            'total' => CartService::getCartTotal(),
+        ]);
     }
 }
