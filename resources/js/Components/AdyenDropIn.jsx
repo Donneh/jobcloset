@@ -13,9 +13,8 @@ export default function AdyenDropIn({ sessionId, sessionData }) {
             clientKey: "test_3DAUFMPMJJBOBKMSFWXW2T57ZA674CG3", // Load your Adyen client key from .env or config
             environment: "test", // Load your Adyen environment from .env or config
             locale: "nl-NL",
-
             onPaymentCompleted(data, element) {
-                console.log("payment complete");
+                console.log(data, element);
             },
             onError(error, element) {
                 console.error("error", error);
@@ -31,7 +30,19 @@ export default function AdyenDropIn({ sessionId, sessionData }) {
         }
     };
 
-    createCheckout();
+    useEffect(() => {
+        createCheckout();
+
+        return () => {
+            if (paymentContainer.current) {
+                paymentContainer.current.innerHTML = "";
+            }
+
+            console.log("unmount");
+
+            // cleanup
+        };
+    }, []);
 
     return (
         <div id="payment-container">

@@ -64,7 +64,7 @@ export default function CreateProductForm({ className = "" }) {
                         value={data.price}
                         onChange={(e) => setData("price", e.target.value)}
                         type="number"
-                        min="1"
+                        min="0"
                         step="any"
                         className="mt-1 block w-full"
                     />

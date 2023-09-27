@@ -71,26 +71,26 @@ export default function Index({ items, total, sessionId, sessionData }) {
                                         </div>
                                     </dl>
 
-                                    <div className="mt-6">
-                                        <form onSubmit={placeOrder}>
-                                            <PrimaryButton
-                                                type="submit"
-                                                className="w-full flex text-center justify-center py-4"
-                                            >
-                                                Checkout
-                                            </PrimaryButton>
-                                        </form>
-                                    </div>
+                                    {(sessionData && (
+                                        <section className={"mt-4"}>
+                                            <AdyenDropIn
+                                                sessionId={sessionId}
+                                                sessionData={sessionData}
+                                            />
+                                        </section>
+                                    )) || (
+                                        <div className="mt-6">
+                                            <form onSubmit={placeOrder}>
+                                                <PrimaryButton
+                                                    type="submit"
+                                                    className="w-full flex text-center justify-center py-4"
+                                                >
+                                                    Checkout
+                                                </PrimaryButton>
+                                            </form>
+                                        </div>
+                                    )}
                                 </section>
-
-                                {sessionData && (
-                                    <section>
-                                        <AdyenDropIn
-                                            sessionId={sessionId}
-                                            sessionData={sessionData}
-                                        />
-                                    </section>
-                                )}
                             </div>
                         </div>
                     </div>
