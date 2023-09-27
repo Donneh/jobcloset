@@ -1,9 +1,13 @@
 import AdyenCheckout from "@adyen/adyen-web";
 import "@adyen/adyen-web/dist/adyen.css";
 import { useEffect, useRef } from "react";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { usePage } from "@inertiajs/react";
 
-export default function Index({ sessionId, sessionData }) {
-    const paymentContainer = useRef(null);
+export default function Index({ redirectResult, sessionId }) {
+    const { auth } = usePage().props;
+    const paymentResult = useRef(null);
+
     const adyenConfig = {
         environment: "test",
         clientKey: "test_3DAUFMPMJJBOBKMSFWXW2T57ZA674CG3",
@@ -12,9 +16,9 @@ export default function Index({ sessionId, sessionData }) {
         },
         session: {
             id: sessionId,
-            sessionData: sessionData,
         },
         onPaymentCompleted: (result, component) => {
+            paymentResult.current = result.resultCode;
             console.info(result, component);
         },
         onError: (error, component) => {
@@ -25,27 +29,22 @@ export default function Index({ sessionId, sessionData }) {
     const initiateCheckout = async () => {
         const checkout = new AdyenCheckout(adyenConfig);
 
-        checkout
-            .create("dropin", {
-                onSubmit: (state, dropin) => {
-                    dropin.setStatus("loading");
-                    // makePaymentCall(state.data).then...
-                },
-                onAdditionalDetails: (state, dropin) => {
-                    // makeDetailsCall(state.data).then...
-                },
-            })
-            .mount(paymentContainer);
+        (await checkout).submitDetails({
+            details: { redirectResult: redirectResult },
+        });
     };
 
     useEffect(() => {
         initiateCheckout();
-    }, []);
+    });
 
     return (
-        <div>
-            <h1>Checkout</h1>
-            <div ref={paymentContainer}></div>
-        </div>
+        <AuthenticatedLayout user={auth.user}>
+            <div className="bg-white">
+                <div className="mx-auto max-w-2xl px-4 pb-24 pt-8 sm:px-6 lg:max-w-7xl lg:px-8">
+                    <h1>Result: {paymentResult.current}</h1>
+                </div>
+            </div>
+        </AuthenticatedLayout>
     );
 }

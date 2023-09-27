@@ -71,11 +71,10 @@ Route::middleware('auth')->group(function () {
 
 
 Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');
-Route::get('/test', function () {
-    dd("test");
-})->name('test');
-Route::post("payments/{clientLey}", function () {
-    return "test";
-})->name("payments.redirect");
+
+Route::get('/payment/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
+Route::post('/payment/webhook', function () {
+    return response()->json(['success' => true]);
+})->name('payment.webhook');
 
 require __DIR__.'/auth.php';
