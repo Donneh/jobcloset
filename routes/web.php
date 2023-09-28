@@ -7,7 +7,6 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -73,8 +72,5 @@ Route::middleware('auth')->group(function () {
 Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');
 
 Route::get('/payment/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
-Route::post('/payment/webhook', function () {
-    return response()->json(['success' => true]);
-})->name('payment.webhook');
 
 require __DIR__.'/auth.php';
