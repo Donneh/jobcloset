@@ -2,9 +2,9 @@ import AdyenCheckout from "@adyen/adyen-web";
 import "@adyen/adyen-web/dist/adyen.css";
 import { useEffect, useRef } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
-export default function Index({ redirectResult, sessionId }) {
+export default function Index({ sessionId, redirectResult }) {
     const { auth } = usePage().props;
     const paymentResult = useRef(null);
 
@@ -18,8 +18,10 @@ export default function Index({ redirectResult, sessionId }) {
             id: sessionId,
         },
         onPaymentCompleted: (result, component) => {
-            paymentResult.current = result.resultCode;
-            console.info(result, component);
+            router.visit(
+                route("cart.checkout.status", { status: result.resultCode })
+            );
+            // console.info(result, component);
         },
         onError: (error, component) => {
             console.error(error.name, error.message, error.stack, component);
