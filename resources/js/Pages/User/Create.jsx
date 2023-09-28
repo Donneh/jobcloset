@@ -21,7 +21,7 @@ export default function Create({ auth, mustVerifyEmail, status, roles }) {
                     <div className="p-4 sm:p-8 bg-white w-full shadow sm:rounded-lg">
                         <header>
                             <h2 className="text-lg font-medium text-gray-900">
-                                Create Product
+                                Create User
                             </h2>
 
                             <p className="mt-1 text-sm text-gray-600">

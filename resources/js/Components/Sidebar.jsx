@@ -19,8 +19,6 @@ export default function Sidebar() {
     return (
         <aside className="w-64 h-screen p-2 hidden md:block sticky top-0">
             <div className="bg-gray-950 h-full w-full rounded-xl px-4 py-8 flex flex-col">
-                <ApplicationLogo className="w-16 h-16 fill-white" />
-
                 <nav className="mt-8 space-y-2 w-full">
                     <NavLink
                         href={route("dashboard")}
