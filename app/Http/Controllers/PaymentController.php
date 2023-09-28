@@ -16,6 +16,8 @@ use http\Message\Body;
 use Illuminate\Http\Request;
 use Illuminate\Log\Logger;
 use Inertia\Inertia;
+use Log;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class PaymentController extends Controller
 {
@@ -30,11 +32,13 @@ class PaymentController extends Controller
     public function create()
     {
         try {
-            $amount = new Amount([
-                'currency' => 'EUR',
-                'value' => CartService::getCartTotal()->getMinorAmount()->toInt(),
-            ]);
-            $request = $this->paymentService->createCheckoutRequest($amount);
+
+            $order = $this->createOrder();
+
+            $this->attachCartItemsToOrder($order);
+
+            $request = $this->paymentService->createCheckoutRequest($order, $this->getOrderAmount());
+
             $response = $this->paymentService->createPaymentSession($request);
 
             return Inertia::render('Cart/Index', [
@@ -49,6 +53,43 @@ class PaymentController extends Controller
         }
     }
 
+    private function createOrder()
+    {
+        $user = auth()->user();
+        $order = new Order([
+            'number' => 'ORD-' . uuid_create() . '-' . $user->id,
+            'status' => 'pending',
+            'payment_method' => 'adyen',
+            'payment_status' => 'pending',
+            'payment_reference' => 'pending',
+        ]);
+        $order->user()->associate($user);
+        $order->save();
+
+        return $order;
+    }
+
+    private function attachCartItemsToOrder($order)
+    {
+        $cartItems = CartService::getCart();
+
+        foreach ($cartItems as $cartItem) {
+            $order->products()->attach($cartItem['product'], [
+                'quantity' => $cartItem['quantity'],
+                'price' => $cartItem['product']->price->getMinorAmount()->toInt(),
+            ]);
+        }
+    }
+
+    private function getOrderAmount()
+    {
+        return new Amount([
+            'currency' => 'EUR',
+            'value' => CartService::getCartTotal()->getMinorAmount()->toInt(),
+        ]);
+    }
+
+
     public function redirect(Request $request)
     {
         return Inertia::render('Checkout/Redirect', [
@@ -57,8 +98,37 @@ class PaymentController extends Controller
         ]);
     }
 
-    public function webhook()
+    public function webhook(Request $request)
     {
+        Log::info('Webhook received');
+        Log::info($request->getContent());
+        Log::info('Webhook received');
+        Log::info($request);
+
+        $order = Order::where('number', $request->merchantReference)->firstOrFail();
+        $order->payment_method = $request->paymentMethod;
+        $order->status = $request->success;
+
+        Log::info($order);
+
+        if($request->success == 'true') {
+            Log::info('Payment successful');
+            $order->payment_status = 'paid';
+            $order->payment_reference = $request->pspReference;
+            // Subtract stock from products ordered
+            foreach ($order->products as $product) {
+                Log::info("quantity: " . $product->pivot->quantity);
+                $product->stock = $product->stock - $product->pivot->quantity;
+                $product->save();
+                CartService::clearCart();
+            }
+        } else {
+            Log::info('Payment failed');
+            $order->payment_status = 'failed';
+            $order->payment_reference = $request->reason;
+        }
+
+        $order->save();
         return response()->json('[accepted]');
     }
 }
