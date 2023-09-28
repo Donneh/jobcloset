@@ -123,20 +123,6 @@ export default function Index({ auth, products }) {
                                 ))}
                             </tbody>
                         </table>
-
-                        <div className={"mt-6"}>
-                            {products.links.map((link) => (
-                                <Link
-                                    href={link.url}
-                                    key={link.label}
-                                    className={
-                                        "px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50"
-                                    }
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </div>
                     </div>
                 </div>
             </div>
