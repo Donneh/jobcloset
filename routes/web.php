@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
+    Route::get("/cart/checkout/{status}", [CartController::class, 'checkoutStatus'])->name("cart.checkout.status");
     Route::post('/cart/{product}', [CartController::class, 'store'])->name('cart.store');
     Route::delete('/cart/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
     Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
@@ -66,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/locations/{location}/users', [LocationController::class, 'addUser'])->name('locations.addUser');
     Route::delete('/locations/{location}/users', [LocationController::class, 'removeUser'])->name('locations.removeUser');
 
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 });
 
 

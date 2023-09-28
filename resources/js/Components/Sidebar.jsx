@@ -2,6 +2,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
 import NavLink from "@/Components/NavLink.jsx";
 import {
     BriefcaseIcon,
+    CreditCardIcon,
     CubeIcon,
     GiftIcon,
     GlobeAltIcon,
@@ -91,6 +92,17 @@ export default function Sidebar() {
                         >
                             <GlobeAltIcon className="w-6 h-6 mr-2" />
                             <span>Locations</span>
+                        </NavLink>
+                    )}
+
+                    {auth.user.can.includes("view locations") && (
+                        <NavLink
+                            href={route("orders.index")}
+                            className=""
+                            active={route().current("orders.*")}
+                        >
+                            <CreditCardIcon className="w-6 h-6 mr-2" />
+                            <span>Orders</span>
                         </NavLink>
                     )}
                 </nav>

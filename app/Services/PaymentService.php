@@ -26,12 +26,12 @@ class PaymentService
         $this->paymentsApi = new PaymentsApi($this->client);
     }
 
-    public function createCheckoutRequest(Amount $totalPrice)
+    public function createCheckoutRequest(Order $order, Amount $totalPrice)
     {
         $checkoutRequest = new CreateCheckoutSessionRequest();
         $checkoutRequest->setAmount($totalPrice);
         $checkoutRequest->setMerchantAccount(config('adyen.merchant_account'));
-        $checkoutRequest->setReference(uuid_create());
+        $checkoutRequest->setReference($order->number);
         $checkoutRequest->setReturnUrl("https://jobcloset.test/payment/redirect");
         $checkoutRequest->setCountryCode('BE');
         $checkoutRequest->setShopperLocale('nl-BE');

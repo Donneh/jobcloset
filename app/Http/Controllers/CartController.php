@@ -82,4 +82,11 @@ class CartController extends Controller
             'total' => CartService::getCartTotal(),
         ]);
     }
+
+    public function checkoutStatus($status)
+    {
+        return Inertia::render('Checkout/Status', [
+            'paymentResult' => $status,
+        ]);
+    }
 }
