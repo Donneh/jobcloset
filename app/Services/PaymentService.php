@@ -32,7 +32,7 @@ class PaymentService
         $checkoutRequest->setAmount($totalPrice);
         $checkoutRequest->setMerchantAccount(config('adyen.merchant_account'));
         $checkoutRequest->setReference($order->number);
-        $checkoutRequest->setReturnUrl("https://jobcloset.test/payment/redirect");
+        $checkoutRequest->setReturnUrl(config('app.url') . "payment/redirect");
         $checkoutRequest->setCountryCode('BE');
         $checkoutRequest->setShopperLocale('nl-BE');
         $checkoutRequest->setShopperEmail(auth()->user()->email);
