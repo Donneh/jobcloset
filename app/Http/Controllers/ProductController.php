@@ -44,7 +44,6 @@ class ProductController extends Controller
             'price' => Money::of($validatedData['price'], 'EUR'),
             'stock' => $validatedData['stock'],
             'description' => $validatedData['description'],
-            'image_path' => $validatedData['image_path'],
         ]);
 
         return Redirect::route('products.edit', $product)->with([

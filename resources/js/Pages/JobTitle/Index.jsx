@@ -7,7 +7,7 @@ import MainCard from "@/Components/MainCard.jsx";
 
 export default function Index({ auth, jobTitles }) {
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <AuthenticatedLayout user={auth.user} pageTitle={"Job titles"}>
             <MainCard>
                 <MainCardHeader title={"Job Titles"} />
                 <div className="mt-6">
