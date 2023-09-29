@@ -5,7 +5,6 @@ export default function CartButton({ className }) {
     const cart = usePage().props.cart;
     let totalQuantity = 0;
 
-    console.log(cart);
     if (cart) {
         Object.values(cart).forEach((item) => {
             totalQuantity += item.quantity;
@@ -20,7 +19,7 @@ export default function CartButton({ className }) {
             >
                 <div
                     className={
-                        "absolute bg-violet-700 text-white rounded-full h-5 w-5 flex justify-center items-center text-xs -right-1 top-0"
+                        "absolute bg-violet-700 text-white rounded-full h-5 w-5 flex justify-center items-center text-xs -right-0 top-0"
                     }
                 >
                     {totalQuantity}

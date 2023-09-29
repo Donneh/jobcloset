@@ -68,7 +68,6 @@ class CartService
     public static function getCartTotal()
     {
         $cart = session()->get('cart');
-//        dd($cart);
         $total = Money::of(0, 'EUR');
         if ($cart) {
             foreach ($cart as $id => $item) {

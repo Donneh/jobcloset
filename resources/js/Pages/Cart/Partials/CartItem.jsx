@@ -27,10 +27,11 @@ export default function CartItem({ item }) {
 
     return (
         <div key={item.product.id} className="flex py-6 sm:py-10">
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 rounded-lg bg-gray-200">
                 <img
                     src={item.product.image_path}
                     className="h-24 w-24 rounded-md object-cover object-center sm:h-48 sm:w-48"
+                    alt={item.product.name}
                 />
             </div>
 

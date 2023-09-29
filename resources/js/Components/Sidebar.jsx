@@ -21,15 +21,6 @@ export default function Sidebar() {
             <div className="bg-gray-950 h-full w-full rounded-xl px-4 py-8 flex flex-col">
                 <nav className="mt-8 space-y-2 w-full">
                     <NavLink
-                        href={route("dashboard")}
-                        className=""
-                        active={route().current("dashboard")}
-                    >
-                        <HomeIcon className="w-6 h-6 mr-2" />
-                        <span>Dashboard</span>
-                    </NavLink>
-
-                    <NavLink
                         href={route("shop.index")}
                         className=""
                         active={route().current("shop.*")}

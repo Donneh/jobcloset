@@ -5,15 +5,13 @@ export default function ProductGrid({ products }) {
     const { post } = useForm();
     const addToCart = (e, product) => {
         e.preventDefault();
-        console.log("Add to cart");
-        console.log(product);
         post(route("cart.store", product), {
             preserveScroll: true,
         });
     };
 
     return (
-        <div className="-mx-px grid grid-cols-2 border-l border-gray-200 border-t  mt-8 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
+        <div className="-mx-px grid grid-cols-2 border-l border-gray-200 mt-8 sm:mx-0 md:grid-cols-3 lg:grid-cols-4">
             {products.map((product) => (
                 <div
                     key={product.id}
