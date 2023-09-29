@@ -11,6 +11,11 @@ class CompanySettingsController extends Controller
     public function index()
     {
         $company = auth()->user()->tenant->company;
+        if(!$company) {
+            $company = new Company();
+            $company->name = auth()->user()->tenant->name;
+            $company->save();
+        }
         return Inertia::render('CompanySettings/Index', [
             'company' => $company,
         ]);
