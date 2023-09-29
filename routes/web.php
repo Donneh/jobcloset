@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CompanySettingsController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\JobTitleController;
 use App\Http\Controllers\LocationController;
@@ -69,6 +70,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/locations/{location}/users', [LocationController::class, 'removeUser'])->name('locations.removeUser');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+
+    Route::get('/company-settings', [CompanySettingsController::class, 'index'])->name('company-settings.index');
+    Route::patch('/company-settings/adyen', [CompanySettingsController::class, 'adyen'])->name('company-settings.adyen');
 });
 
 

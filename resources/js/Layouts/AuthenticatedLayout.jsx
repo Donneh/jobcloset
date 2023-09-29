@@ -2,8 +2,9 @@ import { useState } from "react";
 import Sidebar from "@/Components/Sidebar.jsx";
 import ResponsiveNavbar from "@/Components/ResponsiveNavbar.jsx";
 import FlashMessage from "@/Components/FlashMessage.jsx";
+import { Head } from "@inertiajs/react";
 
-export default function Authenticated({ children }) {
+export default function AuthenticatedLayout({ pageTitle, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
@@ -11,6 +12,7 @@ export default function Authenticated({ children }) {
 
     return (
         <div className="min-h-screen md:flex max-w-screen-2xl mx-auto">
+            <Head title={pageTitle} />
             <Sidebar />
 
             <ResponsiveNavbar />

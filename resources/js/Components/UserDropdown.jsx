@@ -64,7 +64,7 @@ export default function UserDropdown() {
                             <Menu.Item>
                                 {({ active }) => (
                                     <a
-                                        href={route("profile.edit")}
+                                        href={route("company-settings.index")}
                                         className={classNames(
                                             active
                                                 ? "bg-gray-100 text-gray-900"
