@@ -23,7 +23,6 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $this->authorize('update', $product);
-        $product->image_path = Storage::url($product->image_path);
         return Inertia::render('Product/Edit', [
             'product' => $product,
         ]);
@@ -37,6 +36,8 @@ class ProductController extends Controller
             Storage::delete('public/' . $product->image_path);
             $path = $request->file('image_path')->store('/products', 'public');
             $validatedData['image_path'] = $path;
+        } else {
+            $validatedData['image_path'] = $product->image_path;
         }
 
         $product->update([

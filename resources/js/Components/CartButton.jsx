@@ -5,7 +5,6 @@ export default function CartButton({ className }) {
     const cart = usePage().props.cart;
     let totalQuantity = 0;
 
-    console.log(cart);
     if (cart) {
         Object.values(cart).forEach((item) => {
             totalQuantity += item.quantity;

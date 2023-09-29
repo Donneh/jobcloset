@@ -26,7 +26,6 @@ export default function EditProductForm({ className = "", product }) {
         _method: "PATCH",
     });
 
-    console.log(errors);
     const saveProduct = (e) => {
         e.preventDefault();
 

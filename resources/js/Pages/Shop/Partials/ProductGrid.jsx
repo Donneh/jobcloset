@@ -5,8 +5,6 @@ export default function ProductGrid({ products }) {
     const { post } = useForm();
     const addToCart = (e, product) => {
         e.preventDefault();
-        console.log("Add to cart");
-        console.log(product);
         post(route("cart.store", product), {
             preserveScroll: true,
         });
