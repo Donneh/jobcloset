@@ -69,6 +69,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/company-settings', [CompanySettingsController::class, 'index'])->name('company-settings.index');
     Route::patch('/company-settings/adyen', [CompanySettingsController::class, 'adyen'])->name('company-settings.adyen');
+
+    Route::get('/orders/summary', [OrderController::class, 'summary'])->name('orders.summary');
 });
 
 
