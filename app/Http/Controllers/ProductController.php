@@ -23,7 +23,6 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $this->authorize('update', $product);
-        $product->image_path = Storage::url($product->image_path);
         return Inertia::render('Product/Edit', [
             'product' => $product,
         ]);
