@@ -55,14 +55,6 @@ export default function ResponsiveNavbar() {
                         >
                             <nav className="h-full px-4 py-8 mt-8 space-y-2">
                                 <ResponsiveNavLink
-                                    href={route("dashboard")}
-                                    className=""
-                                    active={route().current("dashboard")}
-                                >
-                                    <HomeIcon className="w-6 h-6 mr-2" />
-                                    <span>Dashboard</span>
-                                </ResponsiveNavLink>
-                                <ResponsiveNavLink
                                     href={route("shop.index")}
                                     className=""
                                     active={route().current("shop.index")}
@@ -106,6 +98,14 @@ export default function ResponsiveNavbar() {
                                 </ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     href={route("locations.index")}
+                                    className=""
+                                    active={route().current("locations.index")}
+                                >
+                                    <GiftIcon className="w-6 h-6 mr-2" />
+                                    <span>Locations</span>
+                                </ResponsiveNavLink>
+                                <ResponsiveNavLink
+                                    href={route("orders.index")}
                                     className=""
                                     active={route().current("locations.index")}
                                 >
