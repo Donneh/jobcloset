@@ -37,6 +37,8 @@ class ProductController extends Controller
             Storage::delete('public/' . $product->image_path);
             $path = $request->file('image_path')->store('/products', 'public');
             $validatedData['image_path'] = $path;
+        } else {
+            $validatedData['image_path'] = $product->image_path;
         }
 
         $product->update([
@@ -44,6 +46,7 @@ class ProductController extends Controller
             'price' => Money::of($validatedData['price'], 'EUR'),
             'stock' => $validatedData['stock'],
             'description' => $validatedData['description'],
+            'image_path' => $validatedData['image_path'],
         ]);
 
         return Redirect::route('products.edit', $product)->with([
