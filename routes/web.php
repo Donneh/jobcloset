@@ -74,7 +74,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');
-
 Route::get('/payment/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
 
 require __DIR__.'/auth.php';
