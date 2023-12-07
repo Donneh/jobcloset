@@ -73,7 +73,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders/summary', [OrderController::class, 'summary'])->name('orders.summary');
 });
 
-
 Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');
 
 Route::get('/payment/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
