@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use Brick\Money\Money;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -61,7 +60,7 @@ class ProductController extends Controller
         $validatedData = $request->validated();
 
         $path = null;
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $path = $request->file('image')->store('/products', 'public');
         }
 
@@ -83,8 +82,7 @@ class ProductController extends Controller
     public function index()
     {
         $this->authorize('viewAny', Product::class);
-        $products = Product::orderBy('created_at', 'desc')->paginate(10);
-
+        $products = Product::orderBy('created_at', 'desc')->get();
         return Inertia::render('Product/Index', [
             'products' => $products,
         ]);

@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Casts\Money;
 use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -13,19 +13,23 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'price',
-        'currency',
         'stock',
         'description',
         'image_path',
     ];
 
-    protected $casts = [
-        'price' => Money::class,
-    ];
-
     public function getImagePathAttribute($value): string
     {
         return \Storage::url($value);
+    }
+
+    public function skus(): HasMany
+    {
+        return $this->hasMany(Sku::class);
+    }
+
+    public function productAttributes(): HasMany
+    {
+        return $this->hasMany(ProductAttribute::class);
     }
 }

@@ -1,4 +1,4 @@
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import DeleteProductForm from "@/Pages/Product/Partials/DeleteProductForm.jsx";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import MainCard from "@/Components/MainCard.jsx";
@@ -40,19 +40,7 @@ export default function Index({ auth, products }) {
                                 scope="col"
                                 className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                             >
-                                Price
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                            >
                                 Description
-                            </th>
-                            <th
-                                scope="col"
-                                className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
-                            >
-                                Stock
                             </th>
                             <th
                                 scope="col"
@@ -69,8 +57,9 @@ export default function Index({ auth, products }) {
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                        {products.data.map((product) => (
+                        {products.map((product) => (
                             <tr key={product.id}>
+                                x{" "}
                                 <td className="px-3 py-4 text-sm">
                                     <img
                                         className="h-16 w-16 rounded-md"
@@ -81,16 +70,16 @@ export default function Index({ auth, products }) {
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                     {product.name}
                                 </td>
-                                <td className="whitespace-nowrap px-3 py-4 text-sm">
-                                    {product.price.currency}{" "}
-                                    {product.price.amount}
-                                </td>
+                                {/*<td className="whitespace-nowrap px-3 py-4 text-sm">*/}
+                                {/*    {product.price.currency}{" "}*/}
+                                {/*    {product.price.amount}*/}
+                                {/*</td>*/}
                                 <td className="px-3 py-4 text-sm">
                                     {product.description}
                                 </td>
-                                <td className="px-3 py-4 text-sm">
-                                    {product.stock}
-                                </td>
+                                {/*<td className="px-3 py-4 text-sm">*/}
+                                {/*    {product.stock}*/}
+                                {/*</td>*/}
                                 <td className="px-3 py-4 text-sm">
                                     <Link
                                         href={route(
