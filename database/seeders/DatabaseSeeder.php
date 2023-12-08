@@ -4,6 +4,10 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Product;
+use App\Models\ProductAttribute;
+use App\Models\Sku;
+use App\Models\SkuProductAttribute;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,9 +17,24 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-         \App\Models\User::factory(10)->create();
+        User::factory(10)->create();
 
-         Product::factory(20)->create(['tenant_id' => 1]);
-         $this->call(RolesAndPermissionsSeeder::class);
+        Product::factory(10)->create()->each(function ($product) {
+            Sku::factory(random_int(1, 2))->create([
+                'product_id' => $product->id
+            ])->each(function ($sku) use ($product) {
+                $attributes = ProductAttribute::factory(random_int(1, 2))->create([
+                    'product_id' => $product->id
+                ]);
+                // For each attribute, create a SkuProductAttribute
+                foreach ($attributes as $attribute) {
+                    SkuProductAttribute::factory()->create([
+                        'sku_id' => $sku->id,
+                        'product_attribute_id' => $attribute->id
+                    ]);
+                }
+            });
+        });
+        $this->call(RolesAndPermissionsSeeder::class);
     }
 }

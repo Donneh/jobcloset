@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { useForm } from "@inertiajs/react";
+import React, { useRef, useState } from "react";
+import { Link, useForm } from "@inertiajs/react";
 import InputLabel from "@/Components/InputLabel.jsx";
 import TextInput from "@/Components/TextInput.jsx";
 import InputError from "@/Components/InputError.jsx";
@@ -7,6 +7,9 @@ import PrimaryButton from "@/Components/PrimaryButton.jsx";
 import { Transition } from "@headlessui/react";
 import TextareaInput from "@/Components/TextareaInput.jsx";
 import FileInput from "@/Components/FileInput.jsx";
+import SecondaryButton from "@/Components/SecondaryButton.jsx";
+import Modal from "@/Components/Modal.jsx";
+import ProductVariantForm from "@/Pages/Product/ProductVariantForm.jsx";
 
 export default function CreateProductForm({ className = "" }) {
     const {
@@ -24,11 +27,29 @@ export default function CreateProductForm({ className = "" }) {
         description: "",
         stock: "",
         image: "",
+        variants: "",
     });
+
+    const [isVariantModalOpen, setVariantModalOpen] = useState(false);
+    const [variantFormData, setVariantFormData] = useState([]);
+
+    const handleVariantFormSubmit = (data) => {
+        setVariantFormData([...variantFormData, data]);
+        setVariantModalOpen(false);
+    };
+
+    const handleVariantDelete = (index) => {
+        const newVariantData = [...variantFormData];
+        newVariantData.splice(index, 1);
+        setVariantFormData(newVariantData);
+    };
 
     const createProduct = (e) => {
         e.preventDefault();
 
+        setData("variants", variantFormData);
+
+        console.log(data);
         post(route("products.store"), {
             preserveScroll: true,
             onSuccess: () => reset(),
@@ -37,7 +58,7 @@ export default function CreateProductForm({ className = "" }) {
     };
 
     return (
-        <section className={className}>
+        <section className={`bg-white text-black ${className}`}>
             <form
                 onSubmit={createProduct}
                 className="mt-6 space-y-6"
@@ -120,6 +141,42 @@ export default function CreateProductForm({ className = "" }) {
                         alt={data.name}
                     />
                 )}
+                <div>
+                    <InputLabel htmlFor={"variations"} value={"Variations"} />
+
+                    <button
+                        type={"button"}
+                        className="py-2 px-4 bg-gray-700 text-white rounded-md hover:bg-gray-800"
+                        onClick={() => setVariantModalOpen(true)}
+                    >
+                        Add variant
+                    </button>
+                </div>
+                <Modal
+                    show={isVariantModalOpen}
+                    onClose={() => setVariantModalOpen(false)}
+                >
+                    <ProductVariantForm onSubmit={handleVariantFormSubmit} />
+                </Modal>
+                {variantFormData.map((variant, variantIndex) => (
+                    <div key={variantIndex}>
+                        {Object.entries(variant).map(([key, values]) => (
+                            <div key={key}>
+                                <strong>{key}</strong>
+                                {values.map((value, valueIndex) => (
+                                    <p key={valueIndex}>- {value}</p>
+                                ))}
+                                <button
+                                    onClick={() =>
+                                        handleVariantDelete(variantIndex)
+                                    }
+                                >
+                                    Delete Variant
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                ))}
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save
@@ -134,7 +191,7 @@ export default function CreateProductForm({ className = "" }) {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <span className="text-green-500">Saved!</span>
+                        <span className="text-gray-800">Saved!</span>
                     </Transition>
                 </div>
             </form>

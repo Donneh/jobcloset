@@ -6,9 +6,9 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Sku>
  */
-class ProductFactory extends Factory
+class SkuFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +18,11 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
-            'description' => $this->faker->paragraph(),
-            'image_path' => $this->faker->imageUrl(),
+            'product_id' => Product::factory(),
+            'sku' => $this->faker->asciify('******'),
+            'currency' => 'EUR',
+            'price' => $this->faker->randomNumber(4),
+            'stock' => $this->faker->randomNumber(2),
             'tenant_id' => $this->faker->numberBetween(1, 10),
         ];
     }
