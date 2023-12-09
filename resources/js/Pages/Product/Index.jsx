@@ -59,7 +59,6 @@ export default function Index({ auth, products }) {
                     <tbody className="divide-y divide-gray-200">
                         {products.map((product) => (
                             <tr key={product.id}>
-                                x{" "}
                                 <td className="px-3 py-4 text-sm">
                                     <img
                                         className="h-16 w-16 rounded-md"
@@ -70,16 +69,9 @@ export default function Index({ auth, products }) {
                                 <td className="whitespace-nowrap px-3 py-4 text-sm">
                                     {product.name}
                                 </td>
-                                {/*<td className="whitespace-nowrap px-3 py-4 text-sm">*/}
-                                {/*    {product.price.currency}{" "}*/}
-                                {/*    {product.price.amount}*/}
-                                {/*</td>*/}
                                 <td className="px-3 py-4 text-sm">
                                     {product.description}
                                 </td>
-                                {/*<td className="px-3 py-4 text-sm">*/}
-                                {/*    {product.stock}*/}
-                                {/*</td>*/}
                                 <td className="px-3 py-4 text-sm">
                                     <Link
                                         href={route(

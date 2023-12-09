@@ -1,17 +1,28 @@
 <?php
 
 use App\Models\Product;
-use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Testing\Assert as InertiaAssert;
 
-it('displays all products', function () {
-    $this->user = User::factory()->create();
-    $products = Product::factory()->count(3)->create();
+uses(RefreshDatabase::class);
 
-    $response = $this->actingAs($this->user)->get('/products');
+it('index displays the products ordered by creation date descending', function () {
+    // Arrange
+    Auth::shouldReceive('id')->andReturn(1);
+    Gate::shouldReceive('authorize')
+        ->with('viewAny', Product::class)
+        ->andReturn(true);
 
-    $response
-        ->assertStatus(200)
-        ->assertSee($products[0]->name)
-        ->assertSee($products[1]->name)
-        ->assertSee($products[2]->name);
+    Product::factory()->count(3)->create();
+
+    // Act
+    $response = $this->get(route('products.index'));
+
+    // Assert
+    $response->assertInertia(function(InertiaAssert $page) {
+        $page->component('Product/Index')
+            ->where('products', Product::orderBy('created_at', 'desc')->get()->toArray());
+    });
 });

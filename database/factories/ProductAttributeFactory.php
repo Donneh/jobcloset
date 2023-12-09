@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\ProductAttribute;
 use App\Models\Tenant;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductAttribute>
+ * @extends Factory<ProductAttribute>
  */
 class ProductAttributeFactory extends Factory
 {
@@ -20,7 +21,7 @@ class ProductAttributeFactory extends Factory
     {
 
         return [
-            'name' => $this->faker->word,
+            'name' => $this->faker->randomNumber(6),
             'product_id' => Product::factory(),
             'tenant_id' => Tenant::factory(),
         ];

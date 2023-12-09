@@ -17,24 +17,39 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
+        $this->call(RolesAndPermissionsSeeder::class);
 
-        Product::factory(10)->create()->each(function ($product) {
-            Sku::factory(random_int(1, 2))->create([
-                'product_id' => $product->id
-            ])->each(function ($sku) use ($product) {
-                $attributes = ProductAttribute::factory(random_int(1, 2))->create([
-                    'product_id' => $product->id
-                ]);
-                // For each attribute, create a SkuProductAttribute
-                foreach ($attributes as $attribute) {
-                    SkuProductAttribute::factory()->create([
-                        'sku_id' => $sku->id,
-                        'product_attribute_id' => $attribute->id
-                    ]);
-                }
+        User::factory(10)->create()->each(function ($user) {
+            $user->assignRole('manager');
+
+            Product::factory(10)->create(['tenant_id' => $user->tenant_id])->each(function ($product) use ($user) {
+                $this->command->info('Creating SKUs for product ' . $product->id);
+
+                Sku::factory(random_int(1, 2))->create([
+                    'product_id' => $product->id,
+                    'tenant_id' => $user->tenant_id
+                ])->each(function ($sku) use ($product, $user) {
+                    $this->command->info('Creating attributes for SKU ' . $sku->id);
+
+                    $attributes =
+                        ProductAttribute::factory(random_int(1, 2))->make([
+                            'product_id' => $product->id,
+                            'tenant_id' => $user->tenant_id
+                        ])->each(function ($attribute) {
+                            $attribute->save();
+                        });
+
+                    foreach ($attributes as $attribute) {
+                        SkuProductAttribute::factory()->create([
+                            'sku_id' => $sku->id,
+                            'product_attribute_id' => $attribute->id,
+                            'tenant_id' => $user->tenant_id
+                        ]);
+                    }
+                });
             });
         });
-        $this->call(RolesAndPermissionsSeeder::class);
+
+        $this->command->info('Database seeding completed successfully.');
     }
 }

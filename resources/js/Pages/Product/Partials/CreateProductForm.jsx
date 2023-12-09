@@ -78,21 +78,6 @@ export default function CreateProductForm({ className = "" }) {
                     <InputError message={errors.name} className="mt-2" />
                 </div>
                 <div>
-                    <InputLabel htmlFor="price" value="Price" />
-
-                    <TextInput
-                        id="price"
-                        value={data.price}
-                        onChange={(e) => setData("price", e.target.value)}
-                        type="number"
-                        min="0"
-                        step="any"
-                        className="mt-1 block w-full"
-                    />
-
-                    <InputError message={errors.price} className="mt-2" />
-                </div>
-                <div>
                     <InputLabel htmlFor="description" value="Description" />
 
                     <TextareaInput
@@ -103,21 +88,6 @@ export default function CreateProductForm({ className = "" }) {
                     />
 
                     <InputError message={errors.description} className="mt-2" />
-                </div>
-                <div>
-                    <InputLabel htmlFor="stock" value="Stock" />
-
-                    <TextInput
-                        id="stock"
-                        value={data.stock}
-                        onChange={(e) => setData("stock", e.target.value)}
-                        type="number"
-                        min="0"
-                        step="1"
-                        className="mt-1 block w-full"
-                    />
-
-                    <InputError message={errors.stock} className="mt-2" />
                 </div>
                 <div>
                     <InputLabel htmlFor="image" value="Image" />
@@ -141,42 +111,6 @@ export default function CreateProductForm({ className = "" }) {
                         alt={data.name}
                     />
                 )}
-                <div>
-                    <InputLabel htmlFor={"variations"} value={"Variations"} />
-
-                    <button
-                        type={"button"}
-                        className="py-2 px-4 bg-gray-700 text-white rounded-md hover:bg-gray-800"
-                        onClick={() => setVariantModalOpen(true)}
-                    >
-                        Add variant
-                    </button>
-                </div>
-                <Modal
-                    show={isVariantModalOpen}
-                    onClose={() => setVariantModalOpen(false)}
-                >
-                    <ProductVariantForm onSubmit={handleVariantFormSubmit} />
-                </Modal>
-                {variantFormData.map((variant, variantIndex) => (
-                    <div key={variantIndex}>
-                        {Object.entries(variant).map(([key, values]) => (
-                            <div key={key}>
-                                <strong>{key}</strong>
-                                {values.map((value, valueIndex) => (
-                                    <p key={valueIndex}>- {value}</p>
-                                ))}
-                                <button
-                                    onClick={() =>
-                                        handleVariantDelete(variantIndex)
-                                    }
-                                >
-                                    Delete Variant
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                ))}
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing} type="submit">
                         Save

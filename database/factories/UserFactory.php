@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$FOTP5rDj7WJcT/x8tiB4n.Citp9SJVFHVg0V.c2fPNi6bGKthvZha', // password
             'remember_token' => Str::random(10),
             'tenant_id' => Tenant::factory()
         ];
