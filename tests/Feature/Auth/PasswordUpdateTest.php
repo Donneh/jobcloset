@@ -3,8 +3,6 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
-uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
-
 test('password can be updated', function () {
     $user = User::factory()->create();
 
@@ -21,7 +19,7 @@ test('password can be updated', function () {
         ->assertSessionHasNoErrors()
         ->assertRedirect('/profile');
 
-    expect(Hash::check('new-password', $user->refresh()->password))->toBeTrue();
+    $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
 });
 
 test('correct password must be provided to update password', function () {
@@ -37,6 +35,6 @@ test('correct password must be provided to update password', function () {
         ]);
 
     $response
-        ->assertSessionHasErrors('current_password')
+        ->assertSessionHasErrorsIn('updatePassword', 'current_password')
         ->assertRedirect('/profile');
 });

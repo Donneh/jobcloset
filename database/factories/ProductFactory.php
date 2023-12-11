@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends Factory<Product>
  */
 class ProductFactory extends Factory
 {
@@ -18,11 +19,10 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'price' => $this->faker->randomNumber(4),
-            'currency' => 'EUR',
-            'stock' => $this->faker->numberBetween(1, 100),
             'description' => $this->faker->paragraph(),
             'image_path' => $this->faker->imageUrl(),
+            'stock' => $this->faker->numberBetween(1, 10),
+            'price' => $this->faker->randomDigitNotZero(),
             'tenant_id' => $this->faker->numberBetween(1, 10),
         ];
     }

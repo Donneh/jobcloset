@@ -27,6 +27,7 @@ class ProductRequest extends FormRequest
             'stock' => ['numeric'],
             'description' => ['string'],
             'image_path' => ['nullable', 'image'],
+            'variants' => ['nullable']
         ];
     }
 }

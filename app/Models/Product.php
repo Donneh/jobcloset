@@ -6,6 +6,7 @@ use App\Casts\Money;
 use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -13,19 +14,18 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'price',
-        'currency',
         'stock',
         'description',
         'image_path',
+        'price',
     ];
 
     protected $casts = [
-        'price' => Money::class,
+        'price' => Money::class
     ];
 
-    public function getImagePathAttribute($value): string
+    public function attributes(): HasMany
     {
-        return \Storage::url($value);
+        return $this->hasMany(Attribute::class);
     }
 }
