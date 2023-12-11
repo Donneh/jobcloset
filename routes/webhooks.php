@@ -1,6 +1,6 @@
 <?php
 
 
-Route::post('/payment/webhook', function () {
-    return response()->json(['success' => true]);
-})->name('payment.webhook');
+use App\Http\Controllers\AdyenWebhookController;
+
+Route::post('/payment/webhook', [AdyenWebhookController::class, 'handle'])->name('payment.webhook');

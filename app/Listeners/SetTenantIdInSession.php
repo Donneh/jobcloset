@@ -12,7 +12,7 @@ class SetTenantIdInSession
      */
     public function __construct()
     {
-        //
+
     }
 
     /**

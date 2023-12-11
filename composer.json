@@ -6,29 +6,33 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "adyen/php-api-library": "^15.3",
+        "adyen/php-api-library": "^v16.1.0",
         "brick/money": "^0.8.0",
+        "filament/forms": "^3.1",
+        "filament/notifications": "^3.1",
+        "filament/tables": "^3.1",
         "guzzlehttp/guzzle": "^7.2",
-        "inertiajs/inertia-laravel": "^0.6.3",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "league/flysystem-aws-s3-v3": "^3.0",
+        "livewire/livewire": "^3.2",
         "sentry/sentry-laravel": "^3.8",
         "spatie/laravel-permission": "^5.11",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "wireui/heroicons": "^2.4"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.9",
         "fakerphp/faker": "^1.9.1",
-        "laracasts/cypress": "^3.0",
         "laravel/breeze": "^1.21",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.18",
+        "laravel/sail": "^1.26",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
-        "pestphp/pest": "^2.18",
+        "pestphp/pest": "^2.0",
         "pestphp/pest-plugin-drift": "^2.4",
-        "pestphp/pest-plugin-laravel": "^2.2",
-        "phpunit/phpunit": "^10.1",
+        "pestphp/pest-plugin-laravel": "^2.0",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -46,7 +50,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
