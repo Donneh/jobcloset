@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Attribute;
 use App\Models\Product;
 use App\Services\CartService;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
 class ShopList extends Component
@@ -14,7 +15,13 @@ class ShopList extends Component
 
     public function mount()
     {
-        $this->products = Product::all();
+        $departmentIds = auth()->user()->departments->pluck('id');
+
+        $this->products = Product::whereDoesntHave('departments')
+            ->orWhereHas('departments', function (Builder $query) use ($departmentIds) {
+                $query->whereIn('departments.id', $departmentIds); // specify 'departments.id' instead of 'id'
+            })
+            ->get();
     }
 
     public function addToCart($productId)

@@ -8,6 +8,7 @@ use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -43,6 +44,8 @@ class ListProducts extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('price')
                     ->icon('heroicon-m-currency-euro'),
                 Tables\Columns\TextColumn::make('stock'),
+                Tables\Columns\TextColumn::make('departments.name')
+                    ->limitList(3),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -74,6 +77,10 @@ class ListProducts extends Component implements HasForms, HasTable
                         TextInput::make('stock')
                             ->numeric()
                             ->minValue(0),
+                        Select::make('department_id')
+                            ->multiple()
+                            ->relationship('departments', 'name')
+                            ->preload(),
                         Repeater::make('attributes')
                             ->columns(2)
                             ->relationship()
@@ -105,6 +112,10 @@ class ListProducts extends Component implements HasForms, HasTable
                         TextInput::make('stock')
                             ->numeric()
                             ->minValue(0),
+                        Select::make('department_id')
+                            ->multiple()
+                            ->relationship('departments', 'name')
+                            ->preload(),
                         Repeater::make('attributes')
                             ->relationship()
                             ->columns(2)
