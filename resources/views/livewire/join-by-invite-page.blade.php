@@ -1,4 +1,4 @@
-<x-layouts.guest>
+
     <form wire:submit.prevent="create">
         {{ $this->form }}
 
@@ -8,4 +8,3 @@
             </x-filament::button>
         </div>
     </form>
-</x-layouts.guest>
