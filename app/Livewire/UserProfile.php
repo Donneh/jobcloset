@@ -1,25 +1,46 @@
 <?php
 
-namespace App\Livewire\Orders;
+namespace App\Livewire;
 
 use App\Models\Order;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Tables;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Concerns\InteractsWithInfolists;
+use Filament\Infolists\Contracts\HasInfolists;
+use Filament\Infolists\Infolist;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
-use Filament\Tables\Table;
+use Filament\Tables;
 use Livewire\Component;
+use Filament\Tables\Table;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
-
-class ListOrders extends Component implements HasForms, HasTable
+class UserProfile extends Component implements HasForms, HasInfolists, HasTable
 {
     use InteractsWithForms;
+    use InteractsWithInfolists;
     use InteractsWithTable;
+
+    public function userInfoList(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->record(auth()->user())
+            ->schema([
+                TextEntry::make('name'),
+                TextEntry::make('email'),
+                TextEntry::make('locations.name')
+                    ->listWithLineBreaks()
+                    ->bulleted(),
+                TextEntry::make('departments.name')
+                    ->listWithLineBreaks()
+                    ->bulleted()
+            ]);
+
+    }
 
     public function table(Table $table): Table
     {
@@ -52,15 +73,7 @@ class ListOrders extends Component implements HasForms, HasTable
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('Status')
-                    ->options([
-                        'Open' => 'Open',
-                        'Closed'  => 'Closed',
-                        'Pending' => 'Pending'
-                    ])
+                    ->toggleable(isToggledHiddenByDefault: true)
             ])
             ->actions([
                 ViewAction::make()
@@ -71,16 +84,13 @@ class ListOrders extends Component implements HasForms, HasTable
                                 TextInput::make('name')
                             )
                     ])
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    //
-                ]),
             ]);
+
     }
 
-    public function render(): View
+
+    public function render()
     {
-        return view('livewire.orders.list-orders');
+        return view('livewire.user-profile');
     }
 }

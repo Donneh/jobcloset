@@ -17,6 +17,8 @@ class Order extends Model
         'payment_status',
         'payment_reference',
         'status',
+        'tenant_id',
+        'user_id',
     ];
 
     public function getTotal()
