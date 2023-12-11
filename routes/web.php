@@ -32,6 +32,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/user-profile', \App\Livewire\UserProfile::class)->name('user.profile');
 
     Route::get('/users', \App\Livewire\UserList::class)->name('users.index');
 

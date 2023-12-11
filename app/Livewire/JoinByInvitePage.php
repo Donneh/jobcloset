@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Mail\UserCreated;
 use App\Models\User;
 use App\Models\UserInvite;
 use Filament\Forms\Components\Select;
@@ -11,6 +12,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
 
@@ -69,6 +71,7 @@ class JoinByInvitePage extends Component implements HasForms
             'email' => $this->data['email'],
             'name' => $this->data['name'],
             'password' => Hash::make($this->data['password']),
+            'tenant_id' => $invite->tenant_id
         ]);
 
         $user->departments()->sync($this->data['department_id']);
@@ -78,9 +81,12 @@ class JoinByInvitePage extends Component implements HasForms
 
         $invite->delete();
 
-        return redirect('/dashboard');
+        \Mail::to($user->email)->send(new UserCreated($user));
+
+        return redirect()->route('shop.index');
     }
 
+    #[Layout('components.layouts.guest')]
     public function render()
     {
         return view('livewire.join-by-invite-page');
