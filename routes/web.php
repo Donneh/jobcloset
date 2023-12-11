@@ -27,6 +27,10 @@ use Illuminate\Support\Facades\Route;
 //    ]);
 //});
 
+Route::middleware('guest')->group(function () {
+    Route::get('/invited/{token}', \App\Livewire\JoinByInvitePage::class)->name('invited');
+});
+
 Route::middleware('auth')->group(function () {
 
     Route::get('/users', \App\Livewire\UserList::class)->name('users.index');

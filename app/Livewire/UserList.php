@@ -2,8 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Mail\UserInvited;
 use App\Models\Department;
 use App\Models\User;
+use App\Models\UserInvite;
 use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -20,6 +22,7 @@ use Filament\Tables\Table;
 use Livewire\Component;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use function Clue\StreamFilter\fun;
 
 class UserList extends Component implements HasForms, HasTable
 {
@@ -84,7 +87,25 @@ class UserList extends Component implements HasForms, HasTable
                         Select::make('location_id')
                             ->multiple()
                             ->relationship('locations', 'name')
+                    ]),
+                Tables\Actions\Action::make('userInvite')
+                    ->model(UserInvite::class)
+                    ->form([
+                        TextInput::make('email')
+                            ->email()
+                            ->required()
                     ])
+                    ->label('Invite user')
+                    ->icon('heroicon-m-pencil-square')
+                    ->color('info')
+                    ->action(function ($data) {
+                        $invite = new UserInvite();
+                        $invite->email = $data['email'];
+                        $invite->token = \Str::random(12);
+                        $invite->save();
+                        \Mail::to($data['email'])
+                            ->send(new UserInvited($invite));
+                    })
             ])
             ->bulkActions([
                 BulkActionGroup::make([
