@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('image_path')->nullable();
+            $table->unsignedBigInteger('price');
+            $table->integer('stock');
+            $table->string('currency', 3)->default('EUR');
+
             $table->foreignId('tenant_id');
             $table->timestamps();
         });

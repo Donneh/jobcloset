@@ -6,26 +6,19 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@headlessui/react": "^1.4.2",
-        "@inertiajs/react": "^1.0.0",
-        "@tailwindcss/forms": "^0.5.3",
-        "@vitejs/plugin-react": "^3.0.0",
-        "autoprefixer": "^10.4.12",
+        "@tailwindcss/forms": "^0.5.7",
+        "@tailwindcss/typography": "^0.5.10",
+        "alpinejs": "^3.4.2",
+        "autoprefixer": "^10.4.16",
         "axios": "^1.1.2",
-        "cypress": "^12.14.0",
         "laravel-vite-plugin": "^0.7.5",
-        "postcss": "^8.4.18",
+        "postcss": "^8.4.32",
         "prettier": "2.8.8",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
-        "tailwindcss": "^3.2.1",
+        "tailwindcss": "^3.3.6",
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@adyen/adyen-web": "^5.51.0",
-        "@heroicons/react": "^2.0.18",
-        "@tailwindcss/aspect-ratio": "^0.4.2",
-        "framer-motion": "^10.12.16",
-        "react-select": "^5.7.4"
+        "@adyen/adyen-web": "^5.54.0",
+        "@tailwindcss/aspect-ratio": "^0.4.2"
     }
 }

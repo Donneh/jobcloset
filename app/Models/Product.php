@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Money;
 use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,20 +17,15 @@ class Product extends Model
         'stock',
         'description',
         'image_path',
+        'price',
     ];
 
-    public function getImagePathAttribute($value): string
-    {
-        return \Storage::url($value);
-    }
+    protected $casts = [
+        'price' => Money::class
+    ];
 
-    public function skus(): HasMany
+    public function attributes(): HasMany
     {
-        return $this->hasMany(Sku::class);
-    }
-
-    public function productAttributes(): HasMany
-    {
-        return $this->hasMany(ProductAttribute::class);
+        return $this->hasMany(Attribute::class);
     }
 }
