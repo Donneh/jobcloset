@@ -65,11 +65,11 @@ class ListOrders extends Component implements HasForms, HasTable
             ->actions([
                 ViewAction::make()
                     ->form([
-                        Repeater::make('products')
-                            ->relationship()
-                            ->simple(
-                                TextInput::make('name')
-                            )
+//                        Repeater::make('products')
+//                            ->relationship()
+//                            ->simple(
+//                                TextInput::make('name')
+//                            )
                     ])
             ])
             ->bulkActions([

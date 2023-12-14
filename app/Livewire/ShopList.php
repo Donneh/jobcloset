@@ -20,7 +20,7 @@ class ShopList extends Component
         $this->products = Product::whereDoesntHave('departments')
             ->orWhereHas('departments', function (Builder $query) use ($departmentIds) {
                 $query->whereIn('departments.id', $departmentIds); // specify 'departments.id' instead of 'id'
-            })
+            })->with('attributes')
             ->get();
     }
 
