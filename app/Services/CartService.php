@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Product;
 use Brick\Money\Money;
+use Doctrine\DBAL\Schema\Table;
 use Filament\Notifications\Notification;
 
 class CartService
@@ -89,6 +90,7 @@ class CartService
     {
         $cart = session()->get('cart');
         $total = Money::of(0, 'EUR');
+
         if ($cart) {
             foreach ($cart as $id => $item) {
                 $itemTotal = $item['product']->price * $item['quantity'];

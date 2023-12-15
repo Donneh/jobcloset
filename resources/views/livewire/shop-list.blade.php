@@ -18,7 +18,7 @@
                                 {{ $product->name }}
                             </h3>
                             <p class="mt-4 text-base font-medium text-gray-900">
-                                € 100
+                                € {{ $product->price }}
                             </p>
                             <div class="grid grid-cols-1 mt-6">
                                 @foreach($product->attributes as $attribute)
