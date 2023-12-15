@@ -46,6 +46,9 @@ class UserProfile extends Component implements HasForms, HasInfolists, HasTable
     {
         return $table
             ->query(Order::query())
+            ->modifyQueryUsing(function (Builder $query) {
+                $query->where('user_id', auth()->user()->id);
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
