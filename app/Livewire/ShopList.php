@@ -19,15 +19,21 @@ class ShopList extends Component
 
         $this->products = Product::whereDoesntHave('departments')
             ->orWhereHas('departments', function (Builder $query) use ($departmentIds) {
-                $query->whereIn('departments.id', $departmentIds); // specify 'departments.id' instead of 'id'
-            })
+                $query->whereIn('departments.id', $departmentIds);
+            })->with('attributes')
             ->get();
     }
 
-    public function addToCart($productId)
+    public function addToCart($productId): void
     {
         $this->dispatch('cart-updated');
-        CartService::addToCart($this->productAttributes);
+
+        if($this->productAttributes) {
+            CartService::addToCart($this->productAttributes);
+        } else {
+            CartService::addToCart([$productId => []]);
+        }
+
 
     }
 

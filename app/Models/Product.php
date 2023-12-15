@@ -22,9 +22,19 @@ class Product extends Model
         'tenant_id'
     ];
 
+    protected $attributes = [
+        'stock' => 0,
+        'price' => 0,
+    ];
+
     protected $casts = [
         'price' => Money::class
     ];
+
+    public function isFree(): bool
+    {
+        return $this->price == 0;
+    }
 
     public function attributes(): HasMany
     {

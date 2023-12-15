@@ -4,6 +4,7 @@ namespace App\Livewire\Products;
 
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor;
@@ -15,16 +16,19 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Get;
 use Filament\Tables;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use function Pest\Laravel\json;
 
 class ListProducts extends Component implements HasForms, HasTable
 {
@@ -69,28 +73,39 @@ class ListProducts extends Component implements HasForms, HasTable
                         FileUpload::make('image_path')
                             ->image()
                             ->imageEditor(),
-                        TextInput::make('price')
-                            ->numeric()
-                            ->inputMode('decimal')
-                            ->minValue(0)
-                            ->prefix('€'),
+                        Fieldset::make('Price')
+                            ->columns(1)
+                            ->schema([
+                                Checkbox::make('is_free')
+                                    ->reactive()
+                                    ->formatStateUsing(fn(Product $product) => $product->isFree()),
+                                TextInput::make('price')
+                                    ->hidden(fn(Get $get) => $get('is_free') == true)
+                                    ->required()
+                                    ->numeric()
+                                    ->inputMode('decimal')
+                                    ->minValue(0.00)
+                                    ->prefix('€'),
+                            ]),
                         TextInput::make('stock')
                             ->numeric()
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->default(0),
                         Select::make('department_id')
                             ->multiple()
                             ->relationship('departments', 'name')
-                            ->preload(),
+                            ->preload()
+                            ->hint('If left empty the product will be available for all employees'),
                         Repeater::make('attributes')
-                            ->columns(2)
                             ->relationship()
+                            ->columns(2)
                             ->schema([
                                 TextInput::make('name')
                                     ->placeholder('E.g. Size'),
                                 TagsInput::make('options')
                                     ->placeholder("E.g. Small, medium or large")
-                                    ->model('')
                             ])
+                            ->defaultItems(0)
                     ]),
                 DeleteAction::make()
             ])
@@ -104,18 +119,30 @@ class ListProducts extends Component implements HasForms, HasTable
                         FileUpload::make('image_path')
                             ->image()
                             ->imageEditor(),
-                        TextInput::make('price')
-                            ->numeric()
-                            ->inputMode('decimal')
-                            ->minValue(0)
-                            ->prefix('€'),
+                        Fieldset::make('Price')
+                            ->columns(1)
+                            ->schema([
+
+                                Checkbox::make('is_free')
+                                    ->default(true)
+                                    ->reactive(),
+                                TextInput::make('price')
+                                    ->hidden(fn(Get $get) => $get('is_free') == true)
+                                    ->required()
+                                    ->numeric()
+                                    ->inputMode('decimal')
+                                    ->minValue(0.00)
+                                    ->prefix('€'),
+                            ]),
                         TextInput::make('stock')
                             ->numeric()
-                            ->minValue(0),
+                            ->minValue(0)
+                            ->default(0),
                         Select::make('department_id')
                             ->multiple()
                             ->relationship('departments', 'name')
-                            ->preload(),
+                            ->preload()
+                            ->hint('If left empty the product will be available for all employees'),
                         Repeater::make('attributes')
                             ->relationship()
                             ->columns(2)
@@ -125,6 +152,7 @@ class ListProducts extends Component implements HasForms, HasTable
                                 TagsInput::make('options')
                                     ->placeholder("E.g. Small, medium or large")
                             ])
+                            ->defaultItems(0)
                     ])
             ])
             ->bulkActions([
