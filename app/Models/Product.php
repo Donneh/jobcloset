@@ -19,6 +19,7 @@ class Product extends Model
         'description',
         'image_path',
         'price',
+        'approved',
         'tenant_id'
     ];
 

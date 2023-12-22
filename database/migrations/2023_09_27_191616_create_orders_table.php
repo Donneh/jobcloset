@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('payment_status');
             $table->string('payment_reference');
             $table->string('status');
+            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
     }
