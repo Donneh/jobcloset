@@ -13,8 +13,8 @@ class Tenant extends Model
         'name',
     ];
 
-    public function company()
+    public function jobTitles(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasOne(Company::class);
+        return $this->hasMany(JobTitle::class);
     }
 }

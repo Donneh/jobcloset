@@ -14,8 +14,13 @@
 
         <x-filament::dropdown.list>
             <x-filament::dropdown.list.item>
-                <a href="/user-profile" wire:navigate>
+                <a href="/user-profile" wire:navigate="">
                     Profile
+                </a>
+            </x-filament::dropdown.list.item>
+            <x-filament::dropdown.list.item>
+                <a href="/company-settings" wire:navigate="">
+                    Company settings
                 </a>
             </x-filament::dropdown.list.item>
             <x-filament::dropdown.list.item wire:click="signOut">
