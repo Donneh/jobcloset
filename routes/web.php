@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CompanySettingsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -56,8 +55,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', \App\Livewire\Orders\ListOrders::class)->name('orders.index');
 
     Route::get('/company-settings', \App\Livewire\CompanySettingsPage::class)->name('company-settings.index');
-
-    Route::get('/orders/summary', [OrderController::class, 'summary'])->name('orders.summary');
 });
 
 Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');
