@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->foreignId('owner_id')->nullable();
             $table->timestamps();
         });
     }

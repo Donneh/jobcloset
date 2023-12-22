@@ -7,6 +7,13 @@ use Livewire\Component;
 class UserDropdown extends Component
 {
 
+    public $isTenantOwner = false;
+
+    public function mount()
+    {
+        $this->isTenantOwner = auth()->id() === auth()->user()->tenant->owner_id;
+    }
+
     public function signOut()
     {
         auth()->logout();

@@ -13,8 +13,8 @@ class AdyenSettings extends Model
 
     protected $casts = [
         'environment' => AdyenEnvironment::class,
-        'adyen_api_key' => 'encrypted',
-        'adyen_client_key' => 'encrypted'
+        'api_key' => 'encrypted',
+        'client_key' => 'encrypted'
     ];
 
     protected $fillable = [
