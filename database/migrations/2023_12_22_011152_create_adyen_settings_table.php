@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('environment');
             $table->string('merchant_account');
-            $table->string('api_key');
-            $table->string('client_key');
+            $table->text('api_key');
+            $table->text('client_key');
             $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

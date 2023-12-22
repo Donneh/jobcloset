@@ -25,7 +25,11 @@ class AdyenCredentialsForm extends Component implements HasForms
     public function mount()
     {
         $this->tenant = auth()->user()->tenant;
-        $this->form->fill(auth()->user()->tenant->adyenSettings->toArray());
+        $adyenSettings = $this->tenant->adyenSettings;
+
+        if($adyenSettings) {
+            $this->form->fill($adyenSettings->toArray());
+        }
     }
 
     public function form(Form $form): Form
@@ -38,13 +42,17 @@ class AdyenCredentialsForm extends Component implements HasForms
                         ->options([
                             AdyenEnvironment::TEST->value => 'Test',
                             AdyenEnvironment::LIVE->value => 'Live',
-                        ]),
+                        ])
+                        ->required(),
                     Forms\Components\TextInput::make('merchant_account')
-                        ->label('Merchant Account'),
+                        ->label('Merchant Account')
+                        ->required(),
                     Forms\Components\TextInput::make('api_key')
-                        ->label('Api Key'),
+                        ->label('Api Key')
+                        ->required(),
                     Forms\Components\TextInput::make('client_key')
                         ->label('Client Key')
+                        ->required()
                 ])
             ])
             ->statePath('data')
@@ -53,8 +61,6 @@ class AdyenCredentialsForm extends Component implements HasForms
 
     public function submit(): void
     {
-        $this->authorize('update', $this->tenant->adyenSettings);
-
         $data = $this->form->getState();
 
         $adyenSettings = $this->tenant->adyenSettings()->firstOrNew([]);

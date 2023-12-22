@@ -12,7 +12,8 @@ class Tenant extends Model
 
     protected $fillable = [
         'name',
-        'owner_id'
+        'owner_id',
+        'approver_id'
     ];
 
     public function jobTitles(): \Illuminate\Database\Eloquent\Relations\HasMany
@@ -28,5 +29,10 @@ class Tenant extends Model
     public function adyenSettings(): HasOne
     {
         return $this->hasOne(AdyenSettings::class);
+    }
+
+    public function approver(): HasOne
+    {
+        return $this->hasOne(JobTitle::class);
     }
 }

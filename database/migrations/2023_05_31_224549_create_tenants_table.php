@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->foreignId('owner_id')->nullable();
+            $table->foreignId('approver_id')->nullable();
             $table->timestamps();
         });
     }
