@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('adyen_settings', function (Blueprint $table) {
             $table->id();
             $table->string('environment');
-            $table->string('application_name');
             $table->string('merchant_account');
             $table->string('api_key');
             $table->string('client_key');
