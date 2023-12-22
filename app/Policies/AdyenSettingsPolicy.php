@@ -39,7 +39,6 @@ class AdyenSettingsPolicy
      */
     public function update(User $user, AdyenSettings $adyenSettings): bool
     {
-        dd(auth()->user()->id);
-        return auth()->user->id === auth()->user()->tenant->owner_id;
+        return auth()->id() === auth()->user()->tenant->owner_id;
     }
 }
