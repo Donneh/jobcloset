@@ -2,12 +2,14 @@
 
 namespace App\Livewire\Orders;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
@@ -26,25 +28,28 @@ class ListOrders extends Component implements HasForms, HasTable
         return $table
             ->query(Order::query())
             ->columns([
+                Tables\Columns\TextColumn::make('number')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->searchable()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('number')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('payment_method')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('payment_reference')
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'Open' => 'info',
-                        'Closed' => 'success',
-                        'Pending' => 'warning'
+                    ->color(fn(string $state): string => match ($state) {
+                        OrderStatus::PENDING => 'info',
+                        OrderStatus::APPROVED => 'success',
+                        OrderStatus::DECLINED => 'warning',
+                        OrderStatus::CANCELLED, OrderStatus::COMPLETED => '',
                     })
                     ->searchable(),
+                Tables\Columns\TextColumn::make('payment_method')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('payment_reference')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -57,20 +62,17 @@ class ListOrders extends Component implements HasForms, HasTable
             ->filters([
                 Tables\Filters\SelectFilter::make('Status')
                     ->options([
-                        'Open' => 'Open',
-                        'Closed'  => 'Closed',
-                        'Pending' => 'Pending'
+                        OrderStatus::PENDING => 'Pending',
+                        OrderStatus::APPROVED => 'Approved',
+                        OrderStatus::DECLINED => 'Declined',
+                        OrderStatus::CANCELLED => 'Cancelled',
+                        OrderStatus::COMPLETED => 'Completed',
                     ])
             ])
             ->actions([
-                ViewAction::make()
-                    ->form([
-//                        Repeater::make('products')
-//                            ->relationship()
-//                            ->simple(
-//                                TextInput::make('name')
-//                            )
-                    ])
+                Action::make('approve')
+                    ->visible(fn($record) => $record->status == OrderStatus::PENDING)
+//                    ->action(fn($record))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
