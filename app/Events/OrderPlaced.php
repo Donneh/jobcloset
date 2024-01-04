@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
+use Thunk\Verbs\Facades\Verbs;
 
 class OrderPlaced extends Event
 {
@@ -51,14 +52,16 @@ class OrderPlaced extends Event
 
             CartService::clearCart();
 
-            \Mail::to('foo@liowebdesign.com')->queue(new \App\Mail\OrderPlaced());
+            Verbs::unlessReplaying(function () {
+                \Mail::to('foo@liowebdesign.com')->queue(new \App\Mail\OrderPlaced());
 
-            Notification::make()
-                ->title('Order placed successfully')
-                ->body("You order needs to be approved, you'll be notified by email when it's approved.")
-                ->persistent()
-                ->success()
-                ->send();
+                Notification::make()
+                    ->title('Order placed successfully')
+                    ->body("You order needs to be approved, you'll be notified by email when it's approved.")
+                    ->persistent()
+                    ->success()
+                    ->send();
+            });
         } catch (\Exception $e) {
             Notification::make()
                 ->title('Order failed to be placed')

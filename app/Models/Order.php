@@ -24,9 +24,13 @@ class Order extends Model
 
     public function getTotal()
     {
-        return $this->products->reduce(function ($total, $product) {
-            return $total->add($product->price->multiply($product->pivot->quantity));
-        }, Money::EUR(0));
+        if (!$this->relationLoaded('orderItems')) {
+            $this->load('orderItems');
+        }
+
+        return $this->orderItems->reduce(function ($total, $orderItem) {
+            return $total + ($orderItem->price * $orderItem->quantity);
+        }, 0);
     }
 
     public function products(): BelongsToMany

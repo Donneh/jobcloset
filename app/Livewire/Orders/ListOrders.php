@@ -3,6 +3,7 @@
 namespace App\Livewire\Orders;
 
 use App\Enums\OrderStatus;
+use App\Events\OrderApproved;
 use App\Models\Order;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
@@ -72,7 +73,7 @@ class ListOrders extends Component implements HasForms, HasTable
             ->actions([
                 Action::make('approve')
                     ->visible(fn($record) => $record->status == OrderStatus::PENDING)
-//                    ->action(fn($record))
+                    ->action(fn($record) => OrderApproved::fire($record->id))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

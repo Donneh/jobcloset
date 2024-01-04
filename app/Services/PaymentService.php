@@ -9,15 +9,18 @@ use Adyen\Model\Checkout\Amount;
 use Adyen\Model\Checkout\AuthenticationData;
 use Adyen\Model\Checkout\CreateCheckoutSessionRequest;
 use Adyen\Model\Checkout\CreateCheckoutSessionResponse;
+use Adyen\Model\Checkout\PaymentLinkRequest;
+use Adyen\Service;
 use Adyen\Service\Checkout;
 use Adyen\Service\Checkout\PaymentsApi;
+use Adyen\Service\ResourceModel\Checkout\PaymentLinks;
+use App\Casts\Money;
 use App\Models\Order;
 
 class PaymentService
 {
 
     private Client $client;
-    private PaymentsApi $paymentsApi;
 
 
     public function __construct()
@@ -26,37 +29,44 @@ class PaymentService
         $this->client->setApplicationName(config('adyen.application_name'));
         $this->client->setEnvironment(Environment::TEST);
         $this->client->setXApiKey(config('adyen.api_key'));
-        $this->paymentsApi = new PaymentsApi($this->client);
     }
 
-    public function createCheckoutRequest(Order $order, Amount $totalPrice)
-    {
-
-        $checkoutRequest = new CreateCheckoutSessionRequest();
-        $checkoutRequest->setAmount($totalPrice);
-        $checkoutRequest->setMerchantAccount(config('adyen.merchant_account'));
-        $checkoutRequest->setReference($order->number);
-        $checkoutRequest->setReturnUrl(config('app.url') . "/payment/redirect");
-        $checkoutRequest->setCountryCode('NL');
-        $checkoutRequest->setShopperLocale('nl-NL');
-        $checkoutRequest->setShopperEmail(auth()->user()->email);
-        $checkoutRequest->setMode('hosted');
-
-        return $this->paymentsApi->sessions($checkoutRequest);
-
-    }
 
     /**
-     * @throws AdyenException
+     * Returns the payment url
      */
-    public function createPaymentSession(CreateCheckoutSessionRequest $checkoutRequest): CreateCheckoutSessionResponse
+    public function createPaymentLinkRequest(Order $order)
     {
-        return $this->paymentsApi->sessions($checkoutRequest);
-    }
+        $service = new Service($this->client);
+        $paymentLinks = new PaymentLinks($service, '/');
 
-    public function getPaymentResult($sessionId, $sessionData)
-    {
-        CartService::clearCart();
+        $request = new PaymentLinkRequest();
 
+        $requestParams = [];
+        $requestParams['reference'] = $order->id;
+        $requestParams['amount']['currency'] = 'EUR';
+        $requestParams['amount']['value'] = $order->getTotal();
+        $requestParams["shopperReference"] = $order->user->email;
+        $requestParams["countryCode"] = "NL";
+        $requestParams["merchantAccount"] = config('adyen.merchant_account');
+        $requestParams["shopperLocale"] = "nl-NL";
+
+        foreach ($order->orderItems as $item) {
+            $itemDetails = [
+                'id' => $item->name,
+                'amountExcludingTax' => $item->price,
+                'quantity' => $item->quantity,
+                'taxPercentage' => 0,
+            ];
+            $requestParams['lineItems'][] = $itemDetails;
+        }
+
+        $response = $paymentLinks->create($requestParams, '');
+
+        if ($response['url']) {
+            return $response['url'];
+        }
+
+        return null;
     }
 }

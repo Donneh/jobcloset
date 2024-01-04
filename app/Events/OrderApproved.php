@@ -4,15 +4,24 @@ namespace App\Events;
 
 use App\Enums\OrderStatus;
 use App\Models\Order;
+use App\Services\PaymentService;
 use App\States\OrderState;
 use Exception;
 use Thunk\Verbs\Attributes\Autodiscovery\StateId;
 use Thunk\Verbs\Event;
+use Thunk\Verbs\Facades\Verbs;
 
 class OrderApproved extends Event
 {
     #[StateId(OrderState::class)]
     public int $orderId;
+
+    public Order $order;
+
+    public function __construct($orderId)
+    {
+        $this->orderId = $orderId;
+    }
 
     /**
      * @throws Exception
@@ -38,12 +47,22 @@ class OrderApproved extends Event
 
     public function handle(): void
     {
-        Order::find($this->orderId)
-            ->update([
-                'status' => OrderStatus::APPROVED
-            ]);
+        $this->order = Order::find($this->orderId);
+        $this->order->status = OrderStatus::APPROVED;
+        $this->order->save();
 
-        // @TODO: Notify the user that their order was approved and send them an adyen payment link.
+        Verbs::unlessReplaying(function () {
+            if($this->order->getTotal() > 0) {
+                $paymentService = new PaymentService();
+                $paymentLink = $paymentService->createPaymentLinkRequest($this->order);
 
+
+                \Mail::to($this->order->user->email)
+                    ->queue(new \App\Mail\OrderApproved($paymentLink));
+            } else {
+                \Mail::to($this->order->user->email)
+                    ->queue(new \App\Mail\OrderApproved());
+            }
+        });
     }
 }
