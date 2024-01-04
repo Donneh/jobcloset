@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('job_title_user', function (Blueprint $table) {
-            $table->primary(['job_title_id', 'user_id']);
+            $table->id();
+            $table->unique(['job_title_id', 'user_id']);
             $table->foreignId('job_title_id');
             $table->foreignId('user_id');
             $table->timestamps();

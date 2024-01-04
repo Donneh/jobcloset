@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('location_user', function (Blueprint $table) {
-            $table->primary(['location_id', 'user_id']);
+            $table->id();
+            $table->unique(['location_id', 'user_id']);
             $table->foreignId('location_id');
             $table->foreignId('user_id');
             $table->timestamps();
