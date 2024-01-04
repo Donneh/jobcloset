@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
+    'default' => env('MAIL_MAILER', 'postmark'),
 
     /*
     |--------------------------------------------------------------------------
@@ -76,6 +76,10 @@ return [
 
         'array' => [
             'transport' => 'array',
+        ],
+
+        'mailersend' => [
+            'transport' => 'mailersend',
         ],
 
         'failover' => [

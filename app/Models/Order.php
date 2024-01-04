@@ -7,6 +7,7 @@ use App\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
@@ -23,9 +24,13 @@ class Order extends Model
 
     public function getTotal()
     {
-        return $this->products->reduce(function ($total, $product) {
-            return $total->add($product->price->multiply($product->pivot->quantity));
-        }, Money::EUR(0));
+        if (!$this->relationLoaded('orderItems')) {
+            $this->load('orderItems');
+        }
+
+        return $this->orderItems->reduce(function ($total, $orderItem) {
+            return $total + ($orderItem->price * $orderItem->quantity);
+        }, 0);
     }
 
     public function products(): BelongsToMany
@@ -36,5 +41,10 @@ class Order extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }
