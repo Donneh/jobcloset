@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tenants', function (Blueprint $table) {
+        Schema::create('adyen_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->foreignId('owner_id')->nullable();
-            $table->foreignId('approver_id')->nullable();
+            $table->string('environment');
+            $table->string('merchant_account');
+            $table->text('api_key');
+            $table->text('client_key');
+            $table->foreignId('tenant_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tenants');
+        Schema::dropIfExists('adyen_settings');
     }
 };

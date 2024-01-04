@@ -12,10 +12,11 @@ return new class extends Migration {
             $table->foreignId('tenant_id');
             $table->foreignId('user_id');
             $table->string('number');
-            $table->string('payment_method');
-            $table->string('payment_status');
-            $table->string('payment_reference');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_status')->nullable();
+            $table->string('payment_reference')->nullable();
             $table->string('status');
+            $table->timestamp('approved_at')->nullable();
             $table->timestamps();
         });
     }

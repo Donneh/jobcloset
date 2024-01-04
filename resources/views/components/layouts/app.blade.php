@@ -23,6 +23,8 @@
 
         <x-sidebar />
 
+        <x-responsive-nav />
+
         <main class="p-2 px-4 md:px-2 w-full mt-20 md:mt-0">
             <x-main-card>
                 {{ $slot }}
@@ -31,6 +33,7 @@
 
         @livewire('notifications')
 
+        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
         @filamentScripts
         @vite(['resources/js/app.js'])
     </div>

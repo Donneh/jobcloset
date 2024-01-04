@@ -19,7 +19,7 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+    public function create(): \Illuminate\Contracts\View\View
     {
         return view('auth.register');
     }
@@ -48,6 +48,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'tenant_id' => $tenant->id,
         ]);
+
+        $tenant->update(['owner_id' => $user->id]);
+
+
 
         $user->assignRole('manager');
 

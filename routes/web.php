@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\CompanySettingsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -27,8 +26,10 @@ use Illuminate\Support\Facades\Route;
 //    ]);
 //});
 Route::middleware('guest')->group(function () {
+    Route::redirect('/', '/shop');
     Route::get('/invited/{token}', \App\Livewire\JoinByInvitePage::class)->name('invited');
 });
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/user-profile', \App\Livewire\UserProfile::class)->name('user.profile');
@@ -53,10 +54,7 @@ Route::middleware('auth')->group(function () {
 //
     Route::get('/orders', \App\Livewire\Orders\ListOrders::class)->name('orders.index');
 
-    Route::get('/company-settings', [CompanySettingsController::class, 'index'])->name('company-settings.index');
-    Route::patch('/company-settings/adyen', [CompanySettingsController::class, 'adyen'])->name('company-settings.adyen');
-
-    Route::get('/orders/summary', [OrderController::class, 'summary'])->name('orders.summary');
+    Route::get('/company-settings', \App\Livewire\CompanySettingsPage::class)->name('company-settings.index');
 });
 
 Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');

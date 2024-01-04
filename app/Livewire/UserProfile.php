@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
@@ -64,9 +65,10 @@ class UserProfile extends Component implements HasForms, HasInfolists, HasTable
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'Open' => 'info',
-                        'Closed' => 'success',
-                        'Pending' => 'warning'
+                            OrderStatus::PENDING => 'info',
+                            OrderStatus::APPROVED => 'success',
+                            OrderStatus::DECLINED => 'warning',
+                            OrderStatus::CANCELLED, OrderStatus::COMPLETED => '',
                     })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
