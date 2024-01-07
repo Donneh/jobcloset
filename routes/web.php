@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::redirect('/', '/shop');
     Route::get('/invited/{token}', \App\Livewire\JoinByInvitePage::class)->name('invited');
+    Route::get('/register/{token}', \App\Livewire\JoinByInvitePage::class)->name('persistent.invited');
 });
 
 
