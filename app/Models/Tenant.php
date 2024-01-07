@@ -13,7 +13,8 @@ class Tenant extends Model
     protected $fillable = [
         'name',
         'owner_id',
-        'approver_id'
+        'approver_id',
+        'registration_token'
     ];
 
     public function jobTitles(): \Illuminate\Database\Eloquent\Relations\HasMany

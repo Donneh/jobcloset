@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::redirect('/', '/shop');
     Route::get('/invited/{token}', \App\Livewire\JoinByInvitePage::class)->name('invited');
+    Route::get('/register/{token}', \App\Livewire\JoinByInvitePage::class)->name('persistent.invited');
 });
 
 
@@ -56,15 +57,3 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/company-settings', \App\Livewire\CompanySettingsPage::class)->name('company-settings.index');
 });
-
-Route::post("/payment/create", [PaymentController::class, 'create'])->name('payment.create');
-Route::get('/payment/redirect', function () {
-    $parsedUrl = parse_url(Request::getRequestUri());
-    parse_str($parsedUrl['query'], $queryParams);
-
-    $paymentService = new \App\Services\PaymentService();
-    $paymentService->getPaymentResult($queryParams['sessionId'], $queryParams['sessionResult']);
-    return redirect()->route('shop.index');
-})->name('payment.redirect');
-
-require __DIR__.'/auth.php';

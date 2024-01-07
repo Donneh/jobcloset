@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Mail\UserCreated;
+use App\Models\Tenant;
 use App\Models\User;
 use App\Models\UserInvite;
 use Filament\Forms\Components\Select;
@@ -21,14 +22,19 @@ class JoinByInvitePage extends Component implements HasForms
     use InteractsWithForms;
 
     public ?array $data = [];
-    public UserInvite $invite;
+    public ?UserInvite $invite;
     public string $token;
+    public Tenant $tenant;
 
     public function mount(string $token)
     {
         $this->token = $token;
-        $this->invite = UserInvite::where('token', $token)->first();
-        $this->form->fill(['email' => $this->invite->email]);
+        $userInvite =  UserInvite::where('token', $token)->first();
+        $this->invite = null;
+        if($userInvite) {
+            $this->invite = $userInvite;
+            $this->form->fill(['email' => $this->invite->email]);
+        }
     }
 
     public function form(Form $form): Form
@@ -37,7 +43,6 @@ class JoinByInvitePage extends Component implements HasForms
             ->model(User::class)
             ->schema([
                 TextInput::make('email')
-                    ->disabled()
                     ->required(),
                 TextInput::make('name')
                     ->required(),
@@ -59,27 +64,40 @@ class JoinByInvitePage extends Component implements HasForms
 
     public function create()
     {
-        $invite = UserInvite::where('token', $this->token)
-            ->where('email', $this->data['email'])
-            ->first();
+        $tenant = Tenant::where('registration_token', $this->token)->first();
 
-        if (is_null($invite)) {
-            return back()->withErrors(['email' => 'Invalid email or token.']);
+        $invite = null;
+        if(!$tenant) {
+            $invite = UserInvite::where('token', $this->token)
+                ->where('email', $this->data['email'])
+                ->first();
+
+            if (is_null($invite)) {
+                return back()->withErrors(['email' => 'Invalid email or token.']);
+            }
         }
+
 
         $user = User::create([
             'email' => $this->data['email'],
             'name' => $this->data['name'],
             'password' => Hash::make($this->data['password']),
-            'tenant_id' => $invite->tenant_id
+            'tenant_id' => $invite ? $invite->tenant_id : $tenant->id
         ]);
 
-        $user->departments()->sync($this->data['department_id']);
-        $user->locations()->sync($this->data['location_id']);
+
+        if(isset($this->data['department_id'])){
+            $user->departments()->sync($this->data['department_id']);
+        }
+        if(isset($this->data['location_id'])){
+            $user->locations()->sync($this->data['location_id']);
+        }
 
         Auth::login($user);
 
-        $invite->delete();
+        if($invite) {
+            $invite->delete();
+        }
 
         \Mail::to($user->email)->send(new UserCreated($user));
 

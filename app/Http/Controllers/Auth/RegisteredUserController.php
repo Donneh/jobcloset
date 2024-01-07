@@ -39,7 +39,8 @@ class RegisteredUserController extends Controller
         ]);
 
         $tenant = Tenant::create([
-            'name' => $request->company
+            'name' => $request->company,
+            'registration_token' => \Str::random(12),
         ]);
 
         $user = User::create([
