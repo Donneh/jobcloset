@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdyenWebhookController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,5 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::post('/payment/webhook', [PaymentController::class, 'webhook'])->name('payment.webhook');
+Route::post('/payment/webhook', [AdyenWebhookController::class, 'handle'])->name('payment.webhook');

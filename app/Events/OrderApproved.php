@@ -35,8 +35,6 @@ class OrderApproved extends Event
                 throw new Exception('Cannot approve a declined order');
             case OrderStatus::APPROVED:
                 throw new Exception('Cannot approve a approved order');
-            case OrderStatus::CANCELLED:
-                throw new Exception('Cannot approve a cancelled order');
         }
     }
 
@@ -55,7 +53,6 @@ class OrderApproved extends Event
             if($this->order->getTotal() > 0) {
                 $paymentService = new PaymentService();
                 $paymentLink = $paymentService->createPaymentLinkRequest($this->order);
-
 
                 \Mail::to($this->order->user->email)
                     ->queue(new \App\Mail\OrderApproved($paymentLink));

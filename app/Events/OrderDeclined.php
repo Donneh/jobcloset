@@ -14,6 +14,12 @@ class OrderDeclined extends Event
     #[StateId(OrderState::class)]
     public int $orderId;
 
+
+    public function __construct(int $orderId)
+    {
+        $this->orderId = $orderId;
+    }
+
     /**
      * @throws Exception
      */
@@ -22,10 +28,6 @@ class OrderDeclined extends Event
         switch ($state->status) {
             case OrderStatus::COMPLETED:
                 throw new Exception('Cannot decline a completed order');
-            case OrderStatus::APPROVED:
-                throw new Exception('Cannot decline a approved order');
-            case OrderStatus::CANCELLED:
-                throw new Exception('Cannot decline a cancelled order');
             case OrderStatus::DECLINED:
                 throw new Exception('Cannot decline a declined order');
         }

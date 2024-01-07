@@ -7,6 +7,6 @@ final class OrderStatus
     const PENDING = 'pending';
     const APPROVED = 'approved';
     const DECLINED = 'declined';
-    const CANCELLED = 'cancelled';
+    const PAID = 'paid';
     const COMPLETED = 'completed';
 }

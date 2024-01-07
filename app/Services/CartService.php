@@ -27,26 +27,25 @@ class CartService
         return $totalQuantity;
     }
 
-    public static function addToCart(array $product)
+    public static function addToCart($product)
     {
         $cart = session()->get('cart');
 
-        $productId = array_key_first($product);
         if ($cart) {
-            if (array_key_exists($productId, $cart)) {
-                $cart[$productId]['quantity']++;
+            if (array_key_exists($product->id, $cart)) {
+                $cart[$product->id]['quantity']++;
             } else {
-                $cart[$productId] = [
+                $cart[$product->id] = [
                     'quantity' => 1,
-                    'product' => Product::find($productId),
-                    'selectedOptions' => $product[$productId]
+                    'product' => $product,
+                    'selectedOptions' => $product->id
                 ];
             }
         } else {
-            $cart[$productId] = [
+            $cart[$product->id] = [
                 'quantity' => 1,
-                'product' => Product::find($productId),
-                'selectedOptions' => $product[$productId]
+                'product' => $product,
+                'selectedOptions' => $product->id
             ];
         }
         session()->put('cart', $cart);

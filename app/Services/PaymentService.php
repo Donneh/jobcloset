@@ -43,7 +43,7 @@ class PaymentService
         $request = new PaymentLinkRequest();
 
         $requestParams = [];
-        $requestParams['reference'] = $order->id;
+        $requestParams['reference'] = $order->number;
         $requestParams['amount']['currency'] = 'EUR';
         $requestParams['amount']['value'] = $order->getTotal();
         $requestParams["shopperReference"] = $order->user->email;
@@ -68,5 +68,21 @@ class PaymentService
         }
 
         return null;
+    }
+
+    public function getPaymentLinkDetails($paymentLinkId)
+    {
+        $service = new Service($this->client);
+
+        $paymentLinks = new PaymentLinks($service, '/');
+
+        $request = new PaymentLinkRequest();
+
+        $response = $paymentLinks->retrieve($paymentLinkId);
+
+        \Log::info($response);
+
+        return $response;
+
     }
 }
