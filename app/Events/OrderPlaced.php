@@ -52,8 +52,8 @@ class OrderPlaced extends Event
 
             CartService::clearCart();
 
-            Verbs::unlessReplaying(function () {
-                \Mail::to('foo@liowebdesign.com')->queue(new \App\Mail\OrderPlaced());
+            Verbs::unlessReplaying(function () use ($order){
+                \Mail::to($order->user->email)->queue(new \App\Mail\OrderPlaced());
 
                 Notification::make()
                     ->title('Order placed successfully')

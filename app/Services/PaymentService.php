@@ -45,7 +45,7 @@ class PaymentService
         $requestParams = [];
         $requestParams['reference'] = $order->number;
         $requestParams['amount']['currency'] = 'EUR';
-        $requestParams['amount']['value'] = $order->getTotal();
+        $requestParams['amount']['value'] = $order->getTotal() * 100;
         $requestParams["shopperReference"] = $order->user->email;
         $requestParams["countryCode"] = "NL";
         $requestParams["merchantAccount"] = config('adyen.merchant_account');
