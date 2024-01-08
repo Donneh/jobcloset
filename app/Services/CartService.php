@@ -29,6 +29,9 @@ class CartService
 
     public static function addToCart($product)
     {
+        if(is_array($product)) {
+            $product = Product::find(array_key_first($product));
+        }
         $cart = session()->get('cart');
 
         if ($cart) {

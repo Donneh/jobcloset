@@ -57,3 +57,4 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/company-settings', \App\Livewire\CompanySettingsPage::class)->name('company-settings.index');
 });
+require __DIR__.'/auth.php';
